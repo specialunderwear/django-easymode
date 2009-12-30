@@ -1,0 +1,40 @@
+{% extends "reversion/revision_form.html"%}
+{% load i18n %}
+
+
+{% block object-tools %}
+<ul class="object-tools">
+    {% if link_current %}<li><a href="../../current/" class="historylink">{% trans "Current" %}</a></li>{% endif %}
+    {% if has_draft %}<li><a href="../../drafts/" class="historylink">{% trans "Drafts" %}</a></li>{% endif %}
+    <li><a href="../../history/" class="historylink">{% trans "History" %}</a></li>
+    {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+</ul>
+{% endblock %}
+
+
+
+{% if publish %}
+    {% block form_top %}
+    	<p>{% trans "Press the save button below to make this draft the current version" %}</p>
+    {% endblock %}
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+		<a href="../../../../../">{% trans "Home" %}</a> &rsaquo;
+		<a href="../../../../">{{app_label|capfirst|escape}}</a> &rsaquo; 
+		{% if parent_model %}
+         <a href="{{ parent_model }}">{{ parent_name|capfirst|escape }}</a> &rsaquo; 
+         {% else %}
+             {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo; 
+         {% endif %}
+		<a href="../../">{{original|truncatewords:"18"}}</a> &rsaquo;
+		<a href="../">{% trans "Drafts" %}</a> &rsaquo;
+		{% blocktrans with opts.verbose_name as verbose_name %}Publish {{verbose_name}}{% endblocktrans %}
+	</div>
+    {% endblock %}
+{% endif %}
+
+{% block content %}
+    {%  with 0 as show_save %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "easymode/easypublisher/publish_form.html" %}
+{% load i18n admin_modify adminmedia %}
+
+{% block after_related_objects %}
+<fieldset class="module aligned">
+    {% for formset in extra_forms %}
+        <h2> {{ formset.title }}</h2>
+        
+        {% for form in formset.forms %}
+        <div class="form-row">
+            <div>
+            {{ form }}
+            </div>
+        </div>
+        {% endfor %}
+        
+        &nbsp;&nbsp;<a href="{{ formset.addurl }}" onclick="return showAddAnotherPopup(this);"><img src="{% admin_media_prefix %}img/admin/icon_addlink.gif" width="10" height="10" alt="add another"/></a>
+    {% endfor %}
+    
+</fieldset>
+{% endblock %}
