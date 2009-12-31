@@ -1,3 +1,5 @@
 docs/_build
 locale
 *.pyc
+*.pyo
+example/example.sqlite
