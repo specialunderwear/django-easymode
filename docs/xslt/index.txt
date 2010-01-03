@@ -1,2 +1,42 @@
-xslt
+Xslt
 ====
+
+Most of the data being transferred to a flash frontend is in xml. This is both
+because xml is very well supported and because hierarchical data is easily 
+mapped to xml. Most data used for flash sited is hierarchical in nature, because
+the display list, flash it's version of html's DOM is as well.
+
+What easymode tries to do is give you a basic hierarchical xml document that
+mirrors your database model, which you can then transform using xslt.
+
+Why Xslt?
+---------
+
+Xslt is a functional programming language, specifically designed to be used to
+transform one type of xml into another. So if we can reduce django's template
+rendering process to transforming one type of xml to another, xslt would be a
+dead on match for the job.
+
+In fact we can. Easymode comes with a couple of serializers. These serializers
+differ from the normal django serializers, in that they treat a fereign key
+relation as a child parent relation. So while django's standard serializers
+output is flat xml, easymode's serializers output hierarchical xml.
+
+Getting xml from a model
+========================
+
+There are several ways to obtain such a hierarchical xml tree from a django model.
+The first is by decorating a model with the ``toxml`` decorator::
+
+    from easymode.tree.decorators import toxml
+    
+    @toxml
+    class Foo(models.ModelAdmin):
+        title = models.CharField(max_length=255)
+        content = TextField()
+        
+    class Bar(models.ModelAdmin):
+        foo = models.ForeignKey(Foo, related_name=bars)
+        
+        label = models.CharField(233)
+

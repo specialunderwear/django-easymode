@@ -1,5 +1,5 @@
-Easymode related settings                                                     .
-=========================
+Easymode settings
+=================
 
 .. _master_site:
 
@@ -9,7 +9,7 @@ MASTER_SITE
 The ``MASTER_SITE`` directive must be set to ``True`` if a gettext catalog 
 should be automatically populated when new contents are created. This way all 
 contents can be translated using gettext. You can also populate the catalogs
-manually using the ``easy_locale`` command.
+manually using the :ref:`easy_locale` command.
 
 In a multiple site context, you might not want to have all sites updating the
 catalog. Because the content created on some of these sites might not need to
@@ -19,6 +19,8 @@ be translated because it is not used on any other sites. Content can flow from
 example::
 
     MASTER_SITE = True
+
+.. _msgid_langugae:
 
 MSGID_LANGUAGE
 --------------
@@ -35,6 +37,23 @@ This setting should be used when there are different sites, each with a differen
 example::
     
     MSGID_LANGUAGE = 'en'
+
+.. _fallback_langugaes:
+
+FALLBACK_LANGUAGES
+------------------
+
+The ``FALLBACK_LANGUAGES`` is a dictionary of values that looks like this::
+
+    FALLBACK_LANGUAGES = (
+        'en': [],
+        'hu': ['en'],
+        'be': ['en'],
+        'ff' :['hu','en']
+    )
+
+Any string that is not translated in 'ff' will be taken from the 'hu' language.
+If the 'hu' also has no translation, finally it will be taken from 'en'.
 
 LOCALE_DIR
 ----------

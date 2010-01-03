@@ -1,6 +1,8 @@
 Internationalization and localization of django models
 ======================================================
 
+.. _internationalization_of_models:
+
 Internationalization of models
 ------------------------------
 
@@ -56,6 +58,8 @@ While useful, the interface can become very cluttered when more fields need to
 be internationalized. To make the interface less cluttered the admin class that
 belongs to the model, can be *Localized* making it show only the fields in the
 current language.
+
+.. _localization_of_admin:
 
 Localization of models in django admin
 --------------------------------------
@@ -129,3 +133,17 @@ For admin classes that specify the ``model`` attribute you can leave that out::
     admin.site.register(Foo, FooAdmin)
 
 As you can see there isn't much to making models translatable this way.
+
+Inline and GenericInline ModelAdmin
+-----------------------------------
+
+All easymode's localization mechanisms fully support django's flavors of
+``InlineModelAdmin``, both normal and generic. While there is no need to
+register these types of ModelAdmin classes, you still need to decorate them
+with ``L10n`` if you need them to be localized.
+
+Fieldsets are not supported
+---------------------------
+
+Unfortunately, fieldsets are currently not supported when using ``L10n`` with
+admin classes.
