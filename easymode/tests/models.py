@@ -5,15 +5,11 @@ from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
-from publisher.models import Publisher
-
 from easymode.tree.decorators import toxml
 from easymode.tree.query import QuerySetManager, XmlSerializableQuerySet
 from easymode import i18n
 from easymode.admin.fields import *
 from easymode.i18n.decorators import I18n
-
-from virtualcamping.fields import MenuSelectorField
 
 @I18n('charfield')
 @toxml
@@ -68,11 +64,6 @@ class IncludeFileFieldTestModel(models.Model):
 class RemoteIncludeFieldModel(models.Model):
     title = models.CharField(max_length=256)
     url   = RemoteIncludeField(interval=60)
-
-@toxml
-class MenuSelectorFieldModel(models.Model):
-    title = models.CharField(max_length=256)
-    menu  = MenuSelectorField()
 
 @toxml
 @I18n('title', 'description')

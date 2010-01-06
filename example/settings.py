@@ -2,6 +2,8 @@
 import os
 import sys
 
+ugettext = lambda s: s
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -30,6 +32,30 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+    ('nl', ugettext('Dutch')),
+    ('fr', ugettext('French')),
+    ('da', ugettext('Danish')),    
+    ('en', ugettext('English')),
+    ('de', ugettext('German')),
+    ('hu', ugettext('Hungarian')),
+    ('pl', ugettext('Polish')),
+    ('it', ugettext('Italian')),
+    ('en-us', ugettext('usa')),
+)
+
+
+# gettext catalogs created from database data are
+# stored here
+LOCALE_DIR = '/tmp/'
+
+FALLBACK_LANGUAGES = {
+    'en':[],
+    'de':['en'],
+}
+
+MSGID_LANGUAGE = 'en'
 
 SITE_ID = 1
 
@@ -68,6 +94,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'easymode.middleware.LocaleFromUrlMiddleWare',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
