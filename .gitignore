@@ -3,3 +3,4 @@ locale
 *.pyc
 *.pyo
 example/example.sqlite
+.svn/
