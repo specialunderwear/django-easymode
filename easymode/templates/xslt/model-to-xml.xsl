@@ -43,7 +43,7 @@
 	<!-- Parse the root node of the serialized xml -->
 	<xsl:template match="django-objects">
 		<root>
-		<xsl:apply-templates/>
+			<xsl:apply-templates/>
 		</root>
 	</xsl:template>
 
