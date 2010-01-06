@@ -3,6 +3,7 @@ import re
 import os
 
 from django.conf import settings
+from django.utils.translation import activate
 
 """
 Imports all testcases found in the 'testcases' subfolder of 
@@ -13,6 +14,8 @@ so
 >>> import_testcases("/tmp/stuff/tests.py")
 will import all testcases in /tmp/stuff/testcases/
 """
+
+activate(settings.LANGUAGE_CODE)
 
 path = os.path.join(os.path.dirname(__file__), 'testcases')
 pattern = os.path.join(path , r'(.+).py')

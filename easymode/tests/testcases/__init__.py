@@ -31,7 +31,6 @@ def initdb(cls):
             'easymode',
             'easymode.tests',
             'rosetta',
-            'cms'
             ),
         )
             
