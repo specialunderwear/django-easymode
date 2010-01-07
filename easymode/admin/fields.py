@@ -78,9 +78,9 @@ class HtmlFlashUrlField(CharField):
     
     _south_introspects = True
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.pop('max_length', 512)
-        super(HtmlFlashUrlField, self).__init__(**kwargs)
+        super(HtmlFlashUrlField, self).__init__(*args, **kwargs)
     
     def custom_value_serializer(self, obj, xml):
         '''Custom serializer for easymode.'''
