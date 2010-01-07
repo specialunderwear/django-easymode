@@ -63,6 +63,6 @@ def transform(xml, xslt, params=None):
     return result
 
 def prepare_string_param(string):    
-    result = u"'%s'" % (string or '')
+    result = u"'%s'" % (string.replace("'",r"&quot;") or '')
     return result.encode('utf-8')
     
