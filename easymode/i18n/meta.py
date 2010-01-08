@@ -171,6 +171,10 @@ def localize_fields(cls, localized_fields):
     which always returns the field in the current language.
     """
     
+    # never do this twice
+    if hasattr(cls, 'localized_fields'):
+        return cls
+        
     # MSGID_LANGUAGE is the language that is used for the gettext message id's.
     # If it is not available, because the site isn't using subsites, the LANGUAGE_CODE
     # is good too. MSGID_LANGUAGE gives the opportunity to specify a language not available
@@ -179,7 +183,6 @@ def localize_fields(cls, localized_fields):
     
     # set the localized fields property
     cls.localized_fields = localized_fields
-    
     
     for field in localized_fields:
         original_attr = cls._meta.get_field_by_name(field)[0]
