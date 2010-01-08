@@ -1,6 +1,6 @@
 """
-Overrides django suclassing.py because it breaks everything when trying to inspect
-the model objects with inspect. This is because Creator throws an exception
+Overrides django's subclassing.py because it breaks everything when trying to inspect
+the model objects with inspect. This is because subclassing.Creator throws an exception
 when it is accesses with no context. It SHOULD return the descriptor object
 instead. And now it does.
 """
@@ -12,8 +12,8 @@ class SubfieldBaseFix(type):
 
     MONKEYPATCHED by easymode
     
-    The original SubfieldBase throws an exception when it is accesses with no 
-    context. It SHOULD return the descriptor object instead. And now it does.
+    The original SubfieldBase throws an exception when it's descriptor is accesses 
+    with no context. It SHOULD return the descriptor object instead. And now it does.
     """
     def __new__(cls, base, name, attrs):
         print "hai"
