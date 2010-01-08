@@ -1,22 +1,35 @@
 """
-Overrides django suclassing.py because it breaks everythong when trying to inspect
-the model objects with inspect.
+Overrides django suclassing.py because it breaks everything when trying to inspect
+the model objects with inspect. This is because Creator throws an exception
+when it is accesses with no context. It SHOULD return the descriptor object
+instead. And now it does.
 """
 
-class SubfieldBase(type):
+class SubfieldBaseFix(type):
     """
     A metaclass for custom Field subclasses. This ensures the model's attribute
     has the descriptor protocol attached to it.
+
+    MONKEYPATCHED by easymode
+    
+    The original SubfieldBase throws an exception when it is accesses with no 
+    context. It SHOULD return the descriptor object instead. And now it does.
     """
     def __new__(cls, base, name, attrs):
-        new_class = super(SubfieldBase, cls).__new__(cls, base, name, attrs)
+        print "hai"
+        new_class = super(SubfieldBaseFix, cls).__new__(cls, base, name, attrs)
         new_class.contribute_to_class = make_contrib(
                 attrs.get('contribute_to_class'))
         return new_class
 
-class Creator(object):
+class CreatorFix(object):
     """
     A placeholder class that provides a way to set the attribute on the model.
+    
+    MONKEYPATCHED by easymode
+    
+    The original Creator throws an exception when it is accesses with no 
+    context. It SHOULD return the descriptor object instead. And now it does.
     """
     def __init__(self, field):
         self.field = field
@@ -43,6 +56,6 @@ def make_contrib(func=None):
             func(self, cls, name)
         else:
             super(self.__class__, self).contribute_to_class(cls, name)
-        setattr(cls, self.name, Creator(self))
+        setattr(cls, self.name, CreatorFix(self))
 
     return contribute_to_class

@@ -39,5 +39,13 @@ except ImportError:
         this will also cause lots of tests to fail!!
         http://code.google.com/p/django-tinymce/
         """
-    )   
-    
+    )
+
+# monkey patch a bug in django's SubfieldBase
+# See easymode.hacks.SubfieldBaseFix 
+from easymode.hacks import SubfieldBaseFix
+print SubfieldBaseFix
+import django.db.models
+django.db.models.SubfieldBase = SubfieldBaseFix
+import django.db.models.fields.subclassing
+django.db.models.fields.subclassing.SubfieldBase = SubfieldBaseFix
