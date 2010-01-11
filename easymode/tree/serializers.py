@@ -39,9 +39,10 @@ class RecursiveXmlSerializer(serializers.LocalizedSerializer):
 
             # recursively serialize all foreign key relations
             for (foreign_key_descriptor_name, foreign_key_descriptor ) in get_foreign_key_desciptors(obj):
-                bound_foreign_key_descriptor = foreign_key_descriptor.__get__(obj)
-                s = RecursiveXmlSerializer()                
-                s.serialize( bound_foreign_key_descriptor.all(), xml=self.xml, stream=self.stream)
+                if foreign_key_descriptor.related.field.serialize:
+                    bound_foreign_key_descriptor = foreign_key_descriptor.__get__(obj)
+                    s = RecursiveXmlSerializer()                
+                    s.serialize( bound_foreign_key_descriptor.all(), xml=self.xml, stream=self.stream)
 
             #recursively serialize all one to one relations
             # TODO: make this work for non abstract inheritance but without infinite recursion
@@ -58,13 +59,15 @@ class RecursiveXmlSerializer(serializers.LocalizedSerializer):
 
             # add generic relations
             for (generic_relation_descriptor_name, generic_relation_descriptor) in get_generic_relation_descriptors(obj):
+                # generic relations always have serialize set to False so we always include them.
                 bound_generic_relation_descriptor = generic_relation_descriptor.__get__(obj)
                 s = RecursiveXmlSerializer()                
                 s.serialize( bound_generic_relation_descriptor.all(), xml=self.xml, stream=self.stream)
                 
             #serialize the default field descriptors:
-            for default_field_descriptor in get_default_field_descriptors(obj):
-               self.handle_field(obj, default_field_descriptor[1])
+            for (default_field_descriptor_name, default_field_descriptor) in get_default_field_descriptors(obj):
+                if default_field_descriptor.serialize:
+                    self.handle_field(obj, default_field_descriptor)
                 
             for field in obj._meta.many_to_many:
                 if field.serialize:
