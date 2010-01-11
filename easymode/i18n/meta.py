@@ -217,6 +217,7 @@ def localize_fields(cls, localized_fields):
         
         # collect usefull attributes of original field
         kwargs = {
+            'serialize': getattr(original_attr, 'serialize', True),
             'font':getattr(original_attr, 'font', None),
             'max_length': getattr(original_attr, 'max_length', None),
             'min_length' : getattr(original_attr, 'min_length', None),
