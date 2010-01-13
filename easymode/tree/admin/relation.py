@@ -100,7 +100,7 @@ class ForeignKeyAwareModelAdmin(VersionAdmin, _CanFindParentLink):
     def extra_forms(self, object_id):
 
         instance = self.model.objects.get(pk=object_id)
-        
+                
         extra_formsets = []
 
         for child in self.children:
@@ -123,8 +123,10 @@ class ForeignKeyAwareModelAdmin(VersionAdmin, _CanFindParentLink):
             url_pattern = '%s:%s_%s_add' % url_descriptor
             url = urlresolvers.reverse(url_pattern)
                 
-            #add properties to the formset
-            form.title = child._meta.verbose_name_plural
+            #add properties to the formset            
+            form.parent = instance            
+            form.name = child.__name__.lower()
+            form.title = child._meta.verbose_name_plural            
             form.addurl = "%s?%s=%s" % (strip_language_code(url), field_name, object_id)
             
             extra_formsets.append( form )            
@@ -159,7 +161,4 @@ class InvisibleModelAdmin(VersionAdmin, _CanFindParentLink):
             defaults.update(extra_context)
         
         return super(InvisibleModelAdmin, self).change_view(request, object_id, defaults)
-    
-
-                
-
+  
