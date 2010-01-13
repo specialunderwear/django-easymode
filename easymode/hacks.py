@@ -16,7 +16,6 @@ class SubfieldBaseFix(type):
     with no context. It SHOULD return the descriptor object instead. And now it does.
     """
     def __new__(cls, base, name, attrs):
-        print "hai"
         new_class = super(SubfieldBaseFix, cls).__new__(cls, base, name, attrs)
         new_class.contribute_to_class = make_contrib(
                 attrs.get('contribute_to_class'))
