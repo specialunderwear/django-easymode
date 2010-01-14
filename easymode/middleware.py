@@ -106,7 +106,7 @@ class LocaleFromUrlMiddleWare(LocaleMiddleware):
     """
     def process_request(self, request):
         language = has_lang_prefix(request.path_info)
-
+        
         if not language:
             language = settings.LANGUAGE_CODE
         
