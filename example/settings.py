@@ -34,14 +34,8 @@ TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('nl', ugettext('Dutch')),
-    ('fr', ugettext('French')),
-    ('da', ugettext('Danish')),    
     ('en', ugettext('English')),
     ('de', ugettext('German')),
-    ('hu', ugettext('Hungarian')),
-    ('pl', ugettext('Polish')),
-    ('it', ugettext('Italian')),
     ('en-us', ugettext('usa')),
 )
 

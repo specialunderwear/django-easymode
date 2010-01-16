@@ -9,6 +9,10 @@ from easymode.tests.testcases import initdb
 from easymode import tree
 from easymode import xslt
 from easymode.xslt import response
+from easymode.utils.languagecode import get_language_codes
+
+if 'en-us' not in get_language_codes():
+    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
 
 @initdb
 class XsltTest(TestCase):
