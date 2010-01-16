@@ -93,6 +93,7 @@ Easymode comes with one xslt that can give good results, depending on your needs
 
 The ``render_to_response`` helper function will take an xslt as a template and a
 ``XmlQuerySetChain`` or a model/queryset decorated with ``toxml`` to produce it's output.
-
-Other helpers can be found in the ``easymode.xslt.response`` module.
+Additionally you can pass it a dictionary containing xslt parameters. You have to
+make sure to use 
+Other helpers can be found in the ``easymode.xslt.response`` module. 
 
