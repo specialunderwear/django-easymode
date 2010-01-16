@@ -12,12 +12,12 @@ The tools included in the toolkit to help you make these kind of sites include:
 .. toctree::
    :maxdepth: 2
 
-    Internationalisation of models <i18n/index.txt>
-    Translation of model data using gettext <i18n/translation.txt>
-    Automatic generation of xml from model trees <xslt/index.txt>
-    Admin support for model trees with more than 2 levels of related items <tree/index.txt>
-    Basic approval support for models.
-    Admin support for internationalised models <i18n/index.txt>
+    Internationalisation of models <i18n/index.md>
+    Translation of model data using gettext <i18n/translation.md>
+    Automatic generation of xml from model trees <xslt/index.md>
+    Admin support for model trees with more than 2 levels of related items <tree/index.md>
+    Basic approval support for models <easypublisher.md>.
+    Admin support for internationalised models <i18n/index.md>
     
 Additional subjects
 -------------------
