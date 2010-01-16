@@ -19,6 +19,7 @@ from django.utils import translation
 from django.utils.translation import trans_real
 
 from easymode.utils import first_match, mutex
+from easymode.utils.languagecode import get_language_codes
 from easymode.i18n import meta
 from easymode.tests.testcases import initdb
 from easymode.tests import models
@@ -27,12 +28,22 @@ from easymode.i18n import gettext
 from easymode.tests.testutils.scriptutil import ffindgrep
 from easymode import tree
 
+if 'de' not in get_language_codes():
+    raise Exception('the language "de" must be in your LANGUAGES to run the test suite')
+if 'en-us' not in get_language_codes():
+    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
+
+if settings.LANGUAGE_CODE is not 'en':
+    raise Exception('To run the test suite the LANGUAGE_CODE must be set to "en"')
+
 @initdb
 class Testi18n(TestCase):
     """tests for the internationalisation/localisation support"""
 
-    def extraSetUp(self):
+    def extraSetUp(self):        
         gc.collect()
+        translation.activate(settings.LANGUAGE_CODE)
+        
         try:
             t = models.TestModel(charfield='Hoi Ik ben de root node')
             t.save()
