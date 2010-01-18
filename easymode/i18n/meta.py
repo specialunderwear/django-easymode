@@ -14,11 +14,9 @@ from django.utils.encoding import force_unicode
 from django.utils.translation.trans_real import translation as translation_catalogs
 
 from easymode.utils           import first_match 
-from easymode.utils.languagecode import get_all_language_codes
+from easymode.utils.languagecode import get_all_language_codes, get_real_fieldname
 
 
-def get_real_fieldname(field, lang):
-    return '%s_%s' % (field, lang)
 
 def get_fallback_languages():
     """Retrieve the fallback languages from the settings.py"""

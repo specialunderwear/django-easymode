@@ -3,10 +3,33 @@ from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
 from django.contrib.contenttypes.generic import BaseGenericInlineFormSet
+from django.utils.translation import get_language
+from django.utils.functional import curry
 
 from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
-from easymode.utils.languagecode import get_all_language_codes
+from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
+
+__all__ = ('L10n')
+
+class lazy_localized_list(list):
+    """
+    A descriptor that can get passed contrib.admin.validation.check_isseq
+    undetected. It will give the 'real' name of an internationalized
+    property when localized.
+    """
+    def __init__(self, sequence, localized_fieldnames):
+        if type(sequence) is lazy_localized_list:
+            return sequence
+        self.localized_fieldnames = localized_fieldnames
+        return super(lazy_localized_list, self).__init__(sequence)
+    
+    def __get__(self, obj, type=None):
+        """
+        returns a localized version of the list this descriptor
+        was initialized with.
+        """
+        return localize_fieldnames(self, self.localized_fieldnames)
 
 class L10n(object):
     """
@@ -84,6 +107,21 @@ class L10n(object):
         
         # override some views to hide fields which are not localized
         if hasattr(cls, 'change_view'):
+            # BaseModelAdmin.__init__ will mess up our lazy lists if the following is
+            # not allready defined
+            if 'action_checkbox' not in cls.list_display and cls.actions is not None:
+                cls.list_display = ['action_checkbox'] +  list(cls.list_display)
+            
+            if not cls.list_display_links:
+                for name in cls.list_display:
+                    if name != 'action_checkbox':
+                        cls.list_display_links = [name]
+                        break
+
+            # Make certain properties lazy and internationalized
+            cls.list_display_links = lazy_localized_list(cls.list_display_links, self.model.localized_fields)
+            cls.list_display = lazy_localized_list(cls.list_display, self.model.localized_fields)
+            cls.list_editable = lazy_localized_list(list(cls.list_editable), self.model.localized_fields)
             
             def change_view(self, request, object_id, extra_context=None):
                 if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):
