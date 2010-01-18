@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+from django.utils.translation import get_language
 
 USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
 
@@ -47,6 +48,7 @@ def get_shorthand_from_language_code(locale):
         return locale[:2]
         
     return locale
+
 def get_language_code_from_shorthand(short_locale):
     """
     Returns the real language_code based on the shorthand
@@ -75,3 +77,24 @@ def fix_language_code(url, current_language):
     
     # add the language code to the url        
     return u"/%s%s" % (get_shorthand_from_language_code(current_language), stripped_url)
+
+def get_real_fieldname(field, lang):
+    """
+    Depending on the language a field can have a different name.
+    """
+    return '%s_%s' % (field, lang)
+
+def localize_fieldnames(fields, internationalized_fields):
+    """
+    Given a list of fields and a list of field names that
+    are be internationalized, will return a list with
+    all internationalized fields properly localized.
+    """
+    result = []
+    lang = get_language()    
+    for field in fields:
+        if field in internationalized_fields:
+            result.append(get_real_fieldname(field, lang))
+        else:
+            result.append(field)    
+    return result
