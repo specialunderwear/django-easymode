@@ -22,7 +22,7 @@ def initdb(cls):
     mgr = TestSettingsManager()
     
     def setUp(self):
-    
+
         mgr.set(INSTALLED_APPS=(
             'django.contrib.auth',
             'django.contrib.contenttypes',
@@ -33,7 +33,7 @@ def initdb(cls):
             'rosetta',
             ),
         )
-            
+        
         u = User(username="admin")
         u.set_password("admin")
         u.is_staff = True

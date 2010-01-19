@@ -3,7 +3,6 @@ import re
 import os
 
 from django.conf import settings
-from django.utils.translation import activate
 
 """
 Imports all testcases found in the 'testcases' subfolder of 
@@ -14,8 +13,6 @@ so
 >>> import_testcases("/tmp/stuff/tests.py")
 will import all testcases in /tmp/stuff/testcases/
 """
-
-activate(settings.LANGUAGE_CODE)
 
 path = os.path.join(os.path.dirname(__file__), 'testcases')
 pattern = os.path.join(path , r'(.+).py')
@@ -30,5 +27,4 @@ for filename in filenames: # import testcases into current scoope
     try:
         exec("from easymode.tests.testcases.%s import *" % modulename)        
     except Exception, e:
-        print "%s in %s, which doesn't matter you don't need the test cases to be imported" % (e, modulename)
-
+        print "%s in %s, please correct if you want to run this test suite." % (e, modulename)

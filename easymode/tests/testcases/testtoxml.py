@@ -6,7 +6,11 @@ from easymode.tree.serializers import RecursiveXmlSerializer
 
 from easymode.tests.models import *
 from easymode.tests.testcases import initdb
+from easymode.utils.languagecode import get_language_codes
 from easymode import tree
+
+if 'en-us' not in get_language_codes():
+    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
 
 # CONFIRMED_XML_DIGEST = 'ffcb6719a199ffc189ae35bff10a29d0'
 CONFIRMED_XML_DIGEST = '02658bdf2a2e131ae4027396672037f7'
