@@ -81,6 +81,8 @@ def fix_language_code(url, current_language):
 def get_real_fieldname(field, lang):
     """
     Depending on the language a field can have a different name.
+    
+    How that works is defined in this function.
     """
     return '%s_%s' % (field, lang)
 

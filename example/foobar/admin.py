@@ -7,6 +7,14 @@ from foobar.models import Foo, Bar
 class FooAdmin(admin.ModelAdmin):
     """Admin class for the Foo model"""
     model = Foo
+    fieldsets = (
+        (None, {
+            'fields': ('bar', 'barstool')
+        }),
+        ('An thingy', {
+            'fields': ('website', 'city', 'address')
+        }),
+    )
 
 admin.site.register(Foo, FooAdmin)
 admin.site.register(Bar)

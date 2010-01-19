@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.models import fields_for_model
 from django.utils.datastructures import SortedDict
 from django.forms.util import ErrorList
 from django.utils.translation import get_language
@@ -39,12 +40,12 @@ class LocalisedForm(forms.ModelForm):
         return super(LocalisedForm, self).save(commit)
 
 
-def make_localised_form(model):
+def make_localised_form(model, exclude=None):
     """
     This is a factory function that creates a form for a model with internationalised 
     field. The model should be decorated with the L10N decorater.
     """
-    newfields = {}
+    newfields = fields_for_model(model, None, exclude)
     js_media = set()
     
     for localized_field in model.localized_fields:
