@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from django.conf import settings
 from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
@@ -11,7 +13,7 @@ from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
 from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
 
 __all__ = ('L10n')
-
+        
 class lazy_localized_list(list):
     """
     A descriptor that can get passed contrib.admin.validation.check_isseq
@@ -103,7 +105,7 @@ class L10n(object):
             for language in get_all_language_codes():
                 fields.append("%s_%s" % (field, language))
         cls.exclude = fields
-        cls.form = forms.make_localised_form(self.model)
+        cls.form = forms.make_localised_form(self.model, exclude=fields)
         
         # override some views to hide fields which are not localized
         if hasattr(cls, 'change_view'):
@@ -121,7 +123,7 @@ class L10n(object):
             # Make certain properties lazy and internationalized
             cls.list_display_links = lazy_localized_list(cls.list_display_links, self.model.localized_fields)
             cls.list_display = lazy_localized_list(cls.list_display, self.model.localized_fields)
-            cls.list_editable = lazy_localized_list(list(cls.list_editable), self.model.localized_fields)
+            cls.list_editable = lazy_localized_list(cls.list_editable, self.model.localized_fields)
             
             def change_view(self, request, object_id, extra_context=None):
                 if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):
@@ -145,7 +147,7 @@ class L10n(object):
             def get_formset(self, request, obj=None, **kwargs):
                 fields = getattr(kwargs, 'fields', [])
                 
-                if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):                    
+                if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):
                     fields = self.model.localized_fields
                     kwargs['fields'] = fields
                     
