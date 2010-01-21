@@ -22,16 +22,11 @@ def initdb(cls):
     mgr = TestSettingsManager()
     
     def setUp(self):
-
-        mgr.set(INSTALLED_APPS=(
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'django.contrib.sessions',
-            'django.contrib.admin',
+        mgr.set(INSTALLED_APPS=settings.INSTALLED_APPS+[
             'easymode',
             'easymode.tests',
             'rosetta',
-            ),
+            ],
         )
         
         u = User(username="admin")
@@ -41,6 +36,10 @@ def initdb(cls):
         u.is_superuser = True 
         u.save()
         
+        for skipped_test in getattr(settings , 'SKIPPED_TESTS', []):
+            if hasattr(cls, skipped_test):
+                setattr(cls, skipped_test, lambda x: True)
+            
         if hasattr(self, 'extraSetUp'):
             self.extraSetUp()
     
