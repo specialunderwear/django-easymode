@@ -1,18 +1,16 @@
-import subprocess
+import warnings
 import re
 import shutil
 import os
-import time
 import gc
 
 import gettext as gettext_module
 from hashlib import sha1
 
-from os.path import dirname, join, isdir
+from os.path import join, isdir
 from rosetta import polib
 
 from django.test import TestCase
-from django.contrib import admin
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils import translation
@@ -127,7 +125,9 @@ class Testi18n(TestCase):
     def test_we_have_the_proper_version_of_gettext(self):
         """The proper version of xgettext (>= 0.15) should be installed on the server."""
         
-        assert(gettext.XGETTEXT_REENCODES_UTF8 is False)
+        if gettext.XGETTEXT_REENCODES_UTF8 is False:
+            warnings.warn('while not fatal it is better to install a version of gettext \
+                higher or equal to 0.15')
                     
     def test_model_can_be_serialized(self):
         """A model should be serializable to po"""
