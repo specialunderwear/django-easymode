@@ -22,9 +22,16 @@ filenames = glob.glob(path + '/*.py')
 if len(filenames): #delete __init__.py. yes it is always first.
     del(filenames[0])
 
-for filename in filenames: # import testcases into current scoope
-    modulename = re.sub(pattern, r'\1', filename)
-    try:
-        exec("from easymode.tests.testcases.%s import *" % modulename)        
-    except Exception, e:
-        print "%s in %s, please correct if you want to run this test suite." % (e, modulename)
+from easymode.tests.testcases.testdiocorefields import *
+from easymode.tests.testcases.testeasypublisher import *
+from easymode.tests.testcases.testi18n import *
+from easymode.tests.testcases.testrelatedadmin import *
+from easymode.tests.testcases.testtoxml import *
+from easymode.tests.testcases.testxslt import *
+
+#for filename in filenames: # import testcases into current scoope
+#    modulename = re.sub(pattern, r'\1', filename)
+#    try:
+#        exec("from easymode.tests.testcases.%s import *" % modulename)
+#    except Exception, e:
+#        print "%s in %s, please correct if you want to run this test suite." % (e, modulename)

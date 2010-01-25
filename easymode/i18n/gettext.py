@@ -13,7 +13,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.management.base import CommandError
 from django.template.loader import find_template_source
-from django.utils.translation import templatize, to_locale
+from django.utils.translation import templatize, to_locale, get_language
 from django.utils import tzinfo
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
@@ -102,6 +102,9 @@ class MakeModelMessages(object):
             return
             
         if hasattr(instance, 'language') and instance.language != settings.LANGUAGE_CODE:
+            return
+        
+        if get_language() != settings.LANGUAGE_CODE:
             return
 
         po_form = self.poify(instance)
