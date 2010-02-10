@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import warnings
 import re
 import shutil
@@ -139,7 +140,7 @@ class Testi18n(TestCase):
         db_gettext = MakeModelMessages()
         i = models.TestModel.objects.get(pk=1)
 
-        m = db_gettext.poify(i)
+        m = str(db_gettext.poify(i))
 
         assert(m.index('msgid "Hoi Ik ben de root node"') is not None)
     
