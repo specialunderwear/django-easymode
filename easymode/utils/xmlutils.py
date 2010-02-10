@@ -12,14 +12,28 @@ entities = re.compile(r'&([^;]+);')
 __all__ = ('unescape_all', 'XmlScanner', 'XmlPrinter', 'create_parser')
 
 def _unicode_for_entity_with_name(name):
-    latin1 = htmlentitydefs.entitydefs[name]
-    return latin1.decode('iso-8859-1')
-
+    # if the entity is unknown, insert question mark
+    codepoint = htmlentitydefs.name2codepoint.get(name, 63)
+    return unichr(codepoint)
+   
 def unescape_all(string):
-    """docstring for unescape_all"""
+    """Resolve all html entities to their corresponding unicode character"""
     def escape_single(matchobj):
         return _unicode_for_entity_with_name(matchobj.group(1))
     return entities.sub(escape_single, string)
+
+def is_valid(xml_string):
+    """validates a unicode string containing xml"""
+    xml_file = StringIO.StringIO(xml_string.encode('utf-8'))
+    
+    parser = XmlScanner()
+    parser.setContentHandler(ContentHandler())
+    try:
+        parser.parse(xml_file)
+    except SAXParseException:
+        return False
+    
+    return True
     
 class XmlScanner(ExpatParser):
     """

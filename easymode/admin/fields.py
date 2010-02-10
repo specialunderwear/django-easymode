@@ -9,12 +9,12 @@
 '''
 import re
 import os
+import logging
 from StringIO import StringIO
 from time import time
 from xml import sax
 from urlparse import urljoin
 from urllib import urlopen
-
 
 from django.db import connection, models
 from django.db.models import CharField, TextField
@@ -29,6 +29,8 @@ from django.utils.html import strip_tags
 from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
 
 from tinymce.widgets import TinyMCE
+
+from easymode.utils import xmlutils
 
 ############################################################################
 # form fields
@@ -171,9 +173,13 @@ class DiocoreHTMLField(TextField):
     def custom_value_serializer(self, obj, xml):
         richtext = self.value_to_string(obj)
         value = u"<richtext>%s</richtext>"  % richtext
-        parser = sax.make_parser(["easymode.utils.xmlutils"])
-        parser.setContentHandler(xml)
-        parser.parse(StringIO(value.encode('utf-8')))
+        
+        if xmlutils.is_valid(value):
+            parser = sax.make_parser(["easymode.utils.xmlutils"])
+            parser.setContentHandler(xml)
+            parser.parse(StringIO(value.encode('utf-8')))            
+        else:
+            logging.error('Invalid xml in %s: %s' % (obj, value))
     
     def formfield(self, **kwargs):
         mce_default_attrs = {

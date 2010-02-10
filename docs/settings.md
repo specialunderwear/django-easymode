@@ -127,3 +127,16 @@ This means i can not have the same language defined twice in my ``LANGUAGES``::
 This will **NOT** work because both languages will be displayed in the url as 'en' which is
 ambiguous.
 
+SKIPPED_TESTS
+-------------
+
+It might be that some tests fail because you've got some modules disabled or you can not comply
+to the test requirements. This is very annoying in a continuous integration environment. If you
+are sure that the failing tests cause no harm to your application, they can be disabled.
+
+``SKIPPED_TESTS`` is a sequence of test case names eg::
+
+    SKIPPED_TESTS = ('test_this_method_will_fail', 'test_this_boy_has_green_hair')
+
+will make sure these 2 tests will not be executed when running the test suite.
+
