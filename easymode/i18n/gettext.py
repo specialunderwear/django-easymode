@@ -147,7 +147,7 @@ class MakeModelMessages(object):
         
         if err:
             # dont raise exception, some stuff in stderr are just warmings
-            logging.error(err)
+            logging.warning(err)
 
         if XGETTEXT_REENCODES_UTF8:
             return msg.decode('utf-8').encode('iso-8859-1')
@@ -171,7 +171,7 @@ class MakeModelMessages(object):
         
         if err:
             # dont raise exception, some stuff in stderr are just warmings
-            logging.error(err)
+            logging.warning(err)
         
         return msg
 
