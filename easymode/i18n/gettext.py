@@ -12,25 +12,19 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.management.base import CommandError
-from django.template.loader import find_template_source
 from django.utils.translation import templatize, to_locale, get_language
 from django.utils import tzinfo
-from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
-from django.utils.encoding import smart_unicode
+
+from easymode.tree import introspection
+from easymode.utils import mutex
+from easymode.utils.languagecode import get_language_codes
+from easymode.utils import polib as polib_extensions
 
 try:
     from rosetta import polib
 except ImportError:
     import polib
-
-
-from easymode.xslt import transform
-from easymode.i18n import serializers
-from easymode.utils import mutex
-from easymode.utils.languagecode import get_language_codes
-
-DEFAULT_XSLT = 'xslt/gettext.xslt'
 
 source_re = re.compile(r'#: .*?:(\d+)', re.UNICODE)
 
@@ -43,34 +37,6 @@ if match:
     xversion = (int(match.group('major')), int(match.group('minor')))
     if xversion < (0, 15):
         XGETTEXT_REENCODES_UTF8 = True
-
-        
-class PoStream(polib._POFileParser):
-    """Create a POFile object from a StringIO"""
-    
-    def __init__(self, fpath, stream, encoding='utf-8', wrapwidth=78):
-        """a pofileparser that can read from a stream"""
-        self.fhandle = stream
-        self.instance = polib.POFile(fpath=fpath, encoding=encoding)
-        self.instance.wrapwidth = wrapwidth
-        self.transitions = {}
-        self.current_entry = polib.POEntry()
-        self.current_state = 'ST'
-        self.current_token = None
-        self.msgstr_index = 0
-        self.entry_obsolete = 0
-        all_ = ['ST', 'HE', 'GC', 'OC', 'FL', 'TC', 'MS', 'MP', 'MX', 'MI']
-
-        self.add('TC', ['ST', 'HE'],                                     'HE')
-        self.add('TC', ['GC', 'OC', 'FL', 'TC', 'MS', 'MP', 'MX', 'MI'], 'TC')
-        self.add('GC', all_,                                             'GC')
-        self.add('OC', all_,                                             'OC')
-        self.add('FL', all_,                                             'FL')
-        self.add('MI', ['ST', 'HE', 'GC', 'OC', 'FL', 'TC', 'MS', 'MX'], 'MI')
-        self.add('MP', ['TC', 'GC', 'MI'],                               'MP')
-        self.add('MS', ['MI', 'MP', 'TC'],                               'MS')
-        self.add('MX', ['MI', 'MX', 'MP', 'TC'],                         'MX')
-        self.add('MC', ['MI', 'MP', 'MS', 'MX'],                         'MC')
  
  
 class MakeModelMessages(object):
@@ -81,7 +47,7 @@ class MakeModelMessages(object):
     create newly, not when it is updated manually.    
     """
 
-    def __init__(self, location=None, sender=None, xslt=DEFAULT_XSLT):
+    def __init__(self, location=None, sender=None):
 
         if location is None:
             self.location = (hasattr(settings, 'LOCALE_DIR') and settings.LOCALE_DIR) or settings.PROJECT_DIR
@@ -91,7 +57,6 @@ class MakeModelMessages(object):
             self.location = location
             
         self.sender = sender
-        self.xslt = xslt
 
     
     def __call__(self, instance, sender=None, **kwargs):
@@ -129,22 +94,21 @@ class MakeModelMessages(object):
                     # write proper header if the file is new
                     # this header contains the character set.
                     write_header = not os.path.exists(locale_file)
-
+                    
                     if write_header: # write header and po stuffz0r
                         with codecs.open(locale_file, 'w', 'utf-8') as fp:
-                            fp.write(smart_unicode(po_form))
+                            fp.write(polib_extensions.po_to_unicode(po_form))
                             
                     else: 
                         #merge existing translation with the new one
-                        msg = self.msgmerge(locale_file, po_form)
+                        msg = self.msgmerge(locale_file, polib_extensions.po_to_unicode(po_form).encode('utf-8'))
                         if msg:
-                            postream = self.po_stream(msg)
-                            if len(postream):
-                                # add the new entry to the po file
+                            if len(po_form):
+                                # add the new entries to the po file
                                 with codecs.open(locale_file, 'a', 'utf-8') as fp:
-                                    for entry in postream:
-                                        fp.write("\n")
-                                        fp.write(smart_unicode(entry))
+                                    for entry in po_form: # this avoids printing the header
+                                        fp.write(u"\n")
+                                        fp.write(polib_extensions.po_to_unicode(entry))
                                         
                                 # filter away duplicates  
                                 msg = self.msguniq(locale_file)
@@ -155,22 +119,23 @@ class MakeModelMessages(object):
     
     def poify(self, model):
         """turn a django model into a po file."""
-
-        xml = u'<root/>'
-        try:
-            xml = serializers.serialize_with_locale([model])
-        except AttributeError as e:
-            print e
+        if not hasattr(model, 'localized_fields'):
             return None
         
-        xslt_path = find_template_source(self.xslt)[0]
-        result = transform(xml, xslt_path)
-
-        po = self.xgettext(result)
-        po = source_re.sub('#: ' + str(slugify(model)) + ':\\1'  , po)
-        po = po.replace('charset=CHARSET', 'charset=UTF-8')
-        return po
-
+        # create po stream with header
+        po_stream = polib_extensions.PoStream(None, StringIO.StringIO(self.po_header)).parse()
+        
+        for (name, field) in introspection.get_default_field_descriptors(model):
+            occurrence = u"%s.%s.%s" % (model._meta.app_label, model.__class__.__name__, name)
+            value = field.value_to_string(model)
+            
+            # only add empty strings
+            if value <> "":
+                entry = polib.POEntry(msgid=value, occurrences=[(occurrence, model.pk)])
+                po_stream.append(entry)
+                
+        return po_stream
+    
 
     def xgettext(self, template):
         """Extracts to be translated strings from template and turns it into po format."""
@@ -192,7 +157,7 @@ class MakeModelMessages(object):
     
     def po_stream(self, po_string):
         """make a po stream object from a po_string"""
-        return PoStream(None, StringIO.StringIO(po_string)).parse()
+        return polib_extensions.PoStream(None, StringIO.StringIO(po_string)).parse()
 
 
     def msgmerge(self, locale_file, po_string):
@@ -232,7 +197,7 @@ class MakeModelMessages(object):
     @property
     def po_header(self):
         localtime = tzinfo.LocalTimezone( datetime.now() )
-        now = datetime.now(localtime)
+        now = datetime.now(localtime).isoformat()
         po_header = render_to_string('i18n/po_header.txt', { 
             'creation_date': now,
             'revision_date': now,
