@@ -74,26 +74,26 @@ class TestL10nModel(models.Model):
     def __unicode__(self):
         return u"%s%s" % (self.__class__.__name__, self.pk)
 
+class GenericRelatedModel(models.Model):
+    """it is used in a generic relation"""
 
-# class GenericRelatedModel(models.Model):
-#     """it is used in a generic relation"""
-# 
-#     content_type = models.ForeignKey(ContentType)
-#     parent_id = models.PositiveIntegerField()
-#     content_object = generic.GenericForeignKey('content_type', 'parent_id')
-# 
-#     name = models.CharField(max_length=100)
-# 
-#     def __unicode__(self):
-#         return u"%s%s" % (self.__class__.__name__, self.pk)
-# 
-# @toxml        
-# class TestGenericFkModel(models.Model):
-#     """it is used for testing"""
-#     
-#     name = models.CharField(max_length=100)
-#     relateds = generic.GenericRelation(GenericRelatedModel, content_type_field='content_type', object_id_field='parent_id')
-#     
-#     def __unicode__(self):
-#         return u"%s%s" % (self.__class__.__name__, self.pk)
-#     
+    content_type = models.ForeignKey(ContentType)
+    parent_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'parent_id')
+
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return u"%s%s" % (self.__class__.__name__, self.pk)
+
+@toxml
+class TestGenericFkModel(models.Model):
+    """it is used for testing"""
+
+    name = models.CharField(max_length=100)
+    relateds = generic.GenericRelation(GenericRelatedModel, content_type_field='content_type', object_id_field='parent_id')
+
+    def __unicode__(self):
+        return u"%s%s" % (self.__class__.__name__, self.pk)
+
+

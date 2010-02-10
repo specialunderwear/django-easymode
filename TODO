@@ -1,3 +1,1 @@
-Instead of making rosetta a requirement, make either rosetta or polib a requirement, because only polib is required anyway.
-
 Make command to import all translations into the database.
