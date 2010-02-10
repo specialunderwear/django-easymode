@@ -25,7 +25,7 @@ class PoStream(polib._POFileParser):
     
     """
     
-    def __init__(self, fpath, stream, encoding='utf-8', wrapwidth=78):
+    def __init__(self, stream, fpath=None, encoding='utf-8', wrapwidth=78):
         """a pofileparser that can read from a stream"""
         self.fhandle = stream
         self.instance = polib.POFile(fpath=fpath, encoding=encoding)

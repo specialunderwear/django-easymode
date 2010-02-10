@@ -123,7 +123,7 @@ class MakeModelMessages(object):
             return None
         
         # create po stream with header
-        po_stream = polib_extensions.PoStream(None, StringIO.StringIO(self.po_header)).parse()
+        po_stream = polib_extensions.PoStream(StringIO.StringIO(self.po_header)).parse()
         
         for (name, field) in introspection.get_default_field_descriptors(model):
             occurrence = u"%s.%s.%s" % (model._meta.app_label, model.__class__.__name__, name)
@@ -147,7 +147,7 @@ class MakeModelMessages(object):
         
         if err:
             # dont raise exception, some stuff in stderr are just warmings
-            logging.debug(err)
+            logging.error(err)
 
         if XGETTEXT_REENCODES_UTF8:
             return msg.decode('utf-8').encode('iso-8859-1')
@@ -157,7 +157,7 @@ class MakeModelMessages(object):
     
     def po_stream(self, po_string):
         """make a po stream object from a po_string"""
-        return polib_extensions.PoStream(None, StringIO.StringIO(po_string)).parse()
+        return polib_extensions.PoStream(StringIO.StringIO(po_string)).parse()
 
 
     def msgmerge(self, locale_file, po_string):
@@ -171,7 +171,7 @@ class MakeModelMessages(object):
         
         if err:
             # dont raise exception, some stuff in stderr are just warmings
-            logging.debug(err)
+            logging.error(err)
         
         return msg
 
@@ -188,7 +188,7 @@ class MakeModelMessages(object):
     
         if err:
             # raise exception, none of the stuff in stderr are just warmings
-            logging.debug(err)
+            logging.error(err)
             raise CommandError("error happened while running msguniq on: " + locale_file + err + open(locale_file, 'r').read())
 
         return msg
