@@ -19,7 +19,11 @@ from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
 
-from rosetta import polib
+try:
+    from rosetta import polib
+except ImportError:
+    import polib
+
 
 from easymode.xslt import transform
 from easymode.i18n import serializers

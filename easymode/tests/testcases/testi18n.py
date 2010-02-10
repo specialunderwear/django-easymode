@@ -8,7 +8,12 @@ import gettext as gettext_module
 from hashlib import sha1
 
 from os.path import join, isdir
-from rosetta import polib
+
+try:
+    from rosetta import polib
+except ImportError:
+    import polib
+
 
 from django.test import TestCase
 from django.db.models.signals import post_save

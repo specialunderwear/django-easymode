@@ -23,12 +23,18 @@ if not hasattr(settings, 'PROJECT_DIR'):
         """)
     
 if not 'rosetta' in settings.INSTALLED_APPS:
-    raise ImproperlyConfigured(
-        """
-        Please install django-rosetta: 
-        http://code.google.com/p/django-rosetta/
-        or easymode won't work"""
-    )
+    try:
+        import polib
+    except importError:
+        raise ImproperlyConfigured(
+            """
+            Please install either django-rosetta: 
+            http://code.google.com/p/django-rosetta/
+            or polib:
+            http://bitbucket.org/izi/polib/src/
+            otherwise easymode won't work"""
+        )
+        
 
 try:
     import tinymce

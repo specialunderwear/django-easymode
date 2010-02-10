@@ -5,7 +5,8 @@ import htmlentitydefs
 from django.utils.xmlutils import SimplerXMLGenerator
 
 from xml.sax.expatreader import ExpatParser
-from xml.sax.handler import EntityResolver
+from xml.sax import SAXParseException
+from xml.sax.handler import EntityResolver, ContentHandler
 
 entities = re.compile(r'&([^;]+);')
 
