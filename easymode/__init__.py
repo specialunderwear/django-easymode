@@ -44,7 +44,7 @@ except ImportError:
 # monkey patch a bug in django's SubfieldBase
 # See easymode.hacks.SubfieldBaseFix 
 from easymode.hacks import SubfieldBaseFix
-import django.db.models
-django.db.models.SubfieldBase = SubfieldBaseFix
 import django.db.models.fields.subclassing
 django.db.models.fields.subclassing.SubfieldBase = SubfieldBaseFix
+import django.db.models
+django.db.models.SubfieldBase = SubfieldBaseFix
