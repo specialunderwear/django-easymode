@@ -109,7 +109,7 @@ class DefaultFieldDescriptor(property):
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid
         msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))
-
+        
         # check the translation in the current language
         msg = translation.ugettext(msgid)
         if msgid not in (None, "") and msg not in (msgid, None, ""):

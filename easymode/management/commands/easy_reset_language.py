@@ -4,6 +4,8 @@ from django.db.models import get_models, get_app, get_model
 from django.utils.encoding import force_unicode
 from django.utils import translation
 
+from easymode import i18n
+
 class Command(BaseCommand):
     help = """
         easy_reset_language <target locale> <app>
@@ -33,7 +35,7 @@ class Command(BaseCommand):
             
         for model in models:
             if hasattr(model, 'localized_fields'):
-
+                i18n.unregister(model)
                 model_full_name = '%s.%s' % (model._meta.app_label, model._meta.module_name)
                 update_instances = set()
                 messages = []
