@@ -2,8 +2,13 @@
 Internationalisation and localisation support for django models.
 """
 
+from weakref import WeakKeyDictionary
+
 from django.db.models.signals import post_save
+
 from easymode.i18n.gettext import MakeModelMessages
+
+_post_save_handlers = WeakKeyDictionary()
 
 def register(cls, location=None):
     """
@@ -27,4 +32,16 @@ def register(cls, location=None):
        
     create_po_for_model = MakeModelMessages(location, cls)
     
+    _post_save_handlers[cls] = create_po_for_model
+    
     post_save.connect(create_po_for_model, cls, False)
+
+def unregister(cls):
+    """
+    ungeristers a previously registered model.
+    
+    This means the po file will not be updated when the model is saved.
+    """
+    handler = _post_save_handlers.get(cls, None)
+    if handler:
+        post_save.disconnect(handler, cls)
