@@ -113,7 +113,7 @@ class DefaultFieldDescriptor(property):
         # check the translation in the current language
         msg = translation.ugettext(msgid)
         if msgid not in (None, "") and msg not in (msgid, None, ""):
-            return msg
+            return self.to_python(msg)
 
         # maybe we have a translation in any of the fallback languages.
         if hasattr(settings, 'FALLBACK_LANGUAGES'):
@@ -127,7 +127,7 @@ class DefaultFieldDescriptor(property):
             # if the msgid is '' or None we don't have to look
             # for translations because there are none.
             if msgid in (None, ""):
-                return u''
+                return self.to_python(u'')
 
             # there might be a translation in any
             # of the fallback languages.
@@ -135,14 +135,14 @@ class DefaultFieldDescriptor(property):
                 catalog = translation_catalogs(fallback)
                 msg = catalog.ugettext(msgid)
                 if msg is not msgid:
-                    return msg
+                    return self.to_python(msg)
         
         # no fallback language and the database does not have
         # the localized data, so use the translation of the msgid
         if msgid in (None, ""):
-            return u''
+            return self.to_python(u'')
         
-        return msg
+        return self.to_python(msg)
 
 
     def __set__(self, obj, value):
@@ -221,6 +221,7 @@ def localize_fields(cls, localized_fields):
             'min_length' : getattr(original_attr, 'min_length', None),
             'form_field' : original_attr.formfield(),
             'get_internal_type': original_attr.get_internal_type,
+            'to_python': original_attr.to_python,
         }
             
         # copy custom_value_serializer if it was defined on the original attr
