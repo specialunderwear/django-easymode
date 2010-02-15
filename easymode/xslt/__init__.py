@@ -52,15 +52,34 @@ def _transform_libxsltmod(xml, xslt, params):
     except RuntimeError:
         messages = handler.getContent()
         raise XsltError(messages)
+
+def _transform_lxml(xml, xslt, params):
+    from lxml import etree
+    from StringIO import StringIO
+    
+    try:
+        xml_doc = etree.fromstring(xml)
+        xslt_doc = etree.fromstring(xslt)
+        xslt_proc = etree.XSLT(xslt_doc)
+        
+        result = xslt_proc(xml_doc, **params)
+        return unicode(result)
+    except RuntimeError as e:
+        raise XsltError(str(e))
     
 def transform(xml, xslt, params=None):
     """transform the xml using the xslt"""
     try:
-        result = _transform_libxslt(xml, xslt, params)
+        return _transform_libxslt(xml, xslt, params)
     except ImportError:
-        result = _transform_libxsltmod(xml, xslt, params)
+        pass
     
-    return result
+    try:
+        return _transform_lxml(xml, xslt, params)
+    except ImportError:
+        pass
+        
+    return _transform_libxsltmod(xml, xslt, params)
 
 def prepare_string_param(string):    
     result = u"'%s'" % (string.replace("'","&apos;") or '')
