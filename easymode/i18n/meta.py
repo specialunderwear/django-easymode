@@ -102,7 +102,7 @@ class DefaultFieldDescriptor(property):
         # first check if the database contains the localized data
         if value:
             result = getattr(obj, value)
-            if result:
+            if result is not None:
                 # if it is set, this is the value we are looking for
                 return result
 
@@ -112,7 +112,7 @@ class DefaultFieldDescriptor(property):
         
         # check the translation in the current language
         msg = translation.ugettext(msgid)
-        if msgid not in (None, "") and msg not in (msgid, None, ""):
+        if msgid not in (None, "") and self.to_python(msg) is not msgid:
             return self.to_python(msg)
 
         # maybe we have a translation in any of the fallback languages.
@@ -121,7 +121,7 @@ class DefaultFieldDescriptor(property):
             # any of the fallback languages.
             localized_value = get_localized_property(obj, self.name)
 
-            if localized_value not in (None, ""):
+            if localized_value is not None:
                 return localized_value
                 
             # if the msgid is '' or None we don't have to look
@@ -134,7 +134,7 @@ class DefaultFieldDescriptor(property):
             for fallback in get_fallback_languages():
                 catalog = translation_catalogs(fallback)
                 msg = catalog.ugettext(msgid)
-                if msg is not msgid:
+                if self.to_python(msg) is not msgid:
                     return self.to_python(msg)
         
         # no fallback language and the database does not have

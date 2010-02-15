@@ -7,7 +7,7 @@ except ImportError:
 
 def po_to_unicode(po_obj):
     po_text = po_obj.__str__()
-    if type(po_text) <> types.UnicodeType:
+    if type(po_text) != types.UnicodeType:
         po_text = po_text.decode('utf-8')
     
     return po_text
