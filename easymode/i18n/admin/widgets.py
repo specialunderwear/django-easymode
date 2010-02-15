@@ -18,5 +18,12 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
         self.choices = getattr(self.widget, 'choices', None)
     
     def render(self, name, value, *args, **kwargs):
+        extra = u''
+        if hasattr(value, 'stored_value'):
+            if hasattr(value, 'msg'):
+                extra = value.msg
+            elif hasattr(value, 'fallback'):
+                extra = value.fallback
+        
         widget_html = self.widget.render(name, value, *args, **kwargs)
-        return mark_safe(u'<div class="localized">%s <small>%s</small></div>' % (widget_html, unichr(8224)))
+        return mark_safe(u'<div class="localized">%s <small>%s %s</small></div>' % (widget_html, unichr(8224), extra))

@@ -15,7 +15,7 @@ from django.utils.translation.trans_real import translation as translation_catal
 
 from easymode.utils           import first_match 
 from easymode.utils.languagecode import get_all_language_codes, get_real_fieldname
-
+from easymode.utils.standin import standin_for
 
 
 def get_fallback_languages():
@@ -72,7 +72,12 @@ def get_localized_field_name(context, field):
 
     return first_match(predicate, attrs)
 
-
+class L10nVO:
+    msgid = None
+    msg = None
+    fallback = None
+    stored_value = None
+        
 class DefaultFieldDescriptor(property):
     """
     Descriptor that implements access to the default language.
@@ -99,50 +104,58 @@ class DefaultFieldDescriptor(property):
         current_language = translation.get_language()
         real_field_name = get_real_fieldname(self.name, current_language)
         
+        vo = L10nVO()
+        
         # first check if the database contains the localized data
-        stored_value = getattr(obj, real_field_name)
-        if stored_value is not None:
-            # if it is set, this is the value we are looking for
-            return stored_value
+        vo.stored_value = getattr(obj, real_field_name)
         
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid
-        msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))
-        
+        vo.msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))
+
         # check the translation in the current language
-        msg = translation.ugettext(msgid)
-        if msgid not in (None, "") and self.to_python(msg) is not msgid:
-            return self.to_python(msg)
+        vo.msg = self.to_python(translation.ugettext(vo.msgid))
 
-        # maybe we have a translation in any of the fallback languages.
-        if hasattr(settings, 'FALLBACK_LANGUAGES'):
-            # first check if the database has the localized data in
-            # any of the fallback languages.
-            localized_value = get_localized_property(obj, self.name)
-
-            if localized_value is not None:
-                return localized_value
+        # if there isn't anything new in the catalog belonging to the current language:
+        if vo.msg is vo.msgid:
+            # maybe we have a translation in any of the fallback languages.
+            if hasattr(settings, 'FALLBACK_LANGUAGES'):
+                # first check if the database has the localized data in
+                # any of the fallback languages.
+                vo.fallback = get_localized_property(obj, self.name)
                 
-            # if the msgid is '' or None we don't have to look
-            # for translations because there are none.
-            if msgid in (None, ""):
-                return self.to_python(u'')
+                # if the msgid is '' or None we don't have to look
+                # for translations because there are none.
+                if vo.fallback is None and vo.msgid not in (None, ""):
+                    # there might be a translation in any
+                    # of the fallback languages.
+                    for fallback in get_fallback_languages():
+                        catalog = translation_catalogs(fallback)
+                        msg = catalog.ugettext(msgid)
+                        if self.to_python(msg) is not msgid:
+                            vo.fallback = self.to_python(msg)
+                            break
 
-            # there might be a translation in any
-            # of the fallback languages.
-            for fallback in get_fallback_languages():
-                catalog = translation_catalogs(fallback)
-                msg = catalog.ugettext(msgid)
-                if self.to_python(msg) is not msgid:
-                    return self.to_python(msg)
+        if vo.stored_value is not None:
+            return standin_for(vo.stored_value, **vo.__dict__)
+        elif vo.fallback is not None:
+            return standin_for(vo.fallback, **vo.__dict__)
+        elif vo.msg is not None:
+            return standin_for(vo.msg, **vo.__dict__)
+        # 
+        # # no fallback language and the database does not have
+        # # the localized data, so use the translation of the msgid
+        # if vo.msgid in (None, ""):
+        #     return standin_for(self.to_python(u''), **vo.__dict__)
+        # 
+        # # if vo.stored_value is not None:
+        # #     # if it is set, this is the value we are looking for
+        # #     value_object.stored_value = stored_value
+        # # if vo.msgid not in (None, "") and self.to_python(vo.msg) is not vo.msgid:
+        # #     vo.msg = self.to_python(msg)
+        # 
+        # return self.to_python(vo.msg)
         
-        # no fallback language and the database does not have
-        # the localized data, so use the translation of the msgid
-        if msgid in (None, ""):
-            return self.to_python(u'')
-        
-        return self.to_python(msg)
-
     def __set__(self, obj, value):
         """Write the localised version of the field this descriptor emulates."""
         local_property = get_localized_field_name(obj, self.name)
@@ -154,7 +167,10 @@ class DefaultFieldDescriptor(property):
 
     def value_to_string(self, obj):
         """This descriptor acts as a Field, as far as the serializer is concerned."""
-        return  force_unicode(self.__get__(obj))
+        try:
+            return force_unicode(self.__get__(obj))
+        except TypeError:
+            return str(self.__get__(obj))
 
 
 def localize_fields(cls, localized_fields):

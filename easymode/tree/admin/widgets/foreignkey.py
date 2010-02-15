@@ -8,7 +8,7 @@ from django.core import urlresolvers
 from django.utils.encoding import force_unicode
 
 from easymode.utils.languagecode import strip_language_code
-  
+
 class RenderLink(forms.Widget):
     """
     Renders a link to an admin page based on the primary key
