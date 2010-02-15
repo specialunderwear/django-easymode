@@ -130,7 +130,7 @@ class MakeModelMessages(object):
             value = field.value_to_string(model)
             
             # only add empty strings
-            if value <> "":
+            if value != "":
                 entry = polib.POEntry(msgid=value, occurrences=[(occurrence, model.pk)])
                 po_stream.append(entry)
                 
