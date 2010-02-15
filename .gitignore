@@ -4,3 +4,6 @@ locale
 *.pyo
 example/example.sqlite
 .svn/
+polib.py
+reversion
+tinymce
