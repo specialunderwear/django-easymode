@@ -67,14 +67,18 @@ def _transform_lxml(xml, xslt, params=None):
     """
     # assuming params where created with prepare_string_param,
     # they are encoded as unicode, which lxml does not like
-    for (key, value) in params.iteritems():
-        params[key] = value.decode('utf-8')
-
+    
     xml_doc = etree.fromstring(xml)
     xslt_doc = etree.fromstring(xslt)
     xslt_proc = etree.XSLT(xslt_doc)
+
+    if params:
+        for (key, value) in params.iteritems():
+            params[key] = value.decode('utf-8')
+        result = xslt_proc(xml_doc, **params)
+    else:
+        result = xslt_proc(xml_doc)
     
-    result = xslt_proc(xml_doc, **params)
     return unicode(result)
 
 # determine which xslt engine to use,
