@@ -4,6 +4,8 @@ from django.utils.datastructures import SortedDict
 from django.forms.util import ErrorList
 from django.utils.translation import get_language
 
+from easymode.i18n.admin.widgets import WidgetWrapper
+
 class LocalisedForm(forms.ModelForm):
     """
     This form will show the DefaultFieldDescriptor as a field.
@@ -51,8 +53,12 @@ def make_localised_form(model, exclude=None):
     for localized_field in model.localized_fields:
         # use the original formfield for all DefaultFieldDescriptors
         default_field_descriptor = getattr(model, localized_field)
+        
+        # modify formfield somewhat
         form_field = default_field_descriptor.form_field
-        form_field.descriptor = form_field
+        if type(form_field.widget) is not WidgetWrapper:
+            form_field.widget = WidgetWrapper(form_field.widget)
+        
         newfields[localized_field] = form_field
         #collect js media definitions
         if hasattr(form_field.widget, 'media'):

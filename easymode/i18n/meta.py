@@ -95,17 +95,16 @@ class DefaultFieldDescriptor(property):
         # self must be returned in a getattr context.
         if obj is None:
             return self
-            
+        
         current_language = translation.get_language()
-        value = get_real_fieldname(self.name, current_language)
+        real_field_name = get_real_fieldname(self.name, current_language)
         
         # first check if the database contains the localized data
-        if value:
-            result = getattr(obj, value)
-            if result is not None:
-                # if it is set, this is the value we are looking for
-                return result
-
+        stored_value = getattr(obj, real_field_name)
+        if stored_value is not None:
+            # if it is set, this is the value we are looking for
+            return stored_value
+        
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid
         msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))
@@ -143,7 +142,6 @@ class DefaultFieldDescriptor(property):
             return self.to_python(u'')
         
         return self.to_python(msg)
-
 
     def __set__(self, obj, value):
         """Write the localised version of the field this descriptor emulates."""
