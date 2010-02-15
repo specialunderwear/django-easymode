@@ -1,1 +1,5 @@
 Make command to import all translations into the database.
+
+Make origin of the translation apparent in the admin.
+
+Redirect save button to parent page.

@@ -1,9 +1,12 @@
 """
 contains modeladmin class that can add links to related items to its form.
 """
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.forms.models import  modelformset_factory
 from django.core import urlresolvers
 from django.utils.encoding import force_unicode
+from django.utils.translation import ugettext as _
+from django.utils.html import escape
 
 from easymode.tree.introspection import get_foreign_key_desciptors
 from easymode.tree.admin.formsets import VisiblePrimaryKeyFormset
@@ -160,5 +163,8 @@ class InvisibleModelAdmin(VersionAdmin, _CanFindParentLink):
         if extra_context:
             defaults.update(extra_context)
         
-        return super(InvisibleModelAdmin, self).change_view(request, object_id, defaults)
-  
+        response = super(InvisibleModelAdmin, self).change_view(request, object_id, defaults)
+        if response.get('Location', False) == '../':
+            return HttpResponseRedirect(defaults.get('parent_model', '../'))
+            
+        return response
