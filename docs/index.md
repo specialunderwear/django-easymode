@@ -27,4 +27,5 @@ Additional subjects
     
     settings
     commands
+    google analytics <ga.md>
     
