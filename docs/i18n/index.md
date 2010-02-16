@@ -10,14 +10,8 @@ Django supports internationalization of text in templates and code by means of
 gettext. For internationalization of dynamic model data, easymode offers simple
 decorators to enable internationalized fields.
 
-Currently only
-
-* ``CharField``
-* ``TextField``
-* ``UrlField``
-
-Are supported for internationalization, but adding support for more field types 
-is trivial.
+The only requuirement fields have to satisfy to be able to be internationalised
+by easymode, is that their ``to_python`` method may not access ``self``.
 
 suppose we have the following model.
 
@@ -96,9 +90,10 @@ it must be passed as a parameter. Now the change view in the admin looks as foll
 
 .. image:: localized.png
 
-All the 'city' fields are hidden, except for the field in the current language. To
-edit the content for the other languages, the current language must be switched.
-Please refer to :ref:`translation_of_contents` for more details.
+All the 'city' fields are hidden, except for the field in the current language. Note
+That all fields which can be translated are marked with †. To edit the content for 
+the other languages, the current language must be switched. Please refer to 
+:ref:`translation_of_contents` for more details.
 
 There is one more way a models can be registered for the admin and that is by creating
 a new descendant of ``ModelAdmin`` for a specific model. You can now also use the 
@@ -142,8 +137,9 @@ All easymode's localization mechanisms fully support django's flavors of
 register these types of ModelAdmin classes, you still need to decorate them
 with ``L10n`` if you need them to be localized.
 
-Fieldsets are not supported
----------------------------
+Fieldsets are also supported
+----------------------------
 
-Unfortunately, fieldsets are currently not supported when using ``L10n`` with
-admin classes.
+Fieldsets are supported for admin classes decorated with ``L10n``. However ``fields``
+is not supported, because easymode uses it to hide fields. Since you can do the exact
+same thing with fieldsets, this should not be a problem.

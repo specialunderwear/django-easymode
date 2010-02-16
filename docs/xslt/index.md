@@ -8,7 +8,7 @@ because the display list -flash it's version of html's DOM- is  hierarchical
 as well.
 
 What easymode tries to do is give you a basic hierarchical xml document that
-mirrors your database model, which you can then transform using xslt.
+mirrors your database model, which you can then transform using xslt [#f1]_.
 
 Why Xslt?
 ---------
@@ -94,6 +94,12 @@ Easymode comes with one xslt that can give good results, depending on your needs
 The ``render_to_response`` helper function will take an xslt as a template and a
 ``XmlQuerySetChain`` or a model/queryset decorated with ``toxml`` to produce it's output.
 Additionally you can pass it a dictionary containing xslt parameters. You have to
-make sure to use 
+make sure to use ``easymode.xslt.prepare_string_param`` on any xslt parameter that 
+should be passed to the xslt processor as a string.
+
 Other helpers can be found in the ``easymode.xslt.response`` module. 
 
+.. [#f1] Xslt requires a python xslt package. Easymode can work with 
+         `lxml <http://codespeak.net/lxml/>`_ , 
+         `libxslt <http://xmlsoft.org/XSLT/python.html>`_ and
+         `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
