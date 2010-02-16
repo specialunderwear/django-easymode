@@ -1,14 +1,10 @@
-import copy
-
-from django.forms.widgets import MediaDefiningClass, Widget
 from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 
 class WidgetWrapper(RelatedFieldWidgetWrapper):
     """
-    This class is a wrapper to a given widget to add the add icon for the
-    admin interface.
+    This class is a wrapper to a given widget to add a marker next to
+    the field, so you can see that the field is translated.
     """
     def __init__(self, widget, **kwargs):            
         if type(widget) is WidgetWrapper:

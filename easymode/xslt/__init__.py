@@ -82,8 +82,6 @@ def _transform_lxml(xml, xslt, params=None):
     return unicode(result)
 
 # determine which xslt engine to use,
-# the default is libxsltmod.
-transform = _transform_libxsltmod
 
 try:
     import libxslt
@@ -91,14 +89,15 @@ try:
 
     transform = _transform_libxslt
 except:
-    pass
+    try:
+        from lxml import etree
 
-try:
-    from lxml import etree
+        transform = _transform_lxml
+    except:
+        import libxsltmod
+        # the default is libxsltmod.
+        transform = _transform_libxsltmod
 
-    transform = _transform_lxml
-except:
-    pass
    
 def prepare_string_param(string):    
     result = u"'%s'" % (string.replace("'","&apos;") or '')
