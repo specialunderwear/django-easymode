@@ -128,8 +128,8 @@ field.
 This implicit import could pose a problem. If for example a model was edited in the
 admin, *BEFORE* the gettext catalog was properly translated and imported, it could
 be that the wrong value, from some :ref:`fallback language <fallback_langugaes>`
-got written to the database. Because the database is bigger than gettext catalog
-the new translation would never show up.
+got written to the database. Because the database get's precedence over the 
+gettext catalog, the new translation would never show up.
 
 This inconvenience can be resolved using the :ref:`easy_reset_language` command
     
