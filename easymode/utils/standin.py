@@ -1,3 +1,5 @@
+from django.utils.text import capfirst
+
 _defined_standins = dict()
 
 class BoolStandin(int):
@@ -21,16 +23,18 @@ def standin_for(obj, **attrs):
     
     attr_names  = attrs.keys()
     attr_names.sort()
-    
-    id = "%s%s" % (base_type.__name__, ''.join(attr_names))
+
+    additions = 'And'.join(map(capfirst, attr_names))
+    id = "%s%s" % (base_type.__name__, additions.encode('ascii', 'ignore'))
     
     cached_type = _defined_standins.get(id, None)
     if not cached_type:
-        cached_type = type("%sStandIn" % id, (base_type,), attrs)
+        cls_attrs = dict([(attr_name, None) for attr_name in attr_names])
+        cached_type = type("%sStandIn" % id, (base_type,), cls_attrs)
         _defined_standins[id] = cached_type
     
     stand_in = cached_type(obj)
     for (key, value) in attrs.iteritems():
-        stand_in.key = value
+        setattr(stand_in, key, value)
     
     return stand_in

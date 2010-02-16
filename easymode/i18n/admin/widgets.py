@@ -20,9 +20,9 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
     def render(self, name, value, *args, **kwargs):
         extra = u''
         if hasattr(value, 'stored_value'):
-            if hasattr(value, 'msg'):
+            if hasattr(value, 'msg') and value.stored_value != value.msg:
                 extra = value.msg
-            elif hasattr(value, 'fallback'):
+            elif hasattr(value, 'fallback') and value.stored_value != value.fallback:
                 extra = value.fallback
         
         widget_html = self.widget.render(name, value, *args, **kwargs)

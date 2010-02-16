@@ -51,10 +51,10 @@ def make_localised_form(model, exclude=None):
     js_media = set()
     
     for localized_field in model.localized_fields:
-        # use the original formfield for all DefaultFieldDescriptors
         default_field_descriptor = getattr(model, localized_field)
         
-        # modify formfield somewhat
+        # use the original formfield for all DefaultFieldDescriptors
+        # but wrap the widget.
         form_field = default_field_descriptor.form_field
         if type(form_field.widget) is not WidgetWrapper:
             form_field.widget = WidgetWrapper(form_field.widget)
