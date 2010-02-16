@@ -126,35 +126,29 @@ class DefaultFieldDescriptor(property):
                 
                 # if the msgid is '' or None we don't have to look
                 # for translations because there are none.
-                if vo.fallback is None and vo.msgid not in (None, ""):
+                if vo.fallback not in (None, "") and vo.msgid not in (None, ""):
                     # there might be a translation in any
                     # of the fallback languages.
                     for fallback in get_fallback_languages():
                         catalog = translation_catalogs(fallback)
-                        msg = catalog.ugettext(msgid)
+                        msg = catalog.ugettext(vo.msgid)
                         if self.to_python(msg) is not msgid:
                             vo.fallback = self.to_python(msg)
                             break
 
-        if vo.stored_value is not None:
+        if vo.stored_value not in (None, ""):
             return standin_for(vo.stored_value, **vo.__dict__)
-        elif vo.fallback is not None:
-            return standin_for(vo.fallback, **vo.__dict__)
-        elif vo.msg is not None:
+        elif vo.msg not in (None, ""):
             return standin_for(vo.msg, **vo.__dict__)
-        # 
+        elif vo.fallback not in (None, ""):
+            return standin_for(vo.fallback, **vo.__dict__)
+
+        if vo.msgid in (None, ""):
+            return standin_for(self.to_python(u''), **vo.__dict__)
+
         # # no fallback language and the database does not have
         # # the localized data, so use the translation of the msgid
-        # if vo.msgid in (None, ""):
-        #     return standin_for(self.to_python(u''), **vo.__dict__)
-        # 
-        # # if vo.stored_value is not None:
-        # #     # if it is set, this is the value we are looking for
-        # #     value_object.stored_value = stored_value
-        # # if vo.msgid not in (None, "") and self.to_python(vo.msg) is not vo.msgid:
-        # #     vo.msg = self.to_python(msg)
-        # 
-        # return self.to_python(vo.msg)
+        return self.to_python(standin_for(vo.msg, **vo.__dict__))
         
     def __set__(self, obj, value):
         """Write the localised version of the field this descriptor emulates."""
