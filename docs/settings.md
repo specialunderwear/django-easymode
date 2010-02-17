@@ -71,6 +71,9 @@ example::
 
     PROJECT_DIR = os.dirname(__file__)
     LOCALE_DIR = os.path.join(PROJECT_DIR, 'db_content')
+    LOCALE_PATHS = (join(LOCALE_DIR, 'locale'), )
+
+(Note that by using ``LOCALE_PATHS`` the extra catalogs are loaded by django).
     
 .. _locale_postfix:
 
