@@ -55,6 +55,8 @@ The ``FALLBACK_LANGUAGES`` is a dictionary of values that looks like this::
 Any string that is not translated in 'ff' will be taken from the 'hu' language.
 If the 'hu' also has no translation, finally it will be taken from 'en'.
 
+.. _locale_dir:
+
 LOCALE_DIR
 ----------
 
