@@ -3,6 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+Unsupported django features
+===========================
+
+The following features django supports, are not supported by easymode:
+
+- ``Model.Meta.unique_together``
+- ``ModelField.unique_for_date``, ``ModelField.unique_for_date``, ``ModelField.unique_for_year``
+- ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
+- Automatic serialization of ``ManyToManyField``. The model tree should be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
+
+All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
+
 Easymode : toolkit for making xml based flash websites
 ======================================================
 

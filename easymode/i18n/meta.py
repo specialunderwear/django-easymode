@@ -229,6 +229,7 @@ def localize_fields(cls, localized_fields):
             'min_length' : getattr(original_attr, 'min_length', None),
             'form_field' : original_attr.formfield(),
             'get_internal_type': original_attr.get_internal_type,
+            'unique': getattr(original_attr, 'unique', False),
             'to_python': original_attr.to_python,
         }
             
