@@ -19,4 +19,4 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
     
     def render(self, name, value, *args, **kwargs):
         widget_html = self.widget.render(name, value, *args, **kwargs)
-        return mark_safe(u'<div class="localized">%s <small>%s</small></div>' % (widget_html, unichr(8224)))
+        return mark_safe(u'<div class="localized">%s <small>%s</small></div>' % (widget_html, unichr(8756)))
