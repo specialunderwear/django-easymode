@@ -29,7 +29,7 @@ for dirpath, dirnames, filenames in os.walk('easymode'):
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 setup(name='django-easymode',
-      version='0.2.1',
+      version='0.3.0',
       description='A toolkit for making xml based flash websites with django',
       author='L. van de Kerkhof',
       url='http://github.com/LUKKIEN/django-easymode',
