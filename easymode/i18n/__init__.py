@@ -14,15 +14,19 @@ def register(cls, location=None):
     """
     Register a model for translation
     like so:
+    
     >>> from easymode import i18n
     >>> i18n.register(SomeModel)
+    
     This will add entries to the po file set in settings.py as LOCALE_DIR.
     
     You can also store the po files somewhere else. The next example stores the
     po file in the same dir as the file i which i18n.register is called:
+    
     >>> i18n.register(SomeModel, __file__)
     
     You can also explictly give a path:
+    
     >>> i18n.register(SomeModel, '/tmp/)
     
     Please note that the entire locale is stored in that path, so if the path

@@ -1,16 +1,33 @@
 """
 Contains a decorator that can be used to add xml serialization to django
-models as a method. In effect it ass a __xml__ method to both the model and
+models as a method. In effect it adds an ``__xml__`` method to both the model and
 the queryset used in the model.
-
-Also contains some decorators for adding methods to classes
 """
 
 from easymode.tree.serializers import RecursiveXmlSerializer
 from query import QuerySetManager, XmlSerializableQuerySet
 
 def toxml(cls):
-    """adds a __xml__ method to both the queryset as the model class"""
+    """
+    adds an ``__xml__`` method to both the queryset as the model class.
+    
+    usage::
+    
+        from easymode.tree.decorators import toxml
+
+        @toxml
+        class Foo(models.ModelAdmin):
+            title = models.CharField(max_length=255)
+            content = TextField()
+
+        class Bar(models.ModelAdmin):
+            foo = models.ForeignKey(Foo, related_name=bars)
+
+            label = models.CharField(233)
+
+    The ``Foo`` model has now gained a ``__xml__`` method on both itself as on the
+    queryset it produces. Calling it will produce hierarchical xml, where all inverse
+    relations are followed. (Except for manytomany fields, they are not supported)."""
     
     if cls._meta.abstract:
         raise Exception("You can not use toxml on abstract classes")

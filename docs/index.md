@@ -40,4 +40,14 @@ Additional subjects
     settings
     commands
     google analytics <ga.md>
+    helpers <xslt/helpers.md>
+
+Api docs
+--------
+
+.. toctree::
+    :maxdepth: 2
+    
+    i18n/api
+    tree/api
     

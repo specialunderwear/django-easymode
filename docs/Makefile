@@ -1,5 +1,8 @@
+
 # Makefile for Sphinx documentation
 #
+
+export DJANGO_SETTINGS_MODULE = example.settings
 
 # You can set these variables from the command line.
 SPHINXOPTS    =

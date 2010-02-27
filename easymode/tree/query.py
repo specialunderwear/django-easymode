@@ -42,8 +42,21 @@ class XmlSerializableQuerySet(QuerySet):
 
 class XmlQuerySetChain(list):
     """
-    Can de used to chain multiple querysets
-    that need to be serialized by RecursiveXmlSerializer
+    Can be used to combine multiple querysets and turn them into
+    xml in one go.
+    
+    usage::
+        
+        from easymode.tree import xml
+        from example.foobar.models import *
+        
+        foos = Foo.objects.all()
+        bars = Bar.objects.all()
+        foobars = XmlQuerySetChain(foos, bars)
+        
+        xml_string = xml(foobars)
+        
+    You can also pass an ``XmlQuerySetChain`` into ``easymode.xslt.response.render_to_response``.
     """
     def __init__(self, *querysets):
         """Pass some querysets to this queryset chain and they can all be serialized together."""
