@@ -1,9 +1,14 @@
 """
-contains modeladmin class that can add links to related items to its form.
+Contains modeladmin class that can add links to related items to its form.
+
+If you want to use ``InlineModelAdmin`` make sure easymode comes before
+``django.contrib.admin`` in the ``INSTALLED_APPS`` because it has to 
+override admin/index.html to make it work.
 """
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.forms.models import  modelformset_factory
 from django.core import urlresolvers
+from django.conf import settings
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
@@ -12,7 +17,12 @@ from easymode.tree.introspection import get_foreign_key_desciptors
 from easymode.tree.admin.formsets import VisiblePrimaryKeyFormset
 from easymode.utils.languagecode import strip_language_code
 
-from reversion.admin import VersionAdmin
+if 'reversion' in settings.INSTALLED_APPS:
+    from reversion.admin import VersionAdmin
+    AdminBase = VersionAdmin
+else:
+    from django.contrib import admin
+    AdminBase = admin.ModelAdmin
 
 class _CanFindParentLink(object):
     """Adds function to find a link to a parent model"""
@@ -36,7 +46,7 @@ class _CanFindParentLink(object):
         return parent_link_data
 
 
-class ForeignKeyAwareModelAdmin(VersionAdmin, _CanFindParentLink):
+class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     """
     An admin class that display links to related items.
     
@@ -52,12 +62,12 @@ class ForeignKeyAwareModelAdmin(VersionAdmin, _CanFindParentLink):
     >>>
     >>> admin.site.register(SomeModelWithLotsOfRelations, SomeAdmin)
     
-    This will add the SomeModelThatPointsToUs and AnotherModelThatPointsTous to
-    the SomeModelWithLotsOfRelations admin interface and you can add these children
+    This will add the ``SomeModelThatPointsToUs`` and ``AnotherModelThatPointsTous`` to
+    the ``SomeModelWithLotsOfRelations`` admin interface and you can add these children
     or edit them there.
     
-    See InvisibleModelAdmin if you want to hide the admin interface for SomeModelThatPointsToUs
-    and AnotherModelThatPointsTous admin interface from the admin listing.
+    See ``InvisibleModelAdmin`` if you want to hide the admin interface for ``SomeModelThatPointsToUs``
+    and ``AnotherModelThatPointsTous`` admin interface from the admin listing.
     """
     change_form_template = 'tree/admin/change_form_with_related_links.html'
     
@@ -138,13 +148,13 @@ class ForeignKeyAwareModelAdmin(VersionAdmin, _CanFindParentLink):
         
 
 
-class InvisibleModelAdmin(VersionAdmin, _CanFindParentLink):
+class InvisibleModelAdmin(AdminBase, _CanFindParentLink):
     """
     A versioned admin class that can be used as admin for children
-    of ForeignKeyAwareModelAdmin. 
+    of ``ForeignKeyAwareModelAdmin``. 
     
     This way they will be hidden in 
-    the admin interface so they can only be accessed via ForeignKeyAwareModelAdmin.
+    the admin interface so they can only be accessed via ``ForeignKeyAwareModelAdmin``.
     """
     change_form_template = 'tree/admin/change_form_with_parent_link.html'
     invisible_in_admin = True
