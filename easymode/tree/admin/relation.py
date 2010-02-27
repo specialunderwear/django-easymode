@@ -1,7 +1,7 @@
 """
 Contains modeladmin class that can add links to related items to its form.
 
-If you want to use ``InlineModelAdmin`` make sure easymode comes before
+If you want to use :class:`InvisibleModelAdmin` make sure easymode comes before
 ``django.contrib.admin`` in the ``INSTALLED_APPS`` because it has to 
 override admin/index.html to make it work.
 """
@@ -51,7 +51,7 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     An admin class that display links to related items.
     
     This can be used for hierarchies of object deeper then 3
-    levels, where InlineModelAdmin can not be used anymore, but
+    levels, where :class:`InlineModelAdmin` can not be used anymore, but
     the parent/child relation is still there.
     
     >>> from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin
@@ -66,7 +66,7 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     the ``SomeModelWithLotsOfRelations`` admin interface and you can add these children
     or edit them there.
     
-    See ``InvisibleModelAdmin`` if you want to hide the admin interface for ``SomeModelThatPointsToUs``
+    See :class:`InvisibleModelAdmin` if you want to hide the admin interface for ``SomeModelThatPointsToUs``
     and ``AnotherModelThatPointsTous`` admin interface from the admin listing.
     """
     change_form_template = 'tree/admin/change_form_with_related_links.html'
@@ -165,7 +165,6 @@ class InvisibleModelAdmin(AdminBase, _CanFindParentLink):
         return perms
         
     def change_view(self, request, object_id, extra_context=None):
-        """docstring for change_view"""
 
         # retrieve link to parent for breadcrumb path
         defaults = self._get_parent_link(object_id)

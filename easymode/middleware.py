@@ -63,14 +63,14 @@ def has_lang_prefix(path):
 
 class NoVaryOnCookieSessionMiddleWare(SessionMiddleware):
     """
-    Works like django's SessionMiddleWare, but it does not
+    Works like django's :class:`django.middleware.SessionMiddleWare`, but it does not
     add cookie to the vary header. You need this if you use google
     analytics and want to use django site caching.
     """
 
     def process_response(self, request, response):
         """
-        If request.session was modified, or if the configuration is to save the
+        If ``request.session was modified``, or if the configuration is to save the
         session every time, save the changes and set a session cookie.
         """
         try:
@@ -97,9 +97,9 @@ class NoVaryOnCookieSessionMiddleWare(SessionMiddleware):
 
 class LocaleFromUrlMiddleWare(LocaleMiddleware):
     """
-    Like LocaleMiddleware this middleare activates the current language.
+    Like :class:`django.middleware.LocaleMiddleware` this middleware activates the current language.
     It does not try to guess the language from the request headers, it looks
-    for it in the url, or it defaults to settings.LANGUAGE_CODE.
+    for it in the url, or it defaults to ``settings.LANGUAGE_CODE``.
     
     Also we don't use the accept language to determine the language of the page anymore,
     so the Accept-Language is nolonger considered for the vary headers.
@@ -127,12 +127,10 @@ class LocaleFromUrlMiddleWare(LocaleMiddleware):
 
 class LocaliseUrlsMiddleware(object):
     """
-    This middleware implements the MultilingualUrlMiddleWare process_response
-    function which replaces all anchor tags with localised versions.
-    It does not include the hack that changes the request.path which makes
-    proper caching impossible.
+    This middleware replaces all anchor tags with localised versions, ugly
+    but it works.
     
-    Also don't put any vary header for the Accept-Language because the language does
+    Don't put any vary header for the Accept-Language because the language does
     not depend on the vary header, the language is in the url.
     """
     
@@ -169,7 +167,7 @@ class LocaliseUrlsMiddleware(object):
 
 class ShortLocaleFromUrlMiddleWare(LocaleFromUrlMiddleWare):
     """
-    Same as LocaliseUrlsMiddleware but it uses the shorthand version of the language code.
+    Same as :class:`LocaliseUrlsMiddleware` but it uses the shorthand version of the language code.
     
     This means that if the language code is en-gb, only 'en' will be added to the urls.    
     """
@@ -178,7 +176,7 @@ class ShortLocaleFromUrlMiddleWare(LocaleFromUrlMiddleWare):
 
 class ShortLocaleLocaliseUrlsMiddleware(LocaliseUrlsMiddleware):
     """
-    Same as LocaliseUrlsMiddleware, however it uses the shorthand version of the language code.
+    Same as :class:`LocaliseUrlsMiddleware`, however it uses the shorthand version of the language code.
     
     This means that if the language code is en-gb, only 'en' will be added to the urls.
     """

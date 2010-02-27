@@ -20,3 +20,5 @@ related models.
 The thing that is very different about easymode's *+* button is that it allows adding
 objects that point *TO* the currently edited model, instead of objects that the 
 currently edited model points to.
+
+Please look at the documentation for :mod:`easymode.tree.admin.relation`

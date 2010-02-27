@@ -1,7 +1,7 @@
 """
-Defines a render_to_response function that resembles django.utils's
-render_to_response helper. Only this time the template is an xslt and the object
-passed as the second argument must have a __xml__ method.
+Defines a :func:`render_to_response` function that resembles django.utils's
+:func:`~django.shortcuts.render_to_response` helper. Only this time the template is an xslt and the object
+passed as the second argument must have a ``__xml__`` method.
 """
 from django.http import HttpResponse
 from django.template.loader import find_template_source
@@ -12,7 +12,7 @@ from easymode import tree
 def render_to_response(template, object, params=None, mimetype='text/html'):
     """
     template: an xslt template
-    object: an object that has an __xml__ method
+    object: an object that has an ``__xml__`` method
     """
     xsl = find_template_source(template)[0]
     xml = tree.xml(object)
@@ -23,7 +23,7 @@ def render_to_response(template, object, params=None, mimetype='text/html'):
 def render_to_string(template, object, params=None):
     """
     template: an xslt template
-    object: an object that has an __xml__ method
+    object: an object that has an ``__xml__`` method
     """
     xsl = find_template_source(template)[0]
     xml = tree.xml(object)

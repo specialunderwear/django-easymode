@@ -29,7 +29,8 @@ suppose we have the following model.
 
 In different languages the city could have a different name, so we would like to 
 make it translatable (eg. internationalize the city field). This can be done using
-the ``I18n`` decorator. Decorating the model as follows makes the field translatable::
+the :class:`~easymode.i18n.decorators.I18n` decorator. Decorating the model as 
+follows makes the field translatable::
 
     from django.db import models
     from easymode.i18n.decorators import I18n
@@ -77,7 +78,7 @@ admin class this way. The next simplest way is::
     admin.site.register(Foo, models.ModelAdmin)
 
 Here the admin class is explicit, so we can modify it. The way this is done is by
-using the ``L10n`` class decorator::
+using the :class:`~easymode.i18n.admin.decorators.L10n` class decorator::
 
     from django.contrib import admin
     from easymode.i18n.admin.decorators import L10n
@@ -91,13 +92,13 @@ it must be passed as a parameter. Now the change view in the admin looks as foll
 .. image:: localized.png
 
 All the 'city' fields are hidden, except for the field in the current language. Note
-That all fields which can be translated are marked with †. To edit the content for 
+That all fields which can be translated are marked with ∴ . To edit the content for 
 the other languages, the current language must be switched. Please refer to 
 :ref:`translation_of_contents` for more details.
 
 There is one more way a models can be registered for the admin and that is by creating
-a new descendant of ``ModelAdmin`` for a specific model. You can now also use the 
-``L10n`` decorator with the new class decorator syntax::
+a new descendant of :class:`ModelAdmin` for a specific model. You can now also use the 
+:class:`~easymode.i18n.admin.decorators.L10n` decorator with the new class decorator syntax::
 
     from django.contrib import admin
     from easymode.i18n.admin.decorators import L10n
@@ -133,13 +134,15 @@ Inline and GenericInline ModelAdmin
 -----------------------------------
 
 All easymode's localization mechanisms fully support django's flavors of
-``InlineModelAdmin``, both normal and generic. While there is no need to
+:class:`InlineModelAdmin`, both normal and generic. While there is no need to
 register these types of ModelAdmin classes, you still need to decorate them
-with ``L10n`` if you need them to be localized.
+with :class:`~easymode.i18n.admin.decorators.L10n` if you need them to 
+be localized.
 
 Fieldsets are also supported
 ----------------------------
 
-Fieldsets are supported for admin classes decorated with ``L10n``. However ``fields``
+Fieldsets are supported for admin classes decorated with 
+:class:`~easymode.i18n.admin.decorators.L10n`. However ``fields``
 is not supported, because easymode uses it to hide fields. Since you can do the exact
 same thing with fieldsets, this should not be a problem.
