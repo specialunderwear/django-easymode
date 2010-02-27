@@ -116,7 +116,7 @@ def get_language_codes_as_disjunction():
     usage::
         
         languages = get_language_codes_as_disjunction()
-        urlpatterns = patterns(''
+        urlpatterns = patterns('',
             url(r'^(%{languages})/admin/' % locals(), include(admin.site.urls), name="language-admin"),
         )
         
