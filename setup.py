@@ -2,8 +2,10 @@
 import os
 from distutils.core import setup
 
+version = '0.4.0'
 packages = []
 data_files = []
+
 
 def fullsplit(path, result=None):
     """
@@ -29,7 +31,7 @@ for dirpath, dirnames, filenames in os.walk('easymode'):
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 setup(name='django-easymode',
-      version='0.3.0',
+      version=version,
       description='A toolkit for making xml based flash websites with django',
       author='L. van de Kerkhof',
       url='http://github.com/LUKKIEN/django-easymode',

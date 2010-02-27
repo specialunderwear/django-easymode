@@ -38,7 +38,7 @@ Getting xml from a model
 ------------------------
 
 There are several ways to obtain such a hierarchical xml tree from a django model.
-The first is by decorating a model with the ``toxml`` decorator::
+The first is by decorating a model with the :func:`~easymode.tree.decorators.toxml` decorator::
 
     from easymode.tree.decorators import toxml
     
@@ -76,7 +76,7 @@ The next option, which can also be used with multiple queries, is use the
     qsc = XmlQuerySetChain(foos)
     rawxml = xml(qsc)
 
-Normally you would use th ``XmlQuerySetChain`` to group some querysets together
+Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to group some querysets together
 into a single xml::
 
     from easymode.tree import xml
@@ -102,13 +102,14 @@ Easymode comes with one xslt that can give good results, depending on your needs
     foos = foobar_models.Foo.objects.all()
     return render_to_response('xslt/model-to-xml.xsl', foos)
 
-The ``render_to_response`` helper function will take an xslt as a template and a
-``XmlQuerySetChain`` or a model/queryset decorated with ``toxml`` to produce it's output.
+The :func:`~easymode.xslt.response.render_to_response` helper function will take an xslt as a template and a
+:class:`~easymode.tree.query.XmlQuerySetChain` or a model/queryset decorated with 
+:func:`~easymode.tree.decorators.toxml` to produce it's output.
 Additionally you can pass it a dictionary containing xslt parameters. You have to
-make sure to use ``easymode.xslt.prepare_string_param`` on any xslt parameter that 
+make sure to use :func:`~easymode.xslt.prepare_string_param` on any xslt parameter that 
 should be passed to the xslt processor as a string.
 
-Other helpers can be found in the ``easymode.xslt.response`` module. 
+Other helpers can be found in the :mod:`easymode.xslt.response` module. 
 
 .. [#f1] Xslt requires a python xslt package. Easymode can work with 
          `lxml <http://codespeak.net/lxml/>`_ , 

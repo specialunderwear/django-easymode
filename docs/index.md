@@ -39,7 +39,7 @@ Additional subjects
     
     settings
     commands
-    google analytics <ga.md>
+    middlewares <middleware.md>
     helpers <xslt/helpers.md>
 
 Api docs
@@ -50,4 +50,5 @@ Api docs
     
     i18n/api
     tree/api
+    xslt/api
     

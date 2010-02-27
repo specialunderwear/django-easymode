@@ -99,7 +99,8 @@ except:
         transform = _transform_libxsltmod
 
    
-def prepare_string_param(string):    
+def prepare_string_param(string):
+    "Prepare a string for passing as a parameter to the xslt processor."
     result = u"'%s'" % (string.replace("'","&apos;") or '')
     return result.encode('utf-8')
     

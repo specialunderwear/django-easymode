@@ -8,7 +8,8 @@ When using the :ref:`i18n <internationalization_of_models>` and
 standard translation features to translate all the database content.
 
 If the :ref:`master_site` directive is set to True, every time a model decorated
-with ``I18n`` is saved, easymode will add an entry to the corresponding gettext 
+with :class:`~easymode.i18n.decorators.I18n` is saved, easymode will add an 
+entry to the corresponding gettext 
 catalog. (for all the options related to the location of the catalogs please 
 refer to :doc:`/settings`)
 
