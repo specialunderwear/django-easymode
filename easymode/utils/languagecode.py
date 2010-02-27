@@ -9,7 +9,7 @@ USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
 def get_language_codes():
     """return the language codes from the settings"""
     return dict(settings.LANGUAGES).keys()
-
+    
 def get_short_language_codes():
     """
     Returns the short versions of the language codes defined in settings.LANGUAGES
@@ -100,3 +100,22 @@ def localize_fieldnames(fields, internationalized_fields):
         else:
             result.append(field)    
     return result
+
+def get_language_codes_as_disjunction():
+    """
+    return a pattern that matches any language defined in ``settings.LANGUAGES``
+    
+    >>> get_shorthand_from_language_code()
+    'en|de|en-us'
+    
+    usage::
+        
+        languages = get_language_codes_as_disjunction()
+        urlpatterns = patterns(''
+            url(r'^(%{languages})/admin/' % locals(), include(admin.site.urls), name="language-admin"),
+        )
+        
+    """
+    language_codes = map(get_shorthand_from_language_code, get_short_language_codes())
+    languages = "|".join(language_codes)
+    return languages
