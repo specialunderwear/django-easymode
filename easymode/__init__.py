@@ -21,7 +21,7 @@ if not hasattr(settings, 'PROJECT_DIR'):
         PROJECT_DIR = os.path.dirname(__file__) 
         in your settings.py
         """)
-    
+
 if not 'rosetta' in settings.INSTALLED_APPS:
     try:
         import polib
@@ -34,7 +34,7 @@ if not 'rosetta' in settings.INSTALLED_APPS:
             http://bitbucket.org/izi/polib/src/
             otherwise easymode won't work"""
         )
-        
+    
 
 try:
     import tinymce

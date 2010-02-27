@@ -23,6 +23,17 @@ differ from the normal django serializers, in that they treat a foreign key
 relation as a child parent relation. So while django's standard serializers
 output is flat xml, easymode's serializers output hierarchical xml.
 
+Relations must be organized as a DAG
+------------------------------------
+
+In order for easymode to be able to do it's work, the model tree should be organised
+as a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_. If you have any cyclic
+relations, the serializer will get into an infinite loop and crash. 
+
+Most of the time you don't really need the cyclic relation at all. You just need to do
+some preprocessing of the data. You can render a piece of xml yourself, without using
+easymode's serializers and pass it to the xslt, see :doc:`helpers`.
+
 Getting xml from a model
 ------------------------
 

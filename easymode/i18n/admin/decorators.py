@@ -12,7 +12,7 @@ from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
 from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
 
-__all__ = ('L10n')
+__all__ = ('L10n',)
         
 class lazy_localized_list(list):
     """
@@ -52,10 +52,13 @@ class L10n(object):
     >>>     pass
     
     or you can also:
+    
     >>> admin.site.register(SomeModel,L10n(SomeModel, admin.ModelAdmin))
+    
     This is usefull if you are using the same admin class for multiple models.
     
     If you have defined the model property on your admin class you can just leave it at:
+    
     >>> @L10n
     >>> class SomeModelAdminWithModelDefined(admin.ModelAdmin):
     >>>     model = SomeModel
