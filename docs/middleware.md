@@ -11,7 +11,7 @@ request to the cache* if you use it.
 
 .. autoclass:: easymode.middleware.NoVaryOnCookieSessionMiddleWare
 
-Internalionalization related middleware
+Internationalization related middleware
 ---------------------------------------
 
 .. automodule:: easymode.middleware

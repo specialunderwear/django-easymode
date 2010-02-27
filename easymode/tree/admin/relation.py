@@ -54,13 +54,15 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     levels, where :class:`InlineModelAdmin` can not be used anymore, but
     the parent/child relation is still there.
     
-    >>> from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin
-    >>>
-    >>> class SomeAdmin(ForeignKeyAwareModelAdmin):
-    >>>     children = [SomeModelThatPointsToUs, AnotherModelThatPointsTous]
-    >>>     invisible_in_admin = True
-    >>>
-    >>> admin.site.register(SomeModelWithLotsOfRelations, SomeAdmin)
+    usage::
+    
+        from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin
+        
+        class SomeAdmin(ForeignKeyAwareModelAdmin):
+            children = [SomeModelThatPointsToUs, AnotherModelThatPointsTous]
+            invisible_in_admin = False
+        
+        admin.site.register(SomeModelWithLotsOfRelations, SomeAdmin)
     
     This will add the ``SomeModelThatPointsToUs`` and ``AnotherModelThatPointsTous`` to
     the ``SomeModelWithLotsOfRelations`` admin interface and you can add these children
@@ -68,6 +70,34 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     
     See :class:`InvisibleModelAdmin` if you want to hide the admin interface for ``SomeModelThatPointsToUs``
     and ``AnotherModelThatPointsTous`` admin interface from the admin listing.
+    
+    .. attribute:: auto_aware
+    
+        If ``auto_aware`` is true, the admin will find out for itself which
+        models are child nodes, by inspecting it's managers.
+        
+    .. attribute:: parent_link
+        
+        To have sane breadcrumbs if the :class:`~easymode.tree.admin.relation.ForeignKeyAwareModelAdmin`
+        is used as child of another :class:`~easymode.tree.admin.relation.ForeignKeyAwareModelAdmin`
+        and make the save button return to the parent instead of the app listing, the
+        ``parent_link`` should be set.
+        
+        It must be set to the *name* of the ``ForeignKey`` that points to the parent.
+    
+    .. attribute:: children
+        
+        If the order of the children should be changed or not all children should be
+        displayed, you can specify the children manually.
+        
+        children should be set to a list of models that are child nodes of the model
+        class that this admin class makes editable:
+            
+    .. attribute:: invisible_in_admin
+    
+        The :class:`~easymode.tree.admin.relation.ForeignKeyAwareModelAdmin` will not
+        be shown in the admin listing if this value is ``True``. The default is ``True``.
+    
     """
     change_form_template = 'tree/admin/change_form_with_related_links.html'
     
@@ -150,11 +180,35 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
 
 class InvisibleModelAdmin(AdminBase, _CanFindParentLink):
     """
-    A versioned admin class that can be used as admin for children
-    of ``ForeignKeyAwareModelAdmin``. 
+    An admin class that can be used as admin for children
+    of :class:`~easymode.tree.admin.relation.ForeignKeyAwareModelAdmin`. 
     
     This way they will be hidden in 
     the admin interface so they can only be accessed via ``ForeignKeyAwareModelAdmin``.
+    usage::
+        
+        from django.db import models
+        from django.contrib import admin
+        from easymode.tree.admin.relation import *
+        
+        class Bar(models.Model):
+            foo = models.ForeignKey(Foo, related_name='bars')
+            label = models.CharField(max_length=255)
+            
+        class BarAdmin(InvisibleModelAdmin):
+            model = Bar
+            parent_link = 'foo'
+    
+        admin.site.register(Bar, BarAdmin)
+        
+    .. attribute:: parent_link
+        
+        When :class:`~easymode.tree.admin.relation.InvisibleModelAdmin` is used, it is nolonger
+        displayed in the admin listing as an editable model. To have sane breadcrumbs
+        and make the save button return to the parent instead of the app listing, the
+        ``parent_link`` should be set.
+        
+        It must be set to the *name* of the ``ForeignKey`` that points to the parent.
     """
     change_form_template = 'tree/admin/change_form_with_parent_link.html'
     invisible_in_admin = True
