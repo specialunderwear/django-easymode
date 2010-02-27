@@ -22,7 +22,7 @@ Easymode is a toolkit that helps making xml based flash websites easy.
 The tools included in the toolkit to help you make these kind of sites include:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
     Internationalisation of models <i18n/index.md>
     Translation of model data using gettext <i18n/translation.md>
@@ -35,7 +35,7 @@ Additional subjects
 -------------------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     
     settings
     commands

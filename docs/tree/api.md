@@ -1,5 +1,5 @@
 :mod:`easymode.tree`
-===================
+====================
 
 .. automodule:: easymode.tree
     :members:
