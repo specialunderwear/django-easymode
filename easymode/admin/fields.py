@@ -1,12 +1,7 @@
-'''
-     fields.py
-      vacansoleil
-      
-      Created by q.doest on 2009-08-31.
-      Copyright 2009 LUKKIEN. All rights reserved.
-      
-      Create a custom urlfield for 2 HTML urls and Flash Urls
-'''
+"""
+form and model fields, for integration with diocore as3 framework,
+and others.
+"""
 import re
 import os
 import logging

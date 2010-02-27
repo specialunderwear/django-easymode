@@ -14,13 +14,14 @@ def po_to_unicode(po_obj):
     
 class PoStream(polib._POFileParser):
     """
-    Create a POFile object from a StringIO
+    Create a POFile object from a StringIO::
     
     >>> import codecs
-    >>> import StringIO()
-    >>>
-    >>> po_string = codecs.open('sompofile.po', 'r', 'utf-8).read()
-    >>> po_file_from_string = PoStream(None, StringIO.StringIO(po_string)).parse()
+    >>> from StringIO import StringIO
+    >>> 
+    >>> po_string = codecs.open('sompofile.po', 'r', 'utf-8').read()
+    >>> po_file_from_string = PoStream(None, StringIO(po_string)).parse()
+    >>> 
     >>> unicode(po_file_from_string)
     
     """

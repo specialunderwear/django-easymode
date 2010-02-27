@@ -19,9 +19,18 @@ from django.conf import settings
     
 def first_match(predicate, list):
     """
-    does not return None
     returns the first value of predicate applied to list, which
     does not return None
+    
+    >>> def return_if_even(x):
+    >>>     if x % 2 is 0:
+    >>>         return x
+    >>>     return None
+    >>> 
+    >>> first_match(return_if_even, [1, 3, 4, 7])
+    4
+    >>> first_match(return_if_even, [1, 3, 5, 7])
+    >>> 
     """
     for item in list:
         val = predicate(item)
@@ -32,9 +41,21 @@ def first_match(predicate, list):
 
 class mutex(object):
     """
-    A semophore Context Manager that uses a temporary file for locking
+    A semaphore Context Manager that uses a temporary file for locking.
+    Only one thread or process can get a lock on the file at once.
     
-    it can be used to mark a block of code as being executed in a mutex.
+    it can be used to mark a block of code as being executed exclusively
+    by some thread. see `mutex <http://en.wikipedia.org/wiki/Mutual_exclusion>`_.
+    
+    usage::
+        
+        from __future__ import with_statement
+        from easymode.utils import mutex
+        
+        with mutex:
+            print "hi only one thread will be executing this block of code at a time."
+    
+    Mutex should probably raise an ``Exception`` instead of ``sys.exit``
     """
     
     def __init__(self, max_wait=10, lockfile=None):
