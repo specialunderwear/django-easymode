@@ -1,3 +1,7 @@
+"""
+Lots of utility functions that can be used when
+implementing a multi lingual django app.
+"""
 import re
 
 from django.conf import settings
@@ -82,7 +86,8 @@ def get_real_fieldname(field, lang):
     """
     Depending on the language a field can have a different name.
     
-    How that works is defined in this function.
+    If you want to do a query, using a localized field, you have
+    to use the name this function returns, not the default name.
     """
     return '%s_%s' % (field, lang)
 

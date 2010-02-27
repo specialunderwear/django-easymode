@@ -41,6 +41,7 @@ Additional subjects
     commands
     middlewares <middleware.md>
     helpers <xslt/helpers.md>
+    fields
 
 Api docs
 --------
@@ -51,4 +52,5 @@ Api docs
     i18n/api
     tree/api
     xslt/api
+    utils/api
     
