@@ -43,7 +43,7 @@ class XmlScanner(ExpatParser):
     
     It can be used like::
     
-        sax.make_parser("easymode.utils.xmlutils").
+        sax.make_parser(["easymode.utils.xmlutils"])
     
     It works by making all unknown entities be skipped.
     This will trigger skippedEntity on the contentHandler.
