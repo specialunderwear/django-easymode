@@ -13,7 +13,7 @@ The tools included in the toolkit to help you make these kind of sites include:
 
 To build the documentation:
 
-- install `sphinx <http://sphinx.pocoo.org/>`__
+- install [sphinx](http://sphinx.pocoo.org/)
 - cd to ``docs``
 - type: ``make html``
 - now your documentation is in: ``docs/_build/html/``
