@@ -1,6 +1,5 @@
 from django import template
 from django.core.urlresolvers import reverse
-from django.utils.translation import get_language
 from django.utils.safestring import mark_safe
 
 from reversion.models import Revision

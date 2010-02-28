@@ -1,9 +1,6 @@
 """
 Contains xslt transformation functionality to be used with django models
 """
-import codecs
-from StringIO import StringIO
-from django.utils.encoding import smart_unicode
 
 __all__ = ('XsltError', 'transform', 'prepare_string_param')
 
