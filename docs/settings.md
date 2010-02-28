@@ -89,6 +89,8 @@ The ``LOCALE_POSTFIX`` must be used like this::
 Contents that belong to models defined in the 'foo' app, will be added to the catalog
 located at ``foo_content/locale`` instead of ``foo/locale``.
 
+.. _short_language_codes:
+
 USE_SHORT_LANGUAGE_CODES
 ------------------------
 
