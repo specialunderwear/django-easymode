@@ -1,5 +1,7 @@
-tree
-====
+.. _tree_explanation:
+
+Admin support for model trees with more than 2 levels of related items
+======================================================================
 
 Easymode has full admin support. Since content easymode was designed to handle
 is heavy hierarchic, easymode can also support this in the admin.
