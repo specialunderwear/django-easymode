@@ -85,7 +85,7 @@ class DefaultFieldDescriptor(property):
         self.name = name
         self.__dict__.update(kwargs)
 
-    def __get__(self, obj, type=None):
+    def __get__(self, obj, typ=None):
         """
         Read the localised version of the field this descriptor emulates.
         First try to see if the localised field is really set.

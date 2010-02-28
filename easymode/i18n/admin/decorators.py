@@ -30,7 +30,7 @@ class lazy_localized_list(list):
         self.localized_fieldnames = localized_fieldnames
         super(lazy_localized_list, self).__init__(sequence)
     
-    def __get__(self, obj, type=None):
+    def __get__(self, obj, typ=None):
         """
         returns a localized version of the list this descriptor
         was initialized with.
