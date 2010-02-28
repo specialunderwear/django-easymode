@@ -25,7 +25,7 @@ if not hasattr(settings, 'PROJECT_DIR'):
 if not 'rosetta' in settings.INSTALLED_APPS:
     try:
         import polib
-    except importError:
+    except ImportError:
         raise ImproperlyConfigured(
             """
             Please install either django-rosetta: 
