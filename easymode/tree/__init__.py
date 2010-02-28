@@ -9,9 +9,9 @@ def xml(decorated_model):
     """
     Used to convert either 
     
-    - a django model decorated with ``easymode.tree.decorators.toxml``
-    - a queryset obtained by querying a model decorated with ``easymode.tree.decorators.toxml``
-    - an ``easymode.tree.query.XmlQuerySetChain`` 
+    - a django model decorated with :func:`easymode.tree.decorators.toxml`
+    - a queryset obtained by querying a model decorated with :func:`easymode.tree.decorators.toxml`
+    - an :class:`easymode.tree.query.XmlQuerySetChain`
     
     to xml
     """

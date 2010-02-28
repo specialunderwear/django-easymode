@@ -18,6 +18,8 @@ class I18n(object):
     >>> class Bla(models.Model):
     >>>     iamafield = models.CharField(max_length=255)
     >>>     iamatranslatedfield = models.CharField(max_length=255)
+    
+    Now ``iamatranslatedfield`` it's value can vary by language.
     """
     def __init__(self, *localized_fields):
         """initialize the decorator"""
