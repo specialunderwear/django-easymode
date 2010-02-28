@@ -4,25 +4,27 @@ Easymode : toolkit for making xml based flash websites
 Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
 The tools included in the toolkit to help you make these kind of sites include:
 
-- Internationalisation of models
+- Internationalisation of models, with admin support
 - Translation of model data using gettext
 - Automatic generation of xml from model trees
 - Admin support for model trees with more than 2 levels of related items
 - Basic approval support for models.
-- Admin support for internationalised models
 
 ---
 
+Documentation
+-------------
+
 To build the documentation:
+
 
 - make sure the requirements are installed ``pip install -r requirements.txt``
 - cd to ``docs``
 - type: ``make html``
 - now your documentation is in: ``docs/_build/html/``
 
----
-
 To view the documentation:
 
 go to [easymode docs](http://easymode.permanentmarkers.nl/)
 
+---
