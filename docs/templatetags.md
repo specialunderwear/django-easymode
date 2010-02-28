@@ -6,7 +6,7 @@ existing templates so they can be used in a multilingual
 environment.
 
 :func:`~easymode.templatetags.easyfilters.strip_locale`
-=======================================================
+-------------------------------------------------------
 
 :func:`~easymode.templatetags.easyfilters.strip_locale` will
 have an url as an argument and if there is a locale in the url,
@@ -25,7 +25,7 @@ will add the current language to any urls that do not have the
 language code in the url yet.
 
 :func:`~easymode.templatetags.easyfilters.fix_locale_from_request`
-==================================================================
+------------------------------------------------------------------
 
 Fixes the language code as follows:
 
@@ -52,7 +52,7 @@ You probably do not need this templatetag if you are using
 :class:`~easymode.middleware.LocaliseUrlsMiddleware`.
 
 :func:`~easymode.templatetags.easyfilters.fix_shorthand`
-========================================================
+--------------------------------------------------------
 
 Use this if you want to use :ref:`short_language_codes`.
 
