@@ -43,7 +43,7 @@ You can download easymode from:
 
 http://github.com/LUKKIEN/django-easymode/downloads/
 
-Or you can do::
+Or you can do:
 
 - ``pip install -e git://github.com/LUKKIEN/django-easymode.git#egg=easymode``
 - ``pip install http://github.com/LUKKIEN/django-easymode/tarball/v0.4.0``
