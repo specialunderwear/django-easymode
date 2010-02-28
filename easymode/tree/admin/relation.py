@@ -5,13 +5,11 @@ If you want to use :class:`InvisibleModelAdmin` make sure easymode comes before
 ``django.contrib.admin`` in the ``INSTALLED_APPS`` because it has to 
 override admin/index.html to make it work.
 """
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.forms.models import  modelformset_factory
 from django.core import urlresolvers
 from django.conf import settings
 from django.utils.encoding import force_unicode
-from django.utils.translation import ugettext as _
-from django.utils.html import escape
 
 from easymode.tree.introspection import get_foreign_key_desciptors
 from easymode.tree.admin.formsets import VisiblePrimaryKeyFormset
