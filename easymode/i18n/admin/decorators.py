@@ -1,12 +1,7 @@
-from copy import deepcopy
-
-from django.conf import settings
 from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
 from django.contrib.contenttypes.generic import BaseGenericInlineFormSet
-from django.utils.translation import get_language
-from django.utils.functional import curry
 
 from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
@@ -30,7 +25,7 @@ class lazy_localized_list(list):
         self.localized_fieldnames = localized_fieldnames
         super(lazy_localized_list, self).__init__(sequence)
     
-    def __get__(self, obj, type=None):
+    def __get__(self, obj, typ=None):
         """
         returns a localized version of the list this descriptor
         was initialized with.

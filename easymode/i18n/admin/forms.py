@@ -54,7 +54,7 @@ class LocalisedForm(forms.ModelForm):
         try:
             super(LocalisedForm, self).validate_unique()
         except ValidationError as e:
-            form_errors.concat(e.messages)
+            form_errors += e.messages
 
         # add unique validation for the localized fields.
         localized_fields_checks = self._get_localized_field_checks()
