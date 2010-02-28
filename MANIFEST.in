@@ -4,13 +4,14 @@ include MANIFEST.in
 include TODO
 include docs/conf.py
 include docs/easypublisher.md
-include docs/ga.md
 include docs/index.md
 include docs/Makefile
 include docs/settings.md
 include docs/commands.md
+include docs/middleware.md
 recursive-include docs/i18n *
 recursive-include docs/tree *
 recursive-include docs/xslt *
+recursive-include docs/utils *
 recursive-include example *
 recursive-include easymode *

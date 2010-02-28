@@ -1,12 +1,7 @@
-.. django-easymode documentation master file, created by
-   sphinx-quickstart on Thu Dec 31 10:16:20 2009.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Unsupported django features
 ===========================
 
-The following features django supports, are not supported by easymode:
+The following features, which django supports, are not supported by easymode:
 
 - ``Model.Meta.unique_together``
 - ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
@@ -40,6 +35,19 @@ Additional subjects
     commands
     middlewares <middleware.md>
     helpers <xslt/helpers.md>
+
+Getting easymode
+================
+
+You can download easymode from:
+
+http://github.com/LUKKIEN/django-easymode/downloads/
+
+Or you can do:
+
+- ``pip install -e git://github.com/LUKKIEN/django-easymode.git#egg=easymode``
+- ``pip install http://github.com/LUKKIEN/django-easymode/tarball/v0.4.0``
+- ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/v0.4.0``
 
 Api docs
 ========
