@@ -1,0 +1,7 @@
+django-filebrowser==3.0
+django-reversion==1.2
+django-rosetta==0.5.3
+Django==1.1.1
+lxml>=2.2.2
+Sphinx==0.6.4
+-e svn+http://django-tinymce.googlecode.com/svn/trunk/#egg=django-tinymce

@@ -10,13 +10,16 @@ class I18n(object):
     Internationalise a model class.
     
     use like this:
+    
     >>> from django.db import models
     >>> from easymode.i18n.decorators import I18n
-    
+    >>> 
     >>> @I18n('iamatranslatedfield')
     >>> class Bla(models.Model):
     >>>     iamafield = models.CharField(max_length=255)
     >>>     iamatranslatedfield = models.CharField(max_length=255)
+    
+    Now ``iamatranslatedfield`` it's value can vary by language.
     """
     def __init__(self, *localized_fields):
         """initialize the decorator"""

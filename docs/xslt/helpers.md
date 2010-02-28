@@ -52,7 +52,7 @@ Before you pass the rendered xml string, you should prepare it using
     from easymode.xslt.response import render_to_response
     
     params = {
-        'stringlib' : q(render_stringlib_xml),
+        'stringlib' : q(render_stringlib_xml()),
     }
     
     qs = Foo.objects.all()

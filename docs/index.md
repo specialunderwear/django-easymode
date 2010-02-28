@@ -9,7 +9,7 @@ Unsupported django features
 The following features django supports, are not supported by easymode:
 
 - ``Model.Meta.unique_together``
-- ``ModelField.unique_for_date``, ``ModelField.unique_for_date``, ``ModelField.unique_for_year``
+- ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
 - ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
 - Automatic serialization of ``ManyToManyField``. The model tree should be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
 
@@ -24,15 +24,14 @@ The tools included in the toolkit to help you make these kind of sites include:
 .. toctree::
    :maxdepth: 1
 
-    Internationalisation of models <i18n/index.md>
+    Internationalisation of models, with admin support <i18n/index.md>
     Translation of model data using gettext <i18n/translation.md>
     Automatic generation of xml from model trees <xslt/index.md>
     Admin support for model trees with more than 2 levels of related items <tree/index.md>
     Basic approval support for models <easypublisher.md>
-    Admin support for internationalised models <i18n/index.md>
     
 Additional subjects
--------------------
+===================
 
 .. toctree::
     :maxdepth: 1
@@ -43,7 +42,7 @@ Additional subjects
     helpers <xslt/helpers.md>
 
 Api docs
---------
+========
 
 .. toctree::
     :maxdepth: 2
