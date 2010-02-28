@@ -24,6 +24,13 @@ To use the publisher you have to include ``easymode.easypublisher`` in your
     
     admin.site.register(Foo, FooAdmin)
 
+A new permission will be added ``easypublisher.can_approve_for_publication`` if some
+body does *NOT* have this permission, all their changes will only be saved as versions
+and never in the database. All people who *DO* have this permission can view the list
+of *drafts*, load them and save them, which means they are published. All your drafts and 
+versions will be kept track of by 
+`django-reversion <http://code.google.com/p/django-reversion/>`_.
+
 In case you want to use easypublisher together with :mod:`easymode.tree.admin.relation`
 you will find that multiple inheritance doesn't work due to conflicts. Instead,
 use :class:`easymode.easypublisher.admin.EasyPublisherFKAModelAdmin` where you would
