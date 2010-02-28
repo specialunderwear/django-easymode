@@ -181,4 +181,4 @@ class ShortLocaleLocaliseUrlsMiddleware(LocaliseUrlsMiddleware):
     This means that if the language code is en-gb, only 'en' will be added to the urls.
     """
     def process_response(self, request, response):
-        return super(ShortLocaleLocaliseUrlsMiddleware, self).process_response(request, response, href_regex=HREF_SHORT_LOCALE_REGEX, form_regex=FORM_SHORT_LOCALE_REGEX)
+        return super(ShortLocaleLocaliseUrlsMiddleware, self).process_response(request, response)
