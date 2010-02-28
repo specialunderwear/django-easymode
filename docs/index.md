@@ -6,7 +6,7 @@
 Unsupported django features
 ===========================
 
-The following features django supports, are not supported by easymode:
+The following features, which django supports, are not supported by easymode:
 
 - ``Model.Meta.unique_together``
 - ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
