@@ -11,10 +11,18 @@ The tools included in the toolkit to help you make these kind of sites include:
 - Basic approval support for models.
 - Admin support for internationalised models
 
+---
+
 To build the documentation:
 
 - make sure the requirements are installed ``pip install -r requirements.txt``
 - cd to ``docs``
 - type: ``make html``
 - now your documentation is in: ``docs/_build/html/``
+
+---
+
+To view the documentation:
+
+go to [easymode docs](http://easymode.permanentmarkers.nl/)
 
