@@ -21,7 +21,7 @@ def register(cls, location=None):
     This will add entries to the po file set in settings.py as LOCALE_DIR.
     
     You can also store the po files somewhere else. The next example stores the
-    po file in the same dir as the file i which i18n.register is called:
+    po file in the same dir as the file in which i18n.register is called:
     
     >>> i18n.register(SomeModel, __file__)
     
