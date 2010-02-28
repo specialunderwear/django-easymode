@@ -33,6 +33,7 @@ Additional subjects
     
     settings
     commands
+    templatetags
     middlewares <middleware.md>
     helpers <xslt/helpers.md>
 
