@@ -1,12 +1,7 @@
-from copy import deepcopy
-
-from django.conf import settings
 from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
 from django.contrib.contenttypes.generic import BaseGenericInlineFormSet
-from django.utils.translation import get_language
-from django.utils.functional import curry
 
 from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
