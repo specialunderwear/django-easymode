@@ -20,11 +20,15 @@ class lazy_localized_list(list):
     undetected. It will give the 'real' name of an internationalized
     property when localized.
     """
-    def __init__(self, sequence, localized_fieldnames):
+
+    def __new__(cls, sequence, localized_fieldnames):
         if type(sequence) is lazy_localized_list:
             return sequence
+        return list.__new__(cls, sequence)
+        
+    def __init__(self, sequence, localized_fieldnames):
         self.localized_fieldnames = localized_fieldnames
-        return super(lazy_localized_list, self).__init__(sequence)
+        super(lazy_localized_list, self).__init__(sequence)
     
     def __get__(self, obj, type=None):
         """
