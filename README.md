@@ -10,13 +10,10 @@ The tools included in the toolkit to help you make these kind of sites include:
 - Admin support for model trees with more than 2 levels of related items
 - Basic approval support for models.
 
----
-
 Documentation
 -------------
 
 To build the documentation:
-
 
 - make sure the requirements are installed ``pip install -r requirements.txt``
 - cd to ``docs``
@@ -26,5 +23,3 @@ To build the documentation:
 To view the documentation:
 
 go to [easymode docs](http://easymode.permanentmarkers.nl/)
-
----
