@@ -9,7 +9,7 @@ Unsupported django features
 The following features django supports, are not supported by easymode:
 
 - ``Model.Meta.unique_together``
-- ``ModelField.unique_for_date``, ``ModelField.unique_for_date``, ``ModelField.unique_for_year``
+- ``Field.unique_for_date``, ``Field.unique_for_date``, ``Field.unique_for_year``
 - ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
 - Automatic serialization of ``ManyToManyField``. The model tree should be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
 
