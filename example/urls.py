@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^', include('foobar.urls')),
     
+    # These are the url patterns for the internationalised urls.
     ('^(%(languages)s)/admin/' % locals(), include(admin.site.urls)),
     ('^(%(languages)s)/' % locals(), include('foobar.urls'))
     
