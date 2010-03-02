@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     (r'^', include('foobar.urls')),
     
     ('^(%(languages)s)/admin/' % locals(), include(admin.site.urls)),
-    ('^(%(languages)s)' % locals(), include('foobar.urls'))
+    ('^(%(languages)s)/' % locals(), include('foobar.urls'))
     
 )
 
