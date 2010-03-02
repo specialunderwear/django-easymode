@@ -96,11 +96,24 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
 )
 
+# 'django.contrib.sessions.middleware.SessionMiddleware',
+# 'django.contrib.csrf.middleware.CsrfMiddleware',
+# 'easymode.middleware.LocaleFromUrlMiddleWare',
+# 'django.middleware.common.CommonMiddleware',
+# 'django.contrib.auth.middleware.AuthenticationMiddleware',
+# 'django.middleware.doc.XViewMiddleware',
+# 'easymode.middleware.LocaliseUrlsMiddleware',
+# 'base.middleware.VerbotenMiddleWare',
+
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'easymode.middleware.LocaleFromUrlMiddleWare',
+    'django.middleware.common.CommonMiddleware',
+    'easymode.middleware.LocaleFromUrlMiddleWare',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'easymode.middleware.LocaliseUrlsMiddleware',
 )
 
 ROOT_URLCONF = 'example.urls'

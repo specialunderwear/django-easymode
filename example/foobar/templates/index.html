@@ -9,13 +9,29 @@
     <body>
         <h1>Welcome to the easymode example application</h1>
         
-        <p>I made 2 users for you:
-            <ul>
-                <li>admin (password: admin)</li>
-                <li>editor (password: editor)</li>
-            </ul>            
+        <p>
+            To start off, load the example data I made for you by:
         </p>
-        
+        <pre>
+python manage.py loaddata example_data.xml
+</pre>
+        <p>After loading the example data, 2 users are available to you:
+            <ul>
+                <li>root (password: root)</li>
+                <li>editor (password: editor)</li>
+            </ul>
+        </p>
+        <hr/>
+        <p>
+            There are 2 active languages
+            <ol>
+                <li>English <a href="/admin/en/">Go to the admin in english</a></li>
+                <li>German <a href="/admin/de/">Go to the admin in german</a></li>
+            </ol>
+            You will find that the content is different for each language. Look
+            at the field 'City' of the 'Foo' application.
+        </p>
+        <hr/>
         <p>
             The following items have a draft version:
             <ul>
@@ -24,7 +40,7 @@
 
             </ul>
         </p>
-        
+        <hr/>
         <p>
             Look at what different kinds of output you can get from model trees:
         </p>
