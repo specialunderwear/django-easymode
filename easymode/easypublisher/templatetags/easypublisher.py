@@ -16,7 +16,6 @@ def draft_list_items(parser, token):
 
 class DraftListItems(template.Node):
     def render(self, context):
-        print context
         request = context['request']
 
         #select revisions
