@@ -1,0 +1,44 @@
+{% load easypublisher %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>easymode example application</title>
+    </head>
+    <body>
+        <h1>Welcome to the easymode example application</h1>
+        
+        <p>I made 2 users for you:
+            <ul>
+                <li>admin (password: admin)</li>
+                <li>editor (password: editor)</li>
+            </ul>            
+        </p>
+        
+        <p>
+            The following items have a draft version:
+            <ul>
+                
+                {% draft_list_items %}
+
+            </ul>
+        </p>
+        
+        <p>
+            Look at what different kinds of output you can get from model trees:
+        </p>
+        
+        <p>
+            <a href="raw">See what the xml the serializer produces looks like</a>
+        </p>
+        
+        <p>
+            <a href="xslt">See how the default xslt modifies the raw output</a>
+        </p>
+        
+        <p>
+            <a href="chain">See how chained querysets get rendered</a>
+        </p>        
+    </body>
+</html>
