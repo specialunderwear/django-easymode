@@ -29,3 +29,11 @@ def xslt(request):
     foos = foobar_models.Foo.objects.all()
     return render_xslt_to_response('xslt/model-to-xml.xsl', foos)
 
+def frontend(request, format='html'):
+    # print "%s %s" % (request, format)
+    # if format is 'xml':
+    #     return raw(request)
+    #     return xslt(request)
+    # 
+    foos = foobar_models.Foo.objects.all()
+    return render_xslt_to_response('frontend.xsl', foos)

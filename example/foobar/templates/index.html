@@ -1,4 +1,5 @@
 {% load easypublisher %}
+{% load easyfilters %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -25,8 +26,8 @@ python manage.py loaddata example_data.xml
         <p>
             There are 2 active languages
             <ol>
-                <li>English <a href="/admin/en/">Go to the admin in english</a></li>
-                <li>German <a href="/admin/de/">Go to the admin in german</a></li>
+                <li>English <a href="/en/admin/">Go to the admin in english</a></li>
+                <li>German <a href="/de/admin/">Go to the admin in german</a></li>
             </ol>
             You will find that the content is different for each language. Look
             at the field 'City' of the 'Foo' application.
@@ -46,18 +47,22 @@ python manage.py loaddata example_data.xml
         </p>
         
         <p>
-            <a href="/raw">See what the xml the serializer produces looks like in the default language (english)</a><br/>
-            <a href="/de/raw">See what the xml the serializer produces looks like in german</a>            
+            <a href="{% url raw %}">See what the xml the serializer produces looks like in the current language (english)</a><br/>
+            <a href="/de{% url raw %}">See what the xml the serializer produces looks like in german</a>            
         </p>
         
         <p>
-            <a href="/xslt">See how the default xslt modifies the raw output in the default language (english)</a><br/>
-            <a href="/de/xslt">See how the default xslt modifies the raw output in german</a>
+            <a href="{% url xslt %}">See how the default xslt modifies the raw output in the current language (english)</a><br/>
+            <a href="/de{% url xslt %}">See how the default xslt modifies the raw output in german</a>
         </p>
         
         <p>
-            <a href="/chain">See how chained querysets get rendered in the default language (english)</a><br/>
-            <a href="/de/chain">See how chained querysets get rendered in german</a>
-        </p>        
+            <a href="{% url chain %}">See how chained querysets get rendered in the current language (english)</a><br/>
+            <a href="/de{% url chain %}">See how chained querysets get rendered in german</a>
+        </p>
+        <p>
+            <a href="{% url frontend_html %}">See the frontend view</a><br/>
+            <a href="{% url frontend 'xml' %}">See the data flash will load on that same frontend view</a>
+        </p>
     </body>
 </html>
