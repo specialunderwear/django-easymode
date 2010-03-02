@@ -5,9 +5,9 @@
 	<!-- Render an object node -->
 	<xsl:template match="object">
 		<xsl:element name="{substring-after(@model,'.')}">
-			<li>
+			<ul>
 			<xsl:apply-templates select="field"/>
-			</li>
+			</ul>
 			<xsl:if test="object">
 				<children>
 					<xsl:apply-templates select="object"/>
@@ -25,13 +25,6 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- just copy unmatched nodes -->
-	<!-- so we know something is wrong -->
-	<xsl:template match="@*|node()">
-		<xsl:copy>
-			<xsl:apply-templates select="@*|node()"/>
-		</xsl:copy>
-	</xsl:template>
 	<!-- Parse the root node of the serialized xml -->
 	<xsl:template match="django-objects">
 		<html>
