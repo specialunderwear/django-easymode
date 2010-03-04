@@ -39,7 +39,7 @@ Additional subjects
     commands
     templatetags
     middlewares <middleware.md>
-    helpers <xslt/helpers.md>
+    Injecting extra data into the XSLT <xslt/helpers.md>
 
 Getting easymode
 ================
