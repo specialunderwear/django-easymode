@@ -131,7 +131,7 @@ class Testi18n(TestCase):
     def test_we_have_the_proper_version_of_gettext(self):
         """The proper version of xgettext (>= 0.15) should be installed on the server."""
         
-        if gettext.XGETTEXT_REENCODES_UTF8 is False:
+        if gettext.XGETTEXT_REENCODES_UTF8 is True:
             warnings.warn('while not fatal it is better to install a version of gettext \
                 higher or equal to 0.15')
                     
