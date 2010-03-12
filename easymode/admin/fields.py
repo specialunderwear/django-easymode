@@ -31,6 +31,16 @@ from easymode.utils import xmlutils
 # form fields
 ############################################################################
 
+class PoSafeTextField(fields.CharField):
+    """
+    Having carriage return in po files is an error.
+    Ths field's clean function will strip these ugly
+    characters from the input.
+    """
+
+    def clean(self, value):
+        return super(PoSafeTextField, self).clean(value.replace('\r',''))
+    
 class HtmlEntityField(fields.CharField):
     """
     A form field that can validate the length of a rich text field.
@@ -39,7 +49,7 @@ class HtmlEntityField(fields.CharField):
     character.
     """
     def clean(self, value):
-        value = value.replace('\r\n','\n')
+        value = value.replace('\r','')
         tagless_value = strip_tags(value)
         entityless_value = re.sub(r'&[^;]+;', 'X', tagless_value)
 
@@ -185,7 +195,8 @@ class DiocoreHTMLField(TextField):
         }
     
         defaults = {
-            'widget': TinyMCE(mce_attrs=mce_default_attrs)            
+            'widget': TinyMCE(mce_attrs=mce_default_attrs),
+            'form_class': PoSafeTextField,
         }
         
         # if this thing has a max_length then use a 
@@ -214,7 +225,8 @@ class DiocoreTextField(TextField):
         
     def formfield(self, **kwargs):
         defaults = {
-            'widget': AdminTextareaWidget
+            'widget': AdminTextareaWidget,
+            'form_class': PoSafeTextField,
         }
         defaults.update(kwargs)
         return super(DiocoreTextField, self).formfield(**defaults)

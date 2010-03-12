@@ -67,7 +67,7 @@ class UrlFieldTestModel(models.Model):
 class TestL10nModel(models.Model):
 
     title = DiocoreCharField(max_length=200, font="arial")
-    description = models.TextField()
+    description = DiocoreTextField(font="arial")
     body = DiocoreHTMLField(default='hi i am an error', font="arial")
     price = models.FloatField()
 
