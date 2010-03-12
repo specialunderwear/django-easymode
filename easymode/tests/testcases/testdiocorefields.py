@@ -2,6 +2,7 @@ import re
 
 from django.test import TestCase
 from django.utils import translation
+from django.forms.models import model_to_dict
 
 from easymode.tests.testcases import initdb
 from easymode.tests.models import TestL10nModel
@@ -13,8 +14,8 @@ class TestDiocoreFields(TestCase):
     
     def setup_l10n_model(self):
         translation.activate('en')
-        i = TestL10nModel(title="Ik ben de groot moeftie van cambodja", 
-            description="Ik weet weinig tot niks van brei cursussen", 
+        i = TestL10nModel(title='Ik ben de groot moeftie van cambodja', 
+            description="Ik weet weinig tot niks van brei cursussen",
             body="Het zou kunnen dat linksaf slaan hier een goede keuze is.",
             price=12.0,
             )
@@ -32,3 +33,22 @@ class TestDiocoreFields(TestCase):
 
         self.assertTrue(title_has_font)
         self.assertTrue(body_has_font)
+    
+    def test_diocore_fields_strip_cariage_returns(self):
+        "Diocore fields should strip cariage returns from the input"
+                
+        h = {
+            'title': "Ik ben de groot moeftie van oeral",
+            'description': "Ik weet\r weinig tot niks van brei \rcursussen",
+            'body':"Het zou kunnen dat\r linksaf\r slaan hier een goede keuze is.",
+            'price':34.0,
+        }
+        
+        response = self.client.login(username='admin', password='admin')
+        response = self.client.post('/en/admin/tests/testl10nmodel/add/', h)
+
+        i = TestL10nModel.objects.get(pk=1)
+        
+        assert(i.title == 'Ik ben de groot moeftie van oeral')
+        assert(i.description == "Ik weet weinig tot niks van brei cursussen")
+        assert(i.body == "Het zou kunnen dat linksaf slaan hier een goede keuze is.")
