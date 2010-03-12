@@ -1,8 +1,10 @@
 import re
+import warnings
 
 from django.test import TestCase
 from django.utils import translation
 from django.forms.models import model_to_dict
+from django.core.urlresolvers import reverse
 
 from easymode.tests.testcases import initdb
 from easymode.tests.models import TestL10nModel
@@ -44,11 +46,15 @@ class TestDiocoreFields(TestCase):
             'price':34.0,
         }
         
-        response = self.client.login(username='admin', password='admin')
-        response = self.client.post('/en/admin/tests/testl10nmodel/add/', h)
+        if self.client.login(username='admin', password='admin'):
+            
+            add_view_url = reverse("admin:tests_testl10nmodel_add")            
+            response = self.client.post(add_view_url, h)
 
-        i = TestL10nModel.objects.get(pk=1)
-        
-        assert(i.title == 'Ik ben de groot moeftie van oeral')
-        assert(i.description == "Ik weet weinig tot niks van brei cursussen")
-        assert(i.body == "Het zou kunnen dat linksaf slaan hier een goede keuze is.")
+            i = TestL10nModel.objects.get(pk=1)
+
+            assert(i.title == 'Ik ben de groot moeftie van oeral')
+            assert(i.description == "Ik weet weinig tot niks van brei cursussen")
+            assert(i.body == "Het zou kunnen dat linksaf slaan hier een goede keuze is.")
+        else:
+            self.fail("can not login to backend using admin/admin")
