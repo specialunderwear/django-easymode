@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import os
 from distutils.core import setup
+import easymode
 
-version = '0.4.0'
+version = '0.5.0'
 packages = []
 data_files = []
 

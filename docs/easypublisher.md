@@ -41,7 +41,7 @@ use :class:`~easymode.tree.admin.relation.InvisibleModelAdmin`.
 More info about these admin classes is in :ref:`tree_explanation`.
 
 Easypublisher templatetag :func:`~easymode.easypublisher.templatetags.easypublisher.draft_list_items`
-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
 :func:`~easymode.easypublisher.templatetags.easypublisher.draft_list_items` is a templatetag that can
 be used to show all drafts that need approval as a list of links to these drafts. You could
