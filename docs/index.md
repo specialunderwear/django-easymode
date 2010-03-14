@@ -51,8 +51,14 @@ http://github.com/LUKKIEN/django-easymode/downloads/
 Or you can do:
 
 - ``pip install -e git://github.com/LUKKIEN/django-easymode.git#egg=easymode``
-- ``pip install http://github.com/LUKKIEN/django-easymode/tarball/v0.4.0``
-- ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/v0.4.0``
+
+Note the version number in the top left corner and use:
+
+- ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/[VERSION]``
+
+Which, if the version was v0.0.1 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
+
+
 
 Api docs
 ========
