@@ -88,11 +88,32 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.load_template_source',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+)
+
+# 'django.contrib.sessions.middleware.SessionMiddleware',
+# 'django.contrib.csrf.middleware.CsrfMiddleware',
+# 'easymode.middleware.LocaleFromUrlMiddleWare',
+# 'django.middleware.common.CommonMiddleware',
+# 'django.contrib.auth.middleware.AuthenticationMiddleware',
+# 'django.middleware.doc.XViewMiddleware',
+# 'easymode.middleware.LocaliseUrlsMiddleware',
+# 'base.middleware.VerbotenMiddleWare',
+
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'easymode.middleware.LocaleFromUrlMiddleWare',
+    'django.middleware.common.CommonMiddleware',
+    'easymode.middleware.LocaleFromUrlMiddleWare',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'easymode.middleware.LocaliseUrlsMiddleware',
 )
 
 ROOT_URLCONF = 'example.urls'
@@ -110,7 +131,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'easymode',
+    'easymode.easypublisher',
     'django.contrib.admin',
+    'reversion',
     'foobar',
     'rosetta',
 )

@@ -38,18 +38,19 @@ def is_valid(xml_string):
     
 class XmlScanner(ExpatParser):
     """
-    This class is an xml parser that can will not throw errors
+    This class is an xml parser that will not throw errors
     when unknown entities are found.
     
-    It can be used like::
+    It can be used as follows::
     
-        sax.make_parser(["easymode.utils.xmlutils"])
+        parser = sax.make_parser(["easymode.utils.xmlutils"])
     
-    It works by making all unknown entities be skipped.
+    All entities that can not be resolved will be skipped.
     This will trigger skippedEntity on the contentHandler.
     
     A good contenthandler for this scanner is
-    :class:`~easymode.utils.xmlutils.XmlPrinter`
+    :class:`~easymode.utils.xmlutils.XmlPrinter` because it
+    will turn these entities into their unicode characters.
     """
     def __init__(self, *args, **kwargs):
         """docstring for __init__"""
@@ -88,7 +89,8 @@ class XmlPrinter(SimplerXMLGenerator):
     XmlPrinter can be used as a contenthandler for the 
     :class:`~easymode.utils.xmlutils.XmlScanner`.
     
-    It will then just copy all skippedEntities to the output stream.
+    It will convert all skippedEntities to their unicode characters
+    and copy these to the output stream.
     """
     def skippedEntity(self, name):
         self._out.write(_unicode_for_entity_with_name(name).encode('utf-8'))

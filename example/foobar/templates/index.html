@@ -1,0 +1,69 @@
+{% load easypublisher %}
+{% load easyfilters %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>easymode example application</title>
+    </head>
+    <body>
+        <h1>Welcome to the easymode example application</h1>
+        
+        <p>
+            To start off, load the example data I made for you by:
+            (unfortunately the example_data.xml is corrupt atm, so this does not work ...)
+        </p>
+        <pre>
+python manage.py loaddata example_data.xml
+</pre>
+        <p>After loading the example data, 2 users are available to you:
+            <ul>
+                <li>root (password: root)</li>
+                <li>editor (password: editor)</li>
+            </ul>
+        </p>
+        <hr/>
+        <p>
+            There are 2 active languages
+            <ol>
+                <li>English <a href="/en/admin/">Go to the admin in english</a></li>
+                <li>German <a href="/de/admin/">Go to the admin in german</a></li>
+            </ol>
+            You will find that the content is different for each language. Look
+            at the field 'City' of the 'Foo' application.
+        </p>
+        <hr/>
+        <p>
+            The following items have a draft version:
+            <ul>
+                
+                {% draft_list_items %}
+
+            </ul>
+        </p>
+        <hr/>
+        <p>
+            Look at what different kinds of output you can get from model trees:
+        </p>
+        
+        <p>
+            <a href="{% url raw %}">See what the xml the serializer produces looks like in the current language (english)</a><br/>
+            <a href="/de{% url raw %}">See what the xml the serializer produces looks like in german</a>            
+        </p>
+        
+        <p>
+            <a href="{% url xslt %}">See how the default xslt modifies the raw output in the current language (english)</a><br/>
+            <a href="/de{% url xslt %}">See how the default xslt modifies the raw output in german</a>
+        </p>
+        
+        <p>
+            <a href="{% url chain %}">See how chained querysets get rendered in the current language (english)</a><br/>
+            <a href="/de{% url chain %}">See how chained querysets get rendered in german</a>
+        </p>
+        <p>
+            <a href="{% url frontend_html %}">See the frontend view</a><br/>
+            <a href="{% url frontend 'xml' %}">See the data flash will load on that same frontend view</a>
+        </p>
+    </body>
+</html>

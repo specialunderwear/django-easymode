@@ -1,8 +1,10 @@
 import types
+from django.conf import settings
 
-try:
+
+if 'rosetta' in settings.INSTALLED_APPS:
     from rosetta import polib
-except ImportError:
+else:
     import polib
 
 def po_to_unicode(po_obj):

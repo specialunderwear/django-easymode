@@ -9,6 +9,7 @@ include docs/Makefile
 include docs/settings.md
 include docs/commands.md
 include docs/middleware.md
+include docs/templatetags.md
 recursive-include docs/i18n *
 recursive-include docs/tree *
 recursive-include docs/xslt *
