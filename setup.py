@@ -37,5 +37,5 @@ setup(name='django-easymode',
       url='http://github.com/LUKKIEN/django-easymode',
       packages=packages,
       data_files=data_files,
-      requires=['Django>=1.1.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-filebrowser>=3.0','django-reversion>=1.2']
+      install_requires=['Django>=1.1.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-filebrowser>=3.0','django-reversion>=1.2'],
      )
