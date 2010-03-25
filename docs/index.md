@@ -29,6 +29,21 @@ the serializer.
 
 All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
 
+Easymode : toolkit for making xml based flash websites
+======================================================
+
+Easymode is a toolkit that helps making xml based flash websites easy.
+The tools included in the toolkit to help you make these kind of sites include:
+
+.. toctree::
+   :maxdepth: 1
+
+    Internationalization and Localization of models, with admin support <i18n/index.md>
+    Translation of model data using gettext <i18n/translation.md>
+    Automatic generation of xml from model trees <xslt/index.md>
+    Admin support for model trees with more than 2 levels of related items <tree/index.md>
+    Basic approval support for models <easypublisher.md>
+    
 Additional subjects
 ===================
 
@@ -56,7 +71,7 @@ Note the version number in the top left corner and use:
 
 - ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/[VERSION]``
 
-Which, if the version was v0.0.1 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
+Which, if the version was v0.1.0 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
 
 
 
