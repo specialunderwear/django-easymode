@@ -156,7 +156,7 @@ class LocaliseUrlsMiddleware(object):
             if not prefix and location[1].startswith("/") and \
                     not location[1].startswith(settings.MEDIA_URL) and \
                     not location[1].startswith(settings.ADMIN_MEDIA_PREFIX):
-                response._headers['location'] = (location[0], "/%s%s" % (request.LANGUAGE_CODE, location[1]))
+                response._headers['location'] = (location[0], "/%s%s" % (get_shorthand_from_language_code(request.LANGUAGE_CODE), location[1]))
         return response
 
 ################################################################################
@@ -172,7 +172,7 @@ class ShortLocaleFromUrlMiddleWare(LocaleFromUrlMiddleWare):
     This means that if the language code is en-gb, only 'en' will be added to the urls.    
     """
     def process_request(self, request):
-        super(ShortLocaleFromUrlMiddleWare, self).process_request(request, short_language_code=True)
+        super(ShortLocaleFromUrlMiddleWare, self).process_request(request)
 
 class ShortLocaleLocaliseUrlsMiddleware(LocaliseUrlsMiddleware):
     """
