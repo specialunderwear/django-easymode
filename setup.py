@@ -2,7 +2,7 @@
 import os
 from distutils.core import setup
 
-version = '0.4.0'
+version = '0.5.1'
 packages = []
 data_files = []
 
@@ -37,4 +37,5 @@ setup(name='django-easymode',
       url='http://github.com/LUKKIEN/django-easymode',
       packages=packages,
       data_files=data_files,
+      install_requires=['Django>=1.1.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2'],
      )
