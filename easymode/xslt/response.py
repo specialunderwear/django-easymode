@@ -18,6 +18,9 @@ def render_to_response(template, object, params=None, mimetype='text/html'):
     
     :param template: an xslt template.
     :param object: an object that has an ``__xml__`` method. (See :func:`easymode.tree.decorators.toxml`).
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
+    :param mimetype: The mimetype of the :class:`~django.http.HttpResponse`
     :rtype: :class:`django.http.HttpResponse`
     """
     xsl = find_template_source(template)[0]
@@ -34,6 +37,8 @@ def render_to_string(template, object, params=None):
     
     :param template: an xslt template.
     :param object: an object that has an ``__xml__`` method. (See :func:`easymode.tree.decorators.toxml`).
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
     :rtype: :class:`unicode`
     """
     xsl = find_template_source(template)[0]
@@ -48,6 +53,8 @@ def render_xml_to_string(template, input, params=None):
     
     :param template: an xslt template
     :param input: an string that contains xml
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
     :rtype: :class:`unicode`
     """
     xsl = find_template_source(template)[0]
