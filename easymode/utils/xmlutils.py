@@ -1,3 +1,9 @@
+"""
+Contains classes and functions for dealing with html entities.
+
+You need this as soon as you are doing anything with rich
+text fields and want to use :func:`easymode.tree.decorators.toxml`.
+"""
 import re
 import StringIO
 import htmlentitydefs
@@ -91,6 +97,24 @@ class XmlPrinter(SimplerXMLGenerator):
     
     It will convert all skippedEntities to their unicode characters
     and copy these to the output stream.
+    
+    You can use it as a simple xml generator, to create xml::
+    
+        stream = StringIO.StringIO()
+        xml = XmlPrinter(stream, settings.DEFAULT_CHARSET)
+
+        def _render_page(page):
+            xml.startElement('title', {})
+            xml.characters(page.title)
+            xml.endElement('title')
+            xml.startElement('template', {})
+            xml.characters(page.template)
+            xml.endElement('template')
+        
+        for child in Page.children.all():
+            xml.startElement('page', {})
+            _render_page(child)
+            xml.endElement('page')
     """
     def skippedEntity(self, name):
         self._out.write(_unicode_for_entity_with_name(name).encode('utf-8'))

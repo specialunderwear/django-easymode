@@ -8,6 +8,13 @@ else:
     import polib
 
 def po_to_unicode(po_obj):
+    """
+    Turns a polib :class:`polib.PoFile` or a :class:`polib.PoEntry` 
+    into a :class:`unicode` string.
+    
+    :param po_obj: Either a :class:'polib.PoFile` or :class:`polib.PoEntry`.
+    :rtype: :class:`unicode` string.
+    """
     po_text = po_obj.__str__()
     if type(po_text) != types.UnicodeType:
         po_text = po_text.decode('utf-8')
@@ -18,13 +25,13 @@ class PoStream(polib._POFileParser):
     """
     Create a POFile object from a StringIO::
     
-    >>> import codecs
-    >>> from StringIO import StringIO
-    >>> 
-    >>> po_string = codecs.open('sompofile.po', 'r', 'utf-8').read()
-    >>> po_file_from_string = PoStream(None, StringIO(po_string)).parse()
-    >>> 
-    >>> unicode(po_file_from_string)
+        import codecs
+        from StringIO import StringIO instead of a file name or handle.
+        
+        po_string = codecs.open('sompofile.po', 'r', 'utf-8').read()
+        po_file_from_string = PoStream(None, StringIO(po_string)).parse()
+        
+        unicode(po_file_from_string)
     
     """
     
