@@ -2,7 +2,7 @@
 import os
 from distutils.core import setup
 
-version = '0.5.1'
+version = '0.5.2'
 packages = []
 data_files = []
 
