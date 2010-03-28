@@ -12,7 +12,7 @@ def po_to_unicode(po_obj):
     Turns a polib :class:`polib.PoFile` or a :class:`polib.PoEntry` 
     into a :class:`unicode` string.
     
-    :param po_obj: Either a :class:'polib.PoFile` or :class:`polib.PoEntry`.
+    :param po_obj: Either a :class:`polib.PoFile` or :class:`polib.PoEntry`.
     :rtype: :class:`unicode` string.
     """
     po_text = po_obj.__str__()
