@@ -1,6 +1,9 @@
 """
 form and model fields, for integration with diocore as3 framework,
 and others.
+
+This documentation is not finished. The classes in this file
+will be moved to other files. Take care when using them.
 """
 import re
 import os
