@@ -1,5 +1,5 @@
 """
-Contains modeladmin class that can add links to related items to its form.
+Contains a modeladmin class that shows links to all related items in its change_view.
 
 If you want to use :class:`InvisibleModelAdmin` make sure easymode comes before
 ``django.contrib.admin`` in the ``INSTALLED_APPS`` because it has to 
