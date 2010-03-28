@@ -12,6 +12,10 @@ from easymode.i18n.meta import DefaultFieldDescriptor
 def _get_members_of_type(obj, member_type):
     """
     Finds members of a certain type in obj.
+
+    :param obj: A model instance or class.
+    :param member_type: The type of the menber we are trying to find.
+    :rtype: A :class:`list` of ``member_type`` found in ``obj``
     """
     try:
         def filter_member_type(member):
@@ -36,25 +40,32 @@ def _get_members_of_type(obj, member_type):
 
 def get_foreign_key_desciptors(obj):
     """
-    finds all foreign key desciptors in obj
-    can handle both classes and instances of classes
+    finds all :class:`~django.db.models.fields.ForeignRelatedObjectsDescriptor` in obj.
+    
+    :param obj: A model instance or class.
     """
     return _get_members_of_type(obj, ForeignRelatedObjectsDescriptor)
 
 def get_one_to_one_descriptors(obj):
     """
-    finds all one to one descriptors in obj.
-    can handle both classes and instances of classes.
+    finds all :class:`~django.db.models.fields.SingleRelatedObjectDescriptor` in obj.
+
+    :param obj: A model instance or class.
     """
     return _get_members_of_type(obj, SingleRelatedObjectDescriptor)
 
 def get_generic_relation_descriptors(obj):
     """
-    Finds all the generic relations in obj.
-    can handle both classes and instances of classes.
+    Finds all the :class:`~django.contrib.contenttypes.generic.ReverseGenericRelatedObjectsDescriptor` in obj.
+    
+    :param obj: A model instance or class.
     """
     return _get_members_of_type(obj, ReverseGenericRelatedObjectsDescriptor)
 
 def get_default_field_descriptors(obj):
-    """Returns the default field descriptor"""
+    """
+    find all  :class:`~easymode.i18n.meta.DefaultFieldDescriptor` in obj.
+    
+    :param obj: A model instance or class.
+    """
     return _get_members_of_type(obj, DefaultFieldDescriptor)

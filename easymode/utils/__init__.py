@@ -30,7 +30,11 @@ def first_match(predicate, list):
     >>> first_match(return_if_even, [1, 3, 4, 7])
     4
     >>> first_match(return_if_even, [1, 3, 5, 7])
-    >>> 
+    >>>
+    
+    :param predicate: a function that returns None or a value.
+    :param list: A list of items that can serve as input to ``predicate``.
+    :rtype: whatever ``predicate`` returns instead of None. (or None).
     """
     for item in list:
         val = predicate(item)
@@ -56,6 +60,10 @@ class mutex(object):
             print "hi only one thread will be executing this block of code at a time."
     
     Mutex should probably raise an ``Exception`` instead of ``sys.exit``
+    
+    :param max_wait: The maximum amount of seconds the process should wait to obtain\
+        the semaphore.
+    :param lockfile: The path and name of the pid file used to create the semaphore.
     """
     
     def __init__(self, max_wait=10, lockfile=None):

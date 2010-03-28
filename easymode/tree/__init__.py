@@ -1,11 +1,11 @@
 """
-Makes django models into trees.
+Functionality to create trees of django models.
 
 If a django model tree can be categorised as a DAG (Directed Acylclic Graph)
-This module contains the machinery to add recursive serialisation to xml 
+This module contains the machinery to add recursive serialisation to xml
 and recursive admin support to the models in such a tree.
 """
-def xml(decorated_model):
+def xml(obj):
     """
     Used to convert either 
     
@@ -15,4 +15,4 @@ def xml(decorated_model):
     
     to xml
     """
-    return (decorated_model.__xml__())
+    return (obj.__xml__())

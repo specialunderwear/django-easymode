@@ -4,6 +4,7 @@ Contains xslt transformation functionality to be used with django models
 
 __all__ = ('XsltError', 'transform', 'prepare_string_param')
 
+
 class XsltError(Exception):
     """The xslt transformation resulted in an error"""
     pass
@@ -16,11 +17,19 @@ class MessageHandler:
     def getContent(self):
         return self.content
 
+
 def _transform_libxslt(xml, xslt, params=None):
     """
-    Do xml transformation using libxml2-python and libxslt-python.
-    
-    http://xmlsoft.org/python.html
+    Transform ``xslt`` using any of the 3 supported xslt engines:
+
+    - `lxml <http://codespeak.net/lxml/>`_
+    - `libxml <http://xmlsoft.org/python.html>`_
+    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
+
+    :param xml: The xml to be transformed.
+    :param xslt: The xslt to be used when transforming the ``xml``.
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
     """
     try:
         xslt_doc = libxml2.parseDoc(xslt)
@@ -39,11 +48,19 @@ def _transform_libxslt(xml, xslt, params=None):
     except RuntimeError as e:
         raise XsltError(str(e))
 
+
 def _transform_libxsltmod(xml, xslt, params=None):
     """
-    Do xslt transformation using libxsltmod.
-    
-    http://www.rexx.com/~dkuhlman/libxsltmod.html
+    Transform ``xslt`` using any of the 3 supported xslt engines:
+
+    - `lxml <http://codespeak.net/lxml/>`_
+    - `libxml <http://xmlsoft.org/python.html>`_
+    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
+
+    :param xml: The xml to be transformed.
+    :param xslt: The xslt to be used when transforming the ``xml``.
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
     """
     handler = MessageHandler()
     try:
@@ -56,11 +73,19 @@ def _transform_libxsltmod(xml, xslt, params=None):
         messages = handler.getContent()
         raise XsltError(messages)
 
+
 def _transform_lxml(xml, xslt, params=None):
     """
-    Do xslt transformation using lxml.
-    
-    http://codespeak.net/lxml/
+    Transform ``xslt`` using any of the 3 supported xslt engines:
+
+    - `lxml <http://codespeak.net/lxml/>`_
+    - `libxml <http://xmlsoft.org/python.html>`_
+    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
+
+    :param xml: The xml to be transformed.
+    :param xslt: The xslt to be used when transforming the ``xml``.
+    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
+        on strings you want to pass in.
     """
     # assuming params where created with prepare_string_param,
     # they are encoded as unicode, which lxml does not like
@@ -79,7 +104,6 @@ def _transform_lxml(xml, xslt, params=None):
     return unicode(result)
 
 # determine which xslt engine to use,
-
 try:
     import libxslt
     import libxml2
@@ -95,9 +119,13 @@ except:
         # the default is libxsltmod.
         transform = _transform_libxsltmod
 
-   
+
 def prepare_string_param(string):
-    "Prepare a string for passing as a parameter to the xslt processor."
+    """
+    Prepare a string for passing as a parameter to the xslt processor.
+    
+    :param string: The string you want to pass to the xslt.
+    """
     result = u"'%s'" % (string.replace("'","&apos;") or '')
     return result.encode('utf-8')
     

@@ -1,5 +1,5 @@
 """
-Internationalisation and localisation support for django models.
+Internationalization and localization support for django models.
 """
 
 from weakref import WeakKeyDictionary
@@ -18,10 +18,11 @@ def register(cls, location=None):
     >>> from easymode import i18n
     >>> i18n.register(SomeModel)
     
-    This will add entries to the po file set in settings.py as LOCALE_DIR.
+    This will add entries to the gettext catalog located in the
+    ``settings.LOCALE_DIR`` or directory.
     
-    You can also store the po files somewhere else. The next example stores the
-    po file in the same dir as the file in which i18n.register is called:
+    You can also store the catalogs somewhere else. The next example stores the
+    catalog in the same dir as the file in which i18n.register is called:
     
     >>> i18n.register(SomeModel, __file__)
     
@@ -32,6 +33,11 @@ def register(cls, location=None):
     Please note that the entire locale is stored in that path, so if the path
     is /tmp/ the locale is: /tmp/locale/ this directory will be created if it
     does not exist.
+    
+    :param cls: The model class that should be translated by means of gettext.
+    :param location: The location of the po file. This can be either a directory\
+        or a file name. If left unspecified, ``settings.LOCALE_DIR`` or\
+        ``settings.PROJECT_DIR`` will be used.
     """
        
     create_po_for_model = MakeModelMessages(location, cls)
@@ -42,9 +48,11 @@ def register(cls, location=None):
 
 def unregister(cls):
     """
-    ungeristers a previously registered model.
+    unregisters a previously registered model.
     
     This means the po file will not be updated when the model is saved.
+    
+    :param cls: The model class that should nolonger be translated by means of gettext.
     """
     handler = _post_save_handlers.get(cls, None)
     if handler:
