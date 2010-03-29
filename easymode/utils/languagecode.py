@@ -172,6 +172,8 @@ def localize_fieldnames(fields, internationalized_fields):
     are internationalized, will return a list with
     all internationalized fields properly localized.
     
+    >>> from django.utils.translation import activate
+    >>> activate('en-us')
     >>> localize_fieldnames(['name', 'title', 'url'], ['title'])
     ['name', 'title_en-us', 'url']
     
