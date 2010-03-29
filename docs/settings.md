@@ -1,6 +1,58 @@
 Easymode settings
 =================
 
+.. _auto_catalog:
+
+AUTO_CATALOG
+------------
+
+Easymode can manage a gettext catalog with your database content for you.
+If ``AUTO_CATALOG`` is ``True``, easymode will add every new object of a
+model decorated with :class:`~easymode.i18n.decorators.I18n` to the gettext
+catalog. 
+
+When existing content is updated in the :ref:`msgid_language` on the
+:ref:`master_site`, gettext will try to updated the msgid's in all the languages.
+Therefor keeping the mapping between original and translation. There is a limit 
+on the ammount of change, before gettext can nolonger identify a string as a 
+change in an existing msgid. For example::
+
+    # in the english django.po
+    #: main.GalleryItem.title_text:32
+    msgid "I've got a car"
+    msgstr ""
+    
+    # in the french django.po
+    #: main.GalleryItem.title_text:32
+    msgid "I've got a car"
+    msgstr "J'ai une voiture"
+    
+    #now we update the main.GalleryItem.title_text in the db in english
+    
+    # in the english django.po
+    #: main.GalleryItem.title_text:32
+    msgid "I've had a car"
+    msgstr ""
+    
+    # gettext will now also update the message id in french so the link
+    between original and translation keeps existing.
+    
+    # in the french django.po
+    #: main.GalleryItem.title_text:32
+    msgid "I've had a car"
+    msgstr "J'ai une voiture"
+    
+
+The location of the catalog canbe controlled using :ref:`locale_dir` and
+:ref:`locale_postfix`,
+
+example::
+
+    AUTO_CATALOG = False
+
+With the above settings, no catalogs are managed automatically by easymode. You 
+have to manually generate them using :ref:`easy_locale`.
+
 .. _master_site:
 
 MASTER_SITE
@@ -20,7 +72,7 @@ example::
 
     MASTER_SITE = True
 
-.. _msgid_langugae:
+.. _msgid_language:
 
 MSGID_LANGUAGE
 --------------

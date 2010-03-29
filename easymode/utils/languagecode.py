@@ -14,14 +14,9 @@ def get_language_codes():
     """
     Retrieves all the language codes defined in ``settings.LANGUAGES``.
     
-    >>> settings.LANGUAGES = (
-    >>>   ('en', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
-    >>> get_language_codes()
-    ['en','de','nl-be','fr-be']
+    >>> settings.LANGUAGES = (('en','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
+    >>> sorted( get_language_codes() )
+    ['de', 'en', 'fr-be', 'nl-be']
     
     :rtype: A :class:`list` of language codes.
     """
@@ -31,14 +26,10 @@ def get_short_language_codes():
     """
     Retrieves the short versions of the language codes defined in settings.LANGUAGES.
 
-    >>> settings.LANGUAGES = (
-    >>>   ('en', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
-    >>> get_short_language_codes()
-    ['en','de','nl','fr']
+    >>> from django.conf import settings
+    >>> settings.LANGUAGES = (('en','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
+    >>> sorted( get_short_language_codes() )
+    ['de', 'en', 'fr', 'nl']
     
     :rtype: A :class:`list` of short versions of the language codes.
     """
@@ -57,15 +48,11 @@ def get_all_language_codes():
     Returns all language codes defined in settings.LANGUAGES and also the
     settings.MSGID_LANGUAGE if defined.
     
+    >>> from django.conf import settings
     >>> settings.MSGID_LANGUAGE = 'en-us'
-    >>> settings.LANGUAGES = (
-    >>>   ('en', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
-    >>> get_language_codes()
-    ['en-us','en','de','nl-be','fr-be']
+    >>> settings.LANGUAGES = (('en','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
+    >>> sorted( get_language_codes() )
+    ['en-us', 'en','de', 'nl-be','fr-be']
     
     :rtype: A :class:`list` of language codes.
     """
@@ -84,10 +71,10 @@ def get_shorthand_from_language_code(locale):
     ahorthand, if it is False, it will not modify the code
     at all.
     
-    >>> settings.USE_SHORT_LANGUAGE_CODES = True
+    >>> USE_SHORT_LANGUAGE_CODES = True
     >>> get_shorthand_from_language_code('en-us')
     'en'
-    >>> settings.USE_SHORT_LANGUAGE_CODES = False
+    >>> USE_SHORT_LANGUAGE_CODES = False
     >>> get_shorthand_from_language_code('en-us')
     'en-us'
     
@@ -103,12 +90,7 @@ def get_language_code_from_shorthand(short_locale):
     """
     Returns the real language_code based on the shorthand.
     
-    >>> settings.LANGUAGES = (
-    >>>   ('en-us', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
+    >>> settings.LANGUAGES = (('en-us','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
     >>> get_language_code_from_shorthand('en')
     'en-us'
     
@@ -141,33 +123,22 @@ def fix_language_code(url, current_language):
     language as a prefix.
     
     >>> # multiple languages defined
-    >>> settings.LANGUAGES = (
-    >>>   ('en-us', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
-    >>> settings.USE_SHORT_LANGUAGE_CODES = True
-    >>> fix_language_code('http://example.com/example.html', 'en-us')
-    'http://example.com/en/example.html'
+    >>> settings.LANGUAGES = (('en-us','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
     >>> settings.USE_SHORT_LANGUAGE_CODES = False
-    >>> fix_language_code('http://example.com/example.html', 'en-us')
-    'http://example.com/en-us/example.html'
+    >>> activate('en-us')
+    >>> fix_language_code('/de/example.html', 'en-us')
+    '/en-us/example.html'
+    >>> settings.USE_SHORT_LANGUAGE_CODES = True
+    >>> fix_language_code('/de/example.html', 'en-us')
+    '/en/example.html'
+    >>> fix_language_code('/en/example.html', 'en-us')
+    '/example.html'
     >>> # only one language defined
     >>> settings.LANGUAGES = (('en-us', 'English'), )
-    >>> fix_language_code('http://example.com/example.html', 'en-us')
-    'http://example.com/example.html'
-    >>> fix_language_code('http://example.com/en-us/example.html', 'en-us')
-    'http://example.com/example.html'
-    >>> settings.USE_SHORT_LANGUAGE_CODES = True
-    >>> fix_language_code('http://example.com/en-us/example.html', 'en-us')
-    'http://example.com/en-us/example.html'
-    >>> fix_language_code('http://example.com/en/example.html', 'en-us')
-    'http://example.com/example.html'
-    >>> fix_language_code('http://example.com/example.html', 'en-us')
-    'http://example.com/example.html'
+    >>> fix_language_code('/en-us/example.html', 'en-us')
+    '/example.html'
     
-    :param url: The url to be fixed.
+    :param url: The (absolute) url to be fixed eg. '/hi/how/is/it'.
     :param current_language: A language code defined in ``settings.LANGUAGES``.
     :rtype: The fixed url.
     """
@@ -202,7 +173,7 @@ def localize_fieldnames(fields, internationalized_fields):
     all internationalized fields properly localized.
     
     >>> localize_fieldnames(['name', 'title', 'url'], ['title'])
-    ['name','title_en-us','url']
+    ['name', 'title_en-us', 'url']
     
     :param fields: A :class:`list` af field names.
     :param internationalized_fields: A list of fields names, these fields are internationalized.
@@ -221,14 +192,11 @@ def get_language_codes_as_disjunction():
     """
     return a pattern that matches any language defined in ``settings.LANGUAGES``
     
-    >>> settings.LANGUAGES = (
-    >>>   ('en-us', 'English'),
-    >>>   ('de', 'German'),
-    >>>   ('nl-be', 'Belgium dutch'),
-    >>>   ('fr-be', 'Belgium french'),
-    >>> )
+    >>> from django.conf import settings
+    >>> settings.USE_SHORT_LANGUAGE_CODES = False
+    >>> settings.LANGUAGES = (('en-us','English'),('de','German'),('nl-be','Belgium dutch'),('fr-be','Belgium french'),)
     >>> get_language_codes_as_disjunction()
-    'en-us|de|nl-be|fr-be'
+    'de|en-us|nl-be|fr-be'
     
     usage::
         
@@ -238,6 +206,6 @@ def get_language_codes_as_disjunction():
         )
         
     """
-    language_codes = map(get_shorthand_from_language_code, get_short_language_codes())
+    language_codes = map(get_shorthand_from_language_code, get_language_codes())
     languages = "|".join(language_codes)
     return languages

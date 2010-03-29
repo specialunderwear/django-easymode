@@ -34,7 +34,7 @@ suppose we have a model as follows:
 
 ::
 
-    I18n(bar)
+    @I18n('bar')
     class Foo(models.Model):
         bar = models.CharField(max_length=255)
         foobar = models.TextField()
