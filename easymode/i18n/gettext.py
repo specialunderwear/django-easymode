@@ -130,10 +130,16 @@ class MakeModelMessages(object):
             value = field.value_to_string(model)
             
             # only add empty strings
-            if value != "":
+            if value != "":                
                 entry = polib.POEntry(msgid=value, occurrences=[(occurrence, model.pk)])
-                po_stream.append(entry)
-                
+                # make sure no duplicate entries in the po_stream
+                existing_entry = po_stream.find(entry.msgid)
+                if existing_entry is None:
+                    po_stream.append(entry)
+                else:
+                    # no really, existing_entry.merge does not merge the occurrences.
+                    existing_entry.occurrences += entry.occurrences
+        
         return po_stream
     
 
@@ -171,7 +177,7 @@ class MakeModelMessages(object):
         
         if err:
             # dont raise exception, some stuff in stderr are just warmings
-            logging.warning(err)
+            logging.warning("%s \nfile: %s\npostring: %s" % (err, locale_file, po_string))
         
         return msg
 
