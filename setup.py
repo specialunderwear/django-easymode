@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 import os
 from distutils.core import setup
+from distutils.command.install import INSTALL_SCHEMES
 
-version = '0.5.3'
+version = '0.5.4'
 packages = []
 data_files = []
 
+for scheme in INSTALL_SCHEMES.values():
+    scheme["data"] = scheme["purelib"]
 
 def fullsplit(path, result=None):
     """
