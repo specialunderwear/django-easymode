@@ -22,4 +22,4 @@ To build the documentation:
 
 To view the documentation:
 
-go to [easymode docs](http://easymode.permanentmarkers.nl/)
+go to [easymode docs](http://packages.python.org/django-easymode/)
