@@ -17,7 +17,7 @@ class FooAdmin(ForeignKeyAwareModelAdmin):
             'fields': ('bar', 'barstool')
         }),
         ('An thingy', {
-            'fields': ('website', 'city', 'address')
+            'fields': ('website', 'city', 'address', 'date')
         }),
     )
 
