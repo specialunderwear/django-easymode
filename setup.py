@@ -3,7 +3,7 @@ import os
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
-version = '0.5.4'
+version = '0.5.5'
 packages = []
 data_files = []
 
