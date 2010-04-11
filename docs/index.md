@@ -1,7 +1,7 @@
 Easymode : toolkit for making xml based flash websites
 ======================================================
 
-Easymode is a toolkit that helps making xml based flash websites easy.
+Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
 The tools included in the toolkit to help you make these kind of sites include:
 
 .. toctree::

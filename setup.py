@@ -3,7 +3,7 @@ import os
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
-description="""Easymode is a toolkit that helps making xml based flash websites easy.
+description="""Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
 The tools included in the toolkit to help you make these kind of sites include:
 
 * Internationalization of models, with admin support
