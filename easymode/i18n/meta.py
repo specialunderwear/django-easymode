@@ -12,6 +12,7 @@ from django.utils             import translation
 from django.conf              import settings
 from django.utils.encoding import force_unicode
 from django.utils.translation.trans_real import translation as translation_catalogs
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 
 from easymode.utils           import first_match 
 from easymode.utils.languagecode import get_all_language_codes, get_real_fieldname
@@ -210,14 +211,12 @@ def localize_fields(cls, localized_fields):
 
         # copy some values and functions from the original_attr
         # so the field can emulate the original_attr as good as possible
-        
-        # collect usefull attributes of original field
         kwargs = {
             'serialize': getattr(original_attr, 'serialize', True),
             'font':getattr(original_attr, 'font', None),
             'max_length': getattr(original_attr, 'max_length', None),
             'min_length' : getattr(original_attr, 'min_length', None),
-            'form_field' : original_attr.formfield(),
+            'form_field' : original_attr.formfield(**FORMFIELD_FOR_DBFIELD_DEFAULTS.get(original_attr.__class__, {})),
             'get_internal_type': original_attr.get_internal_type,
             'unique': getattr(original_attr, 'unique', False),
             'to_python': original_attr.to_python,
