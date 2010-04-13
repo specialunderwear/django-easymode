@@ -53,6 +53,25 @@ example::
 With the above settings, no catalogs are managed automatically by easymode. You 
 have to manually generate them using :ref:`easy_locale`.
 
+:ref:`auto_catalog` can also be used when you only need *some* (but not all) 
+of the internationalised models to auto update the catalog. For this to work
+you need to set :ref:`auto_catalog` to ``False`` in settings.py::
+
+    AUTO_CATALOG = False
+
+Then somewhere else, for example in your admin.py or models.py you can turn on
+automatic catalog updates for specific models::
+
+    from models import News
+    import easymode.i18n
+    
+    easymode.i18n.register(News)
+
+Now only the ``News`` model will automatically update the catalog, but other models will
+leave it alone. See :func:`easymode.i18n.register` for more info.
+
+Ofcourse, for this to work you must have :ref:`master_site` set to ``True``.
+
 .. _master_site:
 
 MASTER_SITE
