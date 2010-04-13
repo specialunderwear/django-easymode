@@ -12,6 +12,15 @@ The tools included in the toolkit to help you make these kind of sites include:
     Automatic generation of xml from model trees using xslt<xslt/index.md>
     Admin support for model trees with more than 2 levels of related items <tree/index.md>
     Basic approval support for models <easypublisher.md>
+
+Example
+=======
+
+Easymode comes with an example app which is available from github:
+
+http://github.com/LUKKIEN/django-easymode/
+
+Please install the ``example_data.xml`` to see the different features demonstrated.
     
 Unsupported django features
 ===========================
