@@ -11,7 +11,7 @@ gettext. For internationalization of dynamic model data, easymode offers simple
 decorators to enable internationalized fields.
 
 The only requuirement fields have to satisfy to be able to be internationalised
-by easymode, is that their ``to_python`` method may not access ``self``.
+by easymode, is that their :func:`~django.db.models.to_python` method may not access ``self``.
 
 suppose we have the following model.
 
@@ -97,7 +97,7 @@ the other languages, the current language must be switched. Please refer to
 :ref:`translation_of_contents` for more details.
 
 There is one more way a models can be registered for the admin and that is by creating
-a new descendant of :class:`ModelAdmin` for a specific model. You can now also use the 
+a new descendant of :class:`~django.contrib.admin.ModelAdmin` for a specific model. You can now also use the 
 :class:`~easymode.i18n.admin.decorators.L10n` decorator with the new class decorator syntax::
 
     from django.contrib import admin
@@ -114,7 +114,7 @@ a new descendant of :class:`ModelAdmin` for a specific model. You can now also u
 
 Note that you still have to pass the model class as a parameter to the decorator.
 
-For admin classes that specify the ``model`` attribute you can leave that out::
+For admin classes that specify the :attr:`~django.contrib.admin.ModelAdmin.model` attribute you can leave that out::
 
     from django.contrib import admin
     from easymode.i18n.admin.decorators import L10n
@@ -134,7 +134,7 @@ Inline and GenericInline ModelAdmin
 -----------------------------------
 
 All easymode's localization mechanisms fully support django's flavors of
-:class:`InlineModelAdmin`, both normal and generic. While there is no need to
+:class:`~django.contrib.admin.options.InlineModelAdmin`, both normal and generic. While there is no need to
 register these types of ModelAdmin classes, you still need to decorate them
 with :class:`~easymode.i18n.admin.decorators.L10n` if you need them to 
 be localized.
@@ -142,7 +142,7 @@ be localized.
 Fieldsets are also supported
 ----------------------------
 
-Fieldsets are supported for admin classes decorated with 
-:class:`~easymode.i18n.admin.decorators.L10n`. However ``fields``
+:attr:`~django.contrib.admin.ModelAdmin.fieldsets` are supported for admin classes decorated with 
+:class:`~easymode.i18n.admin.decorators.L10n`. However :attr:`~django.contrib.admin.ModelAdmin.fields`
 is not supported, because easymode uses it to hide fields. Since you can do the exact
 same thing with fieldsets, this should not be a problem.

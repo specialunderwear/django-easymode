@@ -110,7 +110,7 @@ This is because the value for ``m.bar`` in langugae 'yx' was resolved as follows
 
 * see if the database value bar_yx is not null, if so return bar_yx
 * see if the ``msgstr`` for 'hello' (The value of ``m.bar`` in the 
-  :ref:`msgid_langugae`) exists if so return ugettext('hello')
+  :ref:`msgid_language`) exists if so return ugettext('hello')
 * otherwise return the value in the :ref:`fallback language <fallback_langugaes>`
     
 Importing translations is implicit

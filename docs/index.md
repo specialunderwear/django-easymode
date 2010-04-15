@@ -31,10 +31,10 @@ The following features, which django supports, are not supported by easymode:
 - ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
 - ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
 - Automatic serialization of ``ManyToManyField``. The model tree should 
-be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
+  be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
 - Inheritance for models is restricted to abstract base classes. 
-This is a direct result of the fact that OneToOneFields are *not* supported by
-the serializer.
+  This is a direct result of the fact that OneToOneFields are *not* supported by
+  the serializer.
 
 All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
 
