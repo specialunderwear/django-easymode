@@ -13,6 +13,11 @@ The tools included in the toolkit to help you make these kind of sites include:
     Admin support for model trees with more than 2 levels of related items <tree/index.md>
     Basic approval support for models <easypublisher.md>
 
+The best way to learn how easymode works, is to read the above topics in sequence
+and then look at the :ref:`example_app`.
+
+.. _example_app:
+
 Example
 =======
 
@@ -20,7 +25,17 @@ Easymode comes with an example app which is available from github:
 
 http://github.com/LUKKIEN/django-easymode/
 
-Please install the ``example_data.xml`` to see the different features demonstrated.
+To run the example app, you must clone the repository, install the dependencies
+and initialize the database::
+
+    git clone http://github.com/LUKKIEN/django-easymode/
+    cd django-easymode
+    pip install -r requirements.txt
+    cd example
+    python manage.py syncdb
+    python manage.py loaddata example_data.xml
+    python manage.py runserver
+    open http://127.0.0.1:8000/
     
 Unsupported django features
 ===========================
