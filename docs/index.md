@@ -28,7 +28,7 @@ http://github.com/LUKKIEN/django-easymode/
 To run the example app, you must clone the repository, install the dependencies
 and initialize the database::
 
-    git clone http://github.com/LUKKIEN/django-easymode/
+    git clone http://github.com/LUKKIEN/django-easymode.git
     cd django-easymode
     pip install -r requirements.txt
     cd example
