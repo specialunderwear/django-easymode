@@ -9,7 +9,7 @@ Reasons why you would need this:
 
 - You've got a model that has a foreign key to itself. You need this if you
   want some kind of hierarchical page tree or something. You might want to
-  put the self referencing ``ForeignKey`` to ``serialize=False``. This
+  put the self referencing :class:`~django.db.models.ForeignKey` to ``serialize=False``. This
   way it can not mess up the serializer, but you don't have a hierarchic structure
   in your xml.
 - You pull data from an external source.
