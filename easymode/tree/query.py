@@ -58,7 +58,7 @@ class XmlQuerySetChain(list):
     
     You can also pass an ``XmlQuerySetChain`` into ``easymode.xslt.response.render_to_response``.
     
-    :param *querysets: a :class:`list` of querysets that should combined into a single xml.
+    :param querysets: a :class:`list` of querysets that should combined into a single xml.
     """
     def __init__(self, *querysets):
         """Pass some querysets to this queryset chain and they can all be serialized together."""
