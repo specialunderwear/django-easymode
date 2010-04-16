@@ -14,7 +14,7 @@ The tools included in the toolkit to help you make these kind of sites include:
 
 documentation at http://packages.python.org/django-easymode/"""
 
-version = '0.5.5'
+version = '0.5.6'
 packages = []
 data_files = []
 
