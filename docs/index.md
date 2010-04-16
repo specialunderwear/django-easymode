@@ -16,6 +16,13 @@ The tools included in the toolkit to help you make these kind of sites include:
 The best way to learn how easymode works, is to read the above topics in sequence
 and then look at the :ref:`example_app`.
 
+Version naming convention
+-------------------------
+
+* Each update to the development status will increase the first digit. (eg beta or alpha or production ready)
+* Each new feature will increase the second digit.
+* Each bugfix or refactor will increase the last digit
+
 .. _example_app:
 
 Example
