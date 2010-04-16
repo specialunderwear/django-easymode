@@ -7,7 +7,7 @@ from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
 from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
 
-__all__ = ('L10n',)
+__all__ = ('L10n', 'lazy_localized_list')
         
 class lazy_localized_list(list):
     """

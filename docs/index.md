@@ -49,32 +49,18 @@ Unsupported django features
 
 The following features, which django supports, are not supported by easymode:
 
-- ``Model.Meta.unique_together``
-- ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
-- ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
-- Automatic serialization of ``ManyToManyField``. The model tree should 
+- :attr:`~django.db.models.Options.unique_together`
+- :attr:`~django.db.models.Field.unique_for_date`, :attr:`~django.db.models.Field.unique_for_month`,
+  :attr:`~django.db.models.Field.unique_for_year`
+- :attr:`django.contrib.admin.ModelAdmin.fields`, use :attr:`django.contrib.admin.ModelAdmin.fieldsets` instead.
+- Automatic serialization of :class:`~django.db.models.ManyToManyField`. The model tree should 
   be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
-- Inheritance for models is restricted to abstract base classes. 
-  This is a direct result of the fact that OneToOneFields are *not* supported by
+- Inheritance for models is restricted to :attr:`~django.db.models.Options.abstract` base classes. 
+  This is a direct result of the fact that :class:`~django.db.models.OneToOneField` are *not* supported by
   the serializer.
 
 All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
 
-Easymode : toolkit for making xml based flash websites
-======================================================
-
-Easymode is a toolkit that helps making xml based flash websites easy.
-The tools included in the toolkit to help you make these kind of sites include:
-
-.. toctree::
-   :maxdepth: 1
-
-    Internationalization and Localization of models, with admin support <i18n/index.md>
-    Translation of model data using gettext <i18n/translation.md>
-    Automatic generation of xml from model trees <xslt/index.md>
-    Admin support for model trees with more than 2 levels of related items <tree/index.md>
-    Basic approval support for models <easypublisher.md>
-    
 Additional subjects
 ===================
 

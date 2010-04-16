@@ -16,6 +16,14 @@ def standin_for(obj, **attrs):
     Returns a type that can be used as a standin for some other type.
     
     However it will have extra attrs, which you can define passed as keyword arguments.
+    
+    This will be used in the __future__ to pass info about the origin of a value to
+    a widget. The origin of a value can either be the database or the gettext catalog.
+    You will be able to change the origin. This is very usefull if for example you
+    saved a model without realising all fields will be committed to the database and
+    you made changes to the gettext catalog afterwards.
+    
+    See :ref:`database_rules_all`
     """
     base_type = obj.__class__
     if base_type is bool:
