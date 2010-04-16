@@ -46,7 +46,7 @@ for dirpath, dirnames, filenames in os.walk('easymode'):
 
 setup(name='django-easymode',
     version=version,
-    description='A toolkit for making xml based flash websites with django',
+    description='Toolkit to ease development of internationalized xml based (flash) websites with django',
     author='L. van de Kerkhof',
     maintainer='L. van de Kerkhof',
     maintainer_email='specialunderwear@gmail.com',
