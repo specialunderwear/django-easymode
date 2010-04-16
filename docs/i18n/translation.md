@@ -7,6 +7,9 @@ When using the :ref:`i18n <internationalization_of_models>` and
 :ref:`l10n <localization_of_admin>` features of easymode, you can use gettext's
 standard translation features to translate all the database content.
 
+Automatic catalog management
+----------------------------
+
 If the :ref:`master_site` directive is set to True, every time a model decorated
 with :class:`~easymode.i18n.decorators.I18n` is saved, easymode will add an 
 entry to the corresponding gettext catalog. (for all the options related to the 
@@ -22,6 +25,30 @@ convenient when a new site is created, for the first *big batch* of translations
 
 For modifications afterward, you can just use the admin interface, which will
 show the translations from the gettext catalog if they exist.
+
+TAKE CARE
+---------
+
+The translation mechanism using gettext is best used when a site is initially
+going to be translated to other languages. After this fase, content will most likely be
+edited directly in the admin interface, and you will encounter the issues described in
+:ref:`database_rules_all`. It takes proper planning to make full use of the
+gettext capabilities of easymode. 
+
+In effect any changes made to the gettext
+catalog after editors are changing content in the admin interface
+has a very low probability of being shown on the website. [#f1]_
+
+The proper workflow is:
+
+- edit and add base content of the website, *ALL OF IT* and make sure you don't want to modify it anymore.
+- translate content using gettext, and *COMPLETELY STOP ALL EDITING, JUST 
+  LOCK UP THE SITE DURING TRANSLATION!!!!!* (because of :ref:`database_rules_all`)
+- edit and modify all you like in the admin, all translations will be there. [#f2]_
+  
+
+If you choose to deviate from this workflow be sure to understand all the next topics
+and learn how to use :ref:`easy_reset_language`.
 
 Translation mechanism explained
 -------------------------------
@@ -138,4 +165,13 @@ got written to the database. Because the database get's precedence over the
 gettext catalog, the new translation would never show up.
 
 This inconvenience can be resolved using the :ref:`easy_reset_language` command
-    
+
+.. [#f1]  Obviously, other gettext
+    catalogs, generated from static content, that are not managed by easymode are unaffected.
+.. [#f2] Watch out
+    when  you completely replace existing content in the :ref:`msgid_language`. The
+    :ref:`msgid_language` is used for the message id's in the catalogs. When you completely
+    replace the existing message id with something different, gettext will see that as adding
+    a new message instead of changing an existing message. When this happens, translations
+    can nolonger be associated with the new message and all languages will fall back to
+    the new message id. Unless the content is allready saved in the database (:ref:`database_rules_all`).

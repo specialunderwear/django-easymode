@@ -71,16 +71,30 @@ Known issues
 - when using a filter statement in a query for an internationalised field, the real field name in 
   the database should be passed to the filter.
   example::
-        
+  
         from easymode.utils.languagecode import get_real_fieldname
         from django.utils.translation import get_language_
-        SomeModel.object.filter(get_real_fieldname('somei18nfield', get_language_()))
+        SomeModel.object.filter(title=get_real_fieldname('title', get_language_()))
   
   see :func:`~easymode.utils.languagecode.get_real_fieldname`
 - some :class:`~django.contrib.admin.ModelAdmin` properties still need the real field names 
   (title_en instead of title), just like filtering. Most of it is just temporary and can be 
   fixed using :class:`~easymode.i18n.admin.decorators.lazy_localized_list`.
   I just haven't found time yet to fix it. report a bug if you need it fixed.
+- There are undocumented features. These are all related to *permissions per field* and SEO.
+  Please contact me if you have to know. Easymode can do
+  field specific permissions, which can be used to give translators only access to fields
+  which are actually translatable.
+  (see `bug 2 <http://github.com/LUKKIEN/django-easymode/issues/#issue/2>`_).
+  Some of the undocumented features are explained in the example app.
+- When easymode has :ref:`auto_catalog` is set to ``True`` and :ref:`master_site` as well, each time
+  a model is changed when no translations are done in the catalogs, the new and the old 
+  value both remain present in the catalog. It is
+  only after translation that easymode (gettext really) will try to update the message id's
+  and make the link between the existing value and the new value. This can be overcome by
+  turning :ref:`auto_catalog` off when adding the main site content, using :ref:`easy_locale`
+  to generate the catalogs when the content has stabilised. This way the catalogs will remain
+  free from unused messages.
 
 Additional subjects
 ===================
