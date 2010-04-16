@@ -71,6 +71,8 @@ Any field that is internationalized using the
 :ref:`I18n decorator<internationalization_of_models>` will always return the 
 field in the current languge, both on read and on write.
 
+.. _database_rules_all:
+
 Database is bigger than gettext
 -------------------------------
 
@@ -112,7 +114,9 @@ This is because the value for ``m.bar`` in langugae 'yx' was resolved as follows
 * see if the ``msgstr`` for 'hello' (The value of ``m.bar`` in the 
   :ref:`msgid_language`) exists if so return ugettext('hello')
 * otherwise return the value in the :ref:`fallback language <fallback_langugaes>`
-    
+
+.. _implicit_translation:
+
 Importing translations is implicit
 ----------------------------------
 

@@ -49,16 +49,38 @@ Unsupported django features
 
 The following features, which django supports, are not supported by easymode:
 
-- ``Model.Meta.unique_together``
-- ``Field.unique_for_date``, ``Field.unique_for_month``, ``Field.unique_for_year``
-- ``ModelAdmin.fields``, use ``ModelAdmin.fieldsets`` instead.
-- Automatic serialization of ``ManyToManyField``. The model tree should 
+- :attr:`~django.db.models.Options.unique_together`
+- :attr:`~django.db.models.Field.unique_for_date`, :attr:`~django.db.models.Field.unique_for_month`,
+  :attr:`~django.db.models.Field.unique_for_year`
+- :attr:`django.contrib.admin.ModelAdmin.fields`, use :attr:`django.contrib.admin.ModelAdmin.fieldsets` instead.
+- Automatic serialization of :class:`~django.db.models.ManyToManyField`. The model tree should 
   be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
-- Inheritance for models is restricted to abstract base classes. 
-  This is a direct result of the fact that OneToOneFields are *not* supported by
+- Inheritance for models is restricted to :attr:`~django.db.models.Options.abstract` base classes. 
+  This is a direct result of the fact that :class:`~django.db.models.OneToOneField` are *not* supported by
   the serializer.
 
 All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
+
+Known issues
+============
+
+- When using the :class:`~easymode.i18n.admin.decorators.L10n` decorator, you can not specify 
+  the :attr:`~django.contrib.admin.ModelAdmin.form` of a
+  :class:`~django.contrib.admin.ModelAdmin` class, because :class:`~easymode.i18n.admin.decorators.L10n` will
+  set this value for you (see `bug 4 <http://github.com/LUKKIEN/django-easymode/issues/#issue/4>`_).
+- when using a filter statement in a query for an internationalised field, the real field name in 
+  the database should be passed to the filter.
+  example::
+        
+        from easymode.utils.languagecode import get_real_fieldname
+        from django.utils.translation import get_language_
+        SomeModel.object.filter(get_real_fieldname('somei18nfield', get_language_()))
+  
+  see :func:`~easymode.utils.languagecode.get_real_fieldname`
+- some :class:`~django.contrib.admin.ModelAdmin` properties still need the real field names 
+  (title_en instead of title), just like filtering. Most of it is just temporary and can be 
+  fixed using :class:`~easymode.i18n.admin.decorators.lazy_localized_list`.
+  I just haven't found time yet to fix it. report a bug if you need it fixed.
 
 Additional subjects
 ===================

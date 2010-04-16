@@ -21,3 +21,9 @@
 
 .. automodule:: easymode.utils.polib
     :members:
+ 
+:mod:`easymode.utils.standin`
+==============================
+
+.. automodule:: easymode.utils.standin
+    :members:
