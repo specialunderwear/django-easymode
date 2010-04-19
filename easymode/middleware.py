@@ -167,18 +167,16 @@ class LocaliseUrlsMiddleware(object):
 
 class ShortLocaleFromUrlMiddleWare(LocaleFromUrlMiddleWare):
     """
-    Same as :class:`LocaliseUrlsMiddleware` but it uses the shorthand version of the language code.
-    
-    This means that if the language code is en-gb, only 'en' will be added to the urls.    
+    deprecated, :class:`LocaleFromUrlMiddleWare` does exactly the same, if
+    you've set ``USE_SHORT_LANGUAGE_CODES`` to ``True``.
     """
     def process_request(self, request):
         super(ShortLocaleFromUrlMiddleWare, self).process_request(request)
 
 class ShortLocaleLocaliseUrlsMiddleware(LocaliseUrlsMiddleware):
     """
-    Same as :class:`LocaliseUrlsMiddleware`, however it uses the shorthand version of the language code.
-    
-    This means that if the language code is en-gb, only 'en' will be added to the urls.
+    deprecated, :class:`LocaliseUrlsMiddleware` does exactly the same, if
+    you've set ``USE_SHORT_LANGUAGE_CODES`` to ``True``.
     """
     def process_response(self, request, response):
         return super(ShortLocaleLocaliseUrlsMiddleware, self).process_response(request, response)

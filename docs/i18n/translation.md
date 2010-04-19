@@ -9,9 +9,10 @@ standard translation features to translate all the database content.
 
 If the :ref:`master_site` directive is set to True, every time a model decorated
 with :class:`~easymode.i18n.decorators.I18n` is saved, easymode will add an 
-entry to the corresponding gettext 
-catalog. (for all the options related to the location of the catalogs please 
-refer to :doc:`/settings`)
+entry to the corresponding gettext catalog. (for all the options related to the 
+location of the catalogs please refer to :doc:`/settings`). Additional control 
+on what models should auto update the catalog is offered by :ref:`auto_catalog`.
+
 
 For each language in your ``LANGUAGES`` directive, a catalog will be created.
 This way you can translate all the content using something like 
@@ -109,7 +110,7 @@ This is because the value for ``m.bar`` in langugae 'yx' was resolved as follows
 
 * see if the database value bar_yx is not null, if so return bar_yx
 * see if the ``msgstr`` for 'hello' (The value of ``m.bar`` in the 
-  :ref:`msgid_langugae`) exists if so return ugettext('hello')
+  :ref:`msgid_language`) exists if so return ugettext('hello')
 * otherwise return the value in the :ref:`fallback language <fallback_langugaes>`
     
 Importing translations is implicit

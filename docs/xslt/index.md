@@ -54,7 +54,7 @@ The first is by decorating a model with the :func:`~easymode.tree.decorators.tox
 
 The ``Foo`` model has now gained a ``__xml__`` method on both itself as on the
 queryset it produces. Calling it will produce hierarchical xml, where all inverse
-relations are followed. (Except for manytomany fields, they are not supported).
+relations are followed. (Except for :class:`~django.db.models.ManyToManyField`, they are not supported).
 
 The preferred method for calling the ``__xml__`` method is by it's function::
 
@@ -67,7 +67,7 @@ Getting xml from several queries
 --------------------------------
 
 The next option, which can also be used with multiple queries, is use the
-``XmlQuerySetChain``::
+:class:`~easymode.tree.query.XmlQuerySetChain`::
 
     from easymode.tree import xml
     from easymode.tree.query import XmlQuerySetChain
@@ -76,7 +76,7 @@ The next option, which can also be used with multiple queries, is use the
     qsc = XmlQuerySetChain(foos)
     rawxml = xml(qsc)
 
-Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to group some querysets together
+Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to group some :class:`~django.db.models.QuerySet` objects together
 into a single xml::
 
     from easymode.tree import xml
@@ -105,7 +105,7 @@ Easymode comes with one xslt that can give good results, depending on your needs
 The :func:`~easymode.xslt.response.render_to_response` helper function will take an xslt as a template and a
 :class:`~easymode.tree.query.XmlQuerySetChain` or a model/queryset decorated with 
 :func:`~easymode.tree.decorators.toxml` to produce it's output.
-Additionally you can pass it a dictionary containing xslt parameters. You have to
+Additionally you can pass it a :class:`dict` containing xslt parameters. You have to
 make sure to use :func:`~easymode.xslt.prepare_string_param` on any xslt parameter that 
 should be passed to the xslt processor as a string.
 

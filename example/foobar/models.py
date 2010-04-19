@@ -12,13 +12,14 @@ KINDS = (
 )
 
 @toxml
-@I18n('city')
+@I18n('city', 'date')
 class Foo(models.Model):
     bar = models.CharField(max_length=255, unique=True)
     barstool = models.TextField(max_length=4)
     website = models.URLField()
     address = models.CharField(max_length=32)
     city = models.CharField(max_length=40)
+    date = models.DateField()
     
     def __unicode__(self):
         return u"%d. %s" % (self.id, self.bar)
@@ -30,6 +31,7 @@ class Bar(models.Model):
     foo = models.ForeignKey(Foo, related_name='bars')
     
     label = models.CharField(max_length=255)
+    date = models.DateField()
 
     def __unicode__(self):
         return u"%d. %s" % (self.id, self.label)

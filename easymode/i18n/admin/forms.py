@@ -4,6 +4,7 @@ from django.utils.datastructures import SortedDict
 from django.forms.util import ErrorList
 from django.utils.translation import get_language
 from django.forms.util import ValidationError
+from django.forms.models import ModelFormMetaclass
 
 from easymode.i18n.admin.widgets import WidgetWrapper
 from easymode.utils.languagecode import get_real_fieldname
@@ -124,7 +125,8 @@ def make_localised_form(model, exclude=None):
     This is a factory function that creates a form for a model with internationalised 
     field. The model should be decorated with the L10N decorater.
     """
-    newfields = fields_for_model(model, None, exclude)
+    
+    newfields = {}
     js_media = set()
     
     for localized_field in model.localized_fields:
@@ -140,7 +142,8 @@ def make_localised_form(model, exclude=None):
         #collect js media definitions
         if hasattr(form_field.widget, 'media'):
             js_media.update(form_field.widget.media._js)
-        
+    
     newfields['Media'] = type('Media', tuple(), {'js':js_media})
-
-    return type(model.__name__, (LocalisedForm, ), newfields)
+    newfields['Meta'] = type('Meta', tuple(), {'model':model})
+    
+    return ModelFormMetaclass(model.__name__, (LocalisedForm, ), newfields)
