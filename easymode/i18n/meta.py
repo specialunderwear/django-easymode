@@ -109,12 +109,13 @@ class DefaultFieldDescriptor(property):
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid
         msgid_language = getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE)
-        msgid = unicode(get_localized_property(obj, self.name, msgid_language))
+        msgid = get_localized_property(obj, self.name, msgid_language)
         
-        # check the translation in the current language
-        msg = translation.ugettext(msgid)
-        if msgid not in (None, "") and self.to_python(msg) is not msgid:
-            return self.to_python(msg)
+        if msgid:
+            # check the translation in the current language
+            msg = translation.ugettext(msgid)
+            if self.to_python(msg) is not msgid:
+                return self.to_python(msg)
 
         # maybe we have a translation in any of the fallback languages.
         if hasattr(settings, 'FALLBACK_LANGUAGES'):
@@ -143,7 +144,7 @@ class DefaultFieldDescriptor(property):
         if msgid in (None, ""):
             return self.to_python(u'')
         
-        return self.to_python(msg)
+        return self.to_python(msgid)
 
     def __set__(self, obj, value):
         """Write the localised version of the field this descriptor emulates."""
