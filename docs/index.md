@@ -126,7 +126,7 @@ Note the version number in the top left corner and use:
 
 - ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/[VERSION]``
 
-Which, if the version was v0.0.1 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
+Which, if the version was v0.1.0 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
 
 Api docs
 ========

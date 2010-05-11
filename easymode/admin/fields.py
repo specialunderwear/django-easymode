@@ -370,3 +370,14 @@ class XmlField(models.TextField):
         parser = sax.make_parser(["easymode.utils.xmlutils"])
         parser.setContentHandler(xml)
         parser.parse(StringIO(value))
+
+class SafeTextField(models.TextField):
+    """
+    This class should be used instead of :class:`django.db.models.TextField`, if you
+    want to use easymode's gettext facilities. It will strip all cariage returns from
+    the input. Cariage returns are an error when included in gettext message id's.
+    """
+    def formfield(self, **kwargs):
+        defaults = {'form_class': PoSafeTextField}
+        defaults.update(kwargs)
+        return super(SafeTextField, self).formfield(**defaults)

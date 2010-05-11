@@ -28,7 +28,7 @@ not in the database::
     stringlib = dict(
         close_button = _('Close'), 
         next_button = _('Next'), 
-        the_end=_("That's all folks")
+        the_end = _("That's all folks")
     )
     
     def render_stringlib_xml():
