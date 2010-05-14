@@ -7,3 +7,4 @@ example/example.sqlite
 polib.py
 reversion
 tinymce
+pip-log.txt
