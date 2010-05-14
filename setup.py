@@ -14,7 +14,7 @@ The tools included in the toolkit to help you make these kind of sites include:
 
 documentation at http://packages.python.org/django-easymode/"""
 
-version = '0.5.6'
+version = '0.5.7'
 packages = []
 data_files = []
 
@@ -55,7 +55,7 @@ setup(name='django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
-    install_requires=['Django==1.1.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2'],
+    install_requires=['Django==1.1.2', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2'],
     license='GPL',
     classifiers=[
         'Development Status :: 4 - Beta',
