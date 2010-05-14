@@ -195,7 +195,7 @@ class MakeModelMessages(object):
         if err:
             # raise exception, none of the stuff in stderr are just warmings
             logging.error(err)
-            raise CommandError("error happened while running msguniq on: " + locale_file + err + open(locale_file, 'r').read())
+            raise CommandError(u"error happened while running msguniq on: %s %s %s" % (locale_file, err.decode('utf-8'), open(locale_file, 'r').read()))
 
         return msg
         
