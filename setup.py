@@ -12,7 +12,8 @@ The tools included in the toolkit to help you make these kind of sites include:
 * Admin support for model trees with more than 2 levels of related items
 * Basic approval support for models
 
-documentation at http://packages.python.org/django-easymode/"""
+documentation at http://packages.python.org/django-easymode/
+release notes at http://packages.python.org/django-easymode/changes.html"""
 
 version = '0.6.0'
 packages = []
