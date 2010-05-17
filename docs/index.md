@@ -72,6 +72,7 @@ Additional subjects
     templatetags
     middlewares <middleware.md>
     Injecting extra data into the XSLT <xslt/helpers.md>
+    changes
 
 Getting easymode
 ================

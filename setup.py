@@ -3,7 +3,7 @@ import os
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
-description="""Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
+"""Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
 The tools included in the toolkit to help you make these kind of sites include:
 
 * Internationalization of models, with admin support
@@ -14,7 +14,7 @@ The tools included in the toolkit to help you make these kind of sites include:
 
 documentation at http://packages.python.org/django-easymode/"""
 
-version = '0.5.7'
+version = '0.6.0'
 packages = []
 data_files = []
 
@@ -50,12 +50,12 @@ setup(name='django-easymode',
     author='L. van de Kerkhof',
     maintainer='L. van de Kerkhof',
     maintainer_email='specialunderwear@gmail.com',
-    long_description=description,
+    long_description=__doc__,
     url='http://github.com/LUKKIEN/django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
-    install_requires=['Django==1.1.2', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2'],
+    install_requires=['Django==1.2', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2.1'],
     license='GPL',
     classifiers=[
         'Development Status :: 4 - Beta',

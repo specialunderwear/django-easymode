@@ -4,8 +4,9 @@ the model objects with inspect. This is because subclassing.Creator throws an ex
 when it is accesses with no context. It SHOULD return the descriptor object
 instead. And now it does.
 """
+from django.db.models.fields.subclassing import LegacyConnection
 
-class SubfieldBaseFix(type):
+class SubfieldBaseFix(LegacyConnection):
     """
     A metaclass for custom Field subclasses. This ensures the model's attribute
     has the descriptor protocol attached to it.

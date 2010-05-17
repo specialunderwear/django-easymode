@@ -160,6 +160,14 @@ def get_real_fieldname(field, lang):
     >>> get_real_fieldname('name', 'en-us')
     'name_en-us'
     
+    Usage::
+    
+        def index(request):
+            published_in_language = get_real_fieldname('published', request.LANGUAGE_CODE)
+            qs = SomeModel.objects.filter(**{published_in_language:True})
+            return render_to_response('index.html', {'queryset':qs})
+    
+    
     :param field: The name of a field in an internationalised model.
     :param lang: The language for which you want to know the real name.
     :rtype: The actual name of the ``field`` in the ``lang``.
