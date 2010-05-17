@@ -7,6 +7,8 @@ When using the :ref:`i18n <internationalization_of_models>` and
 :ref:`l10n <localization_of_admin>` features of easymode, you can use gettext's
 standard translation features to translate all the database content.
 
+.. _auto_catalog_ref:
+
 Automatic catalog management
 ----------------------------
 
