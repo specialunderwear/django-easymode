@@ -9,6 +9,18 @@ from django.db.models.base import ModelBase
 
 from easymode.i18n.meta import DefaultFieldDescriptor
 
+SUBFIELDBASE_ERROR = """
+%s
+
+Easymode caught an AttributeError while trying
+to inspect %s looking for %s. This is probably caused
+by SubFieldBase, see http://code.djangoproject.com/ticket/12568.
+Easymode will patch SubFieldBase for you, you just have to make sure
+not to reference it before easymode is imported. This
+means you can not load any apps that use SubFieldBase before
+you load easymode.
+"""
+
 def _get_members_of_type(obj, member_type):
     """
     Finds members of a certain type in obj.
@@ -31,10 +43,8 @@ def _get_members_of_type(obj, member_type):
         else:
             key_hash = inspect.getmembers(obj.__class__, filter_member_type)
             
-    except AttributeError:
-        # let people know that there was an error by not
-        # showing any children.
-        key_hash = []
+    except AttributeError as e:
+        raise AttributeError(SUBFIELDBASE_ERROR % (e, obj, member_type))
 
     return key_hash
 
