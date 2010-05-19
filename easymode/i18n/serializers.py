@@ -1,6 +1,7 @@
 """
 Contains serializers that also serialize translated fields
 """
+import logging; 
 from StringIO import StringIO
 
 from django.core.serializers import base
@@ -118,11 +119,19 @@ class LocalizedSerializer(base.Serializer):
 
         # handle fields with a font set as speciul
         if getattr(field, 'font', None):
+            logging.debug('has font %s' % field.name)
             self.xml.startElement("field", {
                 "name" : field.name.replace('_', '.'),
                 "type" : field.get_internal_type(),
                 "font" : field.font
             })            
+        elif getattr(field, 'styles', None):
+            logging.debug('has styles %s' % field.name)
+            self.xml.startElement("field", {
+                "name" : field.name.replace('_', '.'),
+                "type" : field.get_internal_type(),
+                "style" : ",".join(field.styles)
+            })
         else:
             self.xml.startElement("field", {
                 "name" : field.name,

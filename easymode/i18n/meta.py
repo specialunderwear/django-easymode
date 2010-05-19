@@ -216,6 +216,7 @@ def localize_fields(cls, localized_fields):
         kwargs = {
             'serialize': getattr(original_attr, 'serialize', True),
             'font':getattr(original_attr, 'font', None),
+            'styles':getattr(original_attr, 'styles', None),
             'max_length': getattr(original_attr, 'max_length', None),
             'min_length' : getattr(original_attr, 'min_length', None),
             'form_field' : original_attr.formfield(**FORMFIELD_FOR_DBFIELD_DEFAULTS.get(original_attr.__class__, {})),

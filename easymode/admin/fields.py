@@ -212,6 +212,16 @@ class DiocoreHTMLField(TextField):
         return super(DiocoreHTMLField, self).formfield(**defaults)
 
 
+class CSSField(DiocoreHTMLField):
+    def __init__(self, *args, **kwargs):
+        self.styles = kwargs.pop('styles', None)
+        self.mce_width = kwargs.pop('width', 340)
+        self.mce_height = kwargs.pop('height', 160)
+        self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat,code")
+
+        logging.debug('%s %s %s' % (__file__, self.__class__, self.styles))
+        TextField.__init__(self, *args, **kwargs)
+    
 class DiocoreTextField(TextField):
     """
     This textfield stores a font as well.
