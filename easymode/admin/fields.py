@@ -214,6 +214,15 @@ class DiocoreHTMLField(TextField):
 
 
 class CSSField(DiocoreHTMLField):
+    """
+    A field adds a *style* property when serialized by easymode.
+    
+    .. code-block:: xml
+    
+        <field type="CharField" name="title" style="large,at-left">Hi</field>
+        
+        
+    """
     def __init__(self, *args, **kwargs):
         self.styles = kwargs.pop('styles', None)
         self.mce_width = kwargs.pop('width', 340)

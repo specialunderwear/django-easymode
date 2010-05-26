@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+v0.6.1
+------
+
+- :class:`~easymode.admin.fields.DiocoreHTMLField` will now also show a tinymce editor when it
+  is not internationalized.
+- When there is a problem with monkey patching :class:`django.db.models.SubfieldBase` easymode
+  will throw an exception. (Monkey patch fixes http://code.djangoproject.com/ticket/12568).
+- New field aded, :class:`~easymode.admin.fields.CSSField`, which allows specification of css classes
+  for a rich text field, the css classes will appear in the xml as::
+  
+    style="class1,class2"
+
 v0.6.0
 ------
 
