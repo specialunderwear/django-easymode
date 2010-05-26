@@ -198,7 +198,6 @@ class DiocoreHTMLField(TextField):
         }
     
         defaults = {
-            'widget': TinyMCE(mce_attrs=mce_default_attrs),
             'form_class': PoSafeTextField,
         }
         
@@ -209,6 +208,8 @@ class DiocoreHTMLField(TextField):
             defaults['max_length'] = self.max_length
             
         defaults.update(kwargs)
+        defaults['widget'] = TinyMCE(mce_attrs=mce_default_attrs)
+        
         return super(DiocoreHTMLField, self).formfield(**defaults)
 
 
@@ -219,7 +220,6 @@ class CSSField(DiocoreHTMLField):
         self.mce_height = kwargs.pop('height', 160)
         self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat,code")
 
-        logging.debug('%s %s %s' % (__file__, self.__class__, self.styles))
         TextField.__init__(self, *args, **kwargs)
     
 class DiocoreTextField(TextField):
