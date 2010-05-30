@@ -16,10 +16,10 @@
 .. automodule:: easymode.utils.languagecode
     :members:
 
-:mod:`easymode.utils.polib`
-===========================
+:mod:`easymode.utils.polibext`
+==============================
 
-.. automodule:: easymode.utils.polib
+.. automodule:: easymode.utils.polibext
     :members:
  
 :mod:`easymode.utils.standin`

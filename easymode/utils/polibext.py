@@ -1,3 +1,6 @@
+"""
+Some extensions to polib (http://bitbucket.org/izi/polib)
+"""
 import types
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -35,10 +38,11 @@ def po_to_unicode(po_obj):
     
 class PoStream(polib._POFileParser):
     """
-    Create a POFile object from a StringIO::
+    Create a POFile object from a :class:`~StringIO.StringIO`
+    instead of a file name or handle.::
     
         import codecs
-        from StringIO import StringIO instead of a file name or handle.
+        from StringIO import StringIO
         
         po_string = codecs.open('sompofile.po', 'r', 'utf-8').read()
         po_file_from_string = PoStream(None, StringIO(po_string)).parse()
