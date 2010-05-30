@@ -11,6 +11,9 @@ If ``AUTO_CATALOG`` is ``True``, easymode will add every new object of a
 model decorated with :class:`~easymode.i18n.decorators.I18n` to the gettext
 catalog. 
 
+How does gettext work
+~~~~~~~~~~~~~~~~~~~~~
+
 When existing content is updated in the :ref:`msgid_language` on the
 :ref:`master_site`, gettext will try to updated the msgid's in all the languages.
 Therefor keeping the mapping between original and translation. There is a limit 
@@ -52,8 +55,11 @@ between original and translation is kept.
     msgstr "J'ai une voiture"
     
 
-The location of the catalog canbe controlled using :ref:`locale_dir` and
+The location of the catalog can be controlled using :ref:`locale_dir` and
 :ref:`locale_postfix`,
+
+What does AUTO_CATALOG do?
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 example::
 
@@ -81,6 +87,9 @@ leave it alone. See :func:`easymode.i18n.register` for more info.
 
 Ofcourse, for this to work you must have :ref:`master_site` set to ``True``.
 
+In a nutshell, ``MASTER_SITE=False`` will disable all gettext updating, while ``AUTO_CATALOG=False``,
+still allows you to turn it on for selected models.
+
 .. _master_site:
 
 MASTER_SITE
@@ -95,6 +104,9 @@ In a multiple site context, you might not want to have all sites updating the
 catalog. Because the content created on some of these sites might not need to
 be translated because it is not used on any other sites. Content can flow from
 'master site' to 'slave site' but not from 'slave site' to 'slave site'.
+
+for more fine grained control over which models should be automatically added
+to a gettext catalog, see :ref:`auto_catalog`.
 
 example::
 
@@ -145,7 +157,7 @@ single gettext catalog. If ``LOCALE_DIR`` is not specified, the contents will
 be grouped by app. When a model belongs to the 'foo' app, new contents will be
 added to the catalog located in ``foo/locale``.
 
-You might not want to have the dynamic contents wriiten to your app's locale, 
+You might not want to have the dynamic contents written to your app's locale, 
 if you also have static translations. You can separate the dynamic and static
 content by specifying the :ref:`locale_postfix`.
 
@@ -207,8 +219,8 @@ even when the current language would be 'en-us'.
 This means i can not have the same language defined twice in my ``LANGUAGES``::
 
     LANGUAGES = (
-        'en-us' : _('American English'),
-        'en-gb' : _('British'),
+        ('en-us', _('American English')),
+        ('en-gb', _('British')),
     )
 
 This will **NOT** work because both languages will be displayed in the url as 'en' which is
