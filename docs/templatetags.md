@@ -10,7 +10,9 @@ environment.
 
 :func:`~easymode.templatetags.easyfilters.strip_locale` will
 have an url as an argument and if there is a locale in the url,
-it will be stripped::
+it will be stripped:
+
+.. code-block:: html+django
 
     {% load 'easyfilters' %}
     
@@ -33,7 +35,9 @@ If there is only one language used in the site, it strips the language code.
 If there are more languages used, it will make sure that the url has the current
 language as a prefix.
 
-usage::
+usage:
+
+.. code-block:: html+django
 
     {% load 'easyfilters' %}
     
@@ -60,7 +64,9 @@ Use this if you want to use :ref:`short_language_codes`.
 will always return the correct locale to use in an url,
 depending on your settings of :ref:`short_language_codes`.
 
-usage::
+usage:
+
+.. code-block:: html+django
 
     {% load 'easyfilters' %}
     

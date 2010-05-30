@@ -15,7 +15,9 @@ When existing content is updated in the :ref:`msgid_language` on the
 :ref:`master_site`, gettext will try to updated the msgid's in all the languages.
 Therefor keeping the mapping between original and translation. There is a limit 
 on the ammount of change, before gettext can nolonger identify a string as a 
-change in an existing msgid. For example::
+change in an existing msgid. For example:
+
+.. code-block:: po
 
     # in the english django.po
     #: main.GalleryItem.title_text:32

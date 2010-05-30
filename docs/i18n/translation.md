@@ -69,7 +69,9 @@ suppose we have a model as follows:
         bar = models.CharField(max_length=255)
         foobar = models.TextField()
 
-Normally the database would look like this::
+Normally the database would look like this:
+
+.. code-block:: sql
 
     CREATE TABLE "foobar_foo" (
         "id" integer NOT NULL PRIMARY KEY,
@@ -79,7 +81,9 @@ Normally the database would look like this::
 
 The :ref:`I18n decorator<internationalization_of_models>` modiefies the model,
 given we've got both 'en' and 'yx' in out ``LANGUAGES`` directive this is what
-the model would look like on the database end::
+the model would look like on the database end:
+
+.. code-block:: sql
 
     CREATE TABLE "foobar_foo" (
         "id" integer NOT NULL PRIMARY KEY,

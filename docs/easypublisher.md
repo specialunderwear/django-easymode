@@ -47,7 +47,9 @@ Easypublisher templatetag :func:`~easymode.easypublisher.templatetags.easypublis
 be used to show all drafts that need approval as a list of links to these drafts. You could
 include it in your admin template somewhere.
 
-use like this::
+use like this:
+
+.. code-block:: html+django
 
     {% load 'easypublisher' %}
     
