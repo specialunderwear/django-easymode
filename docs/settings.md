@@ -29,7 +29,7 @@ change in an existing msgid. For example:
     msgid "I've got a car"
     msgstr "J'ai une voiture"
     
-    #now we update the main.GalleryItem.title_text in the db in english
+    # now we update the main.GalleryItem.title_text in the db in english
     
     # in the english django.po
     #: main.GalleryItem.title_text:32
@@ -37,7 +37,7 @@ change in an existing msgid. For example:
     msgstr ""
     
     # gettext will now also update the message id in french so the link
-    between original and translation keeps existing.
+    # between original and translation keeps existing.
     
     # in the french django.po
     #: main.GalleryItem.title_text:32
@@ -118,12 +118,12 @@ FALLBACK_LANGUAGES
 
 The ``FALLBACK_LANGUAGES`` is a dictionary of values that looks like this::
 
-    FALLBACK_LANGUAGES = (
+    FALLBACK_LANGUAGES = {
         'en': [],
         'hu': ['en'],
         'be': ['en'],
-        'ff' :['hu','en']
-    )
+        'ff': ['hu','en']
+    }
 
 Any string that is not translated in 'ff' will be taken from the 'hu' language.
 If the 'hu' also has no translation, finally it will be taken from 'en'.
