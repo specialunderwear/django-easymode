@@ -6,7 +6,7 @@ Easymode is an aspect oriented toolkit that helps making xml based flash website
 The tools easymode provides are centered around the concept of hierarchy.
 The basic structure of a flash frontend is hierarchical, because of
 the hierarchical nature of the display list. The data that feeds such a frontend,
-then will become hierarchical very quickly, should a site be mostly dynamic.
+then will become hierarchical very quickly, should a site need to be mostly dynamic.
 
 To enable a fully dynamic flash website, the technology used should support:
 
@@ -74,7 +74,6 @@ Table of contents
 The best way to learn how easymode works, is to read the above topics in sequence
 and then look at the :ref:`example_app`.
 
-.. _example_app:
 
 Getting easymode
 ================
@@ -95,6 +94,8 @@ Note the version number in the top left corner and use:
 - ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/[VERSION]``
 
 Which, if the version was v0.1.0 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
+
+.. _example_app:
 
 Example
 =======
