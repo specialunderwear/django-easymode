@@ -19,27 +19,34 @@ change in an existing msgid. For example:
 
 .. code-block:: po
 
-    # in the english django.po
+    # in the english django.po:
     #: main.GalleryItem.title_text:32
     msgid "I've got a car"
     msgstr ""
-    
-    # in the french django.po
+
+.. code-block:: po
+
+    # in the french django.po:
     #: main.GalleryItem.title_text:32
     msgid "I've got a car"
     msgstr "J'ai une voiture"
     
-    # now we update the main.GalleryItem.title_text in the db in english
+Now we update the main.GalleryItem.title_text in the db in english,
+which will also change the english gettext catalog's message id:
+
+.. code-block:: po
     
-    # in the english django.po
+    # in the english django.po:
     #: main.GalleryItem.title_text:32
     msgid "I've had a car"
     msgstr ""
     
-    # gettext will now also update the message id in french so the link
-    # between original and translation keeps existing.
+gettext will now also update the message id in french so the link
+between original and translation is kept.
+
+.. code-block:: po
     
-    # in the french django.po
+    # in the french django.po:
     #: main.GalleryItem.title_text:32
     msgid "I've had a car"
     msgstr "J'ai une voiture"
