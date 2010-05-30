@@ -19,7 +19,6 @@ class HtmlFlashUrlFieldTest(TestCase):
     def test_serialization(self):
         """Test HtmlFlashUrlField serialization"""
 
-
         t = UrlFieldTestModel.objects.all()[0]
 
         x = xml(t)

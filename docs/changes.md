@@ -4,11 +4,11 @@ Release Notes
 v0.6.1
 ------
 
-- :class:`~easymode.admin.fields.DiocoreHTMLField` will now also show a tinymce editor when it
+- :class:`~easymode.admin.models.fields.DiocoreHTMLField` will now also show a tinymce editor when it
   is not internationalized.
 - When there is a problem with monkey patching :class:`django.db.models.SubfieldBase` easymode
   will throw an exception. (Monkey patch fixes http://code.djangoproject.com/ticket/12568).
-- New field aded, :class:`~easymode.admin.fields.CSSField`, which allows specification of css classes
+- New field aded, :class:`~easymode.admin.models.fields.CSSField`, which allows specification of css classes
   for a rich text field, the css classes will appear in the xml as::
   
     style="class1,class2"
@@ -27,7 +27,7 @@ v0.6.0
 v0.5.7
 ------
 
-- Added :class:`easymode.admin.fields.SafeTextField`, a textfield which strips
+- Added :class:`easymode.admin.models.fields.SafeTextField`, a textfield which strips
   all cariage returns before saving, which is required when using 
   :ref:`auto_catalog_ref`.
 - Updated django requirement to v1.1.2 because python 2.6.5 will otherwise

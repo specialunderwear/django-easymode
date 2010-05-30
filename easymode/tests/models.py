@@ -1,11 +1,9 @@
-import os
-
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 from easymode.tree.decorators import toxml
-from easymode.admin.fields import *
+from easymode.admin.models.fields import *
 from easymode.i18n.decorators import I18n
 
 @I18n('charfield')
@@ -50,7 +48,7 @@ class TestSubSubModel(models.Model):
 class UrlFieldTestModel(models.Model):
     title    = models.CharField(max_length=256)
     revision = models.PositiveIntegerField()
-    url      = HtmlFlashUrlField(max_length=256)
+    url      = FlashUrlField(max_length=256)
 # 
 # @toxml
 # class IncludeFileFieldTestModel(models.Model):
