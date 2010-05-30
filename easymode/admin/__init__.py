@@ -15,9 +15,9 @@ class DragAndDropAdmin(admin.ModelAdmin):
     
     class Media:
         js = (
-            'cms/js/lib/jquery.js',
-            'cms/js/lib/ui.core.js',
-            'cms/js/lib/ui.sortable.js',
+            'js/lib/jquery.js',
+            'js/lib/ui.core.js',
+            'js/lib/ui.sortable.js',
             'easymode/js/menu-sort.js',            
         )
         
