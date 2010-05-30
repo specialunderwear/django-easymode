@@ -17,6 +17,19 @@ from django.utils.datastructures import DictWrapper
 from django.forms import fields
 from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
 
+import warnings
+
+try:
+    import tinymce
+except ImportError:
+    warnings.warn(
+        """
+        Without tinymce most of the fields related to rich text do not work, 
+        this will also cause some of tests to fail!!
+        http://code.google.com/p/django-tinymce/
+        """
+    )
+
 from tinymce.widgets import TinyMCE
 
 from easymode.utils import xmlutils

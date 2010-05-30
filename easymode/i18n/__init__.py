@@ -2,6 +2,19 @@
 Internationalization and localization support for django models.
 """
 
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+
+if not hasattr(settings, 'PROJECT_DIR'):
+    raise ImproperlyConfigured(
+        """
+        PLEASE DEFINE PROJECT_DIR AS: 
+        PROJECT_DIR = os.path.dirname(__file__) 
+        in your settings.py.
+        
+        Otherwise you can not use easymode.i18n.
+        """)
+
 from weakref import WeakKeyDictionary
 
 from django.db.models.signals import post_save

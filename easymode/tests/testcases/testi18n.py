@@ -10,17 +10,17 @@ from hashlib import sha1
 
 from os.path import join, isdir
 
-try:
-    from rosetta import polib
-except ImportError:
-    import polib
-
 
 from django.test import TestCase
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.utils import translation
 from django.utils.translation import trans_real
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    from rosetta import polib
+else:
+    import polib
 
 from easymode.utils import first_match, mutex
 from easymode.utils.languagecode import get_language_codes

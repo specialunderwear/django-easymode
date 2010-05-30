@@ -25,7 +25,6 @@ def initdb(cls):
         mgr.set(INSTALLED_APPS=settings.INSTALLED_APPS+[
             'easymode',
             'easymode.tests',
-            'rosetta',
             ],
         )
         

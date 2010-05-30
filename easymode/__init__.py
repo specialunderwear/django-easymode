@@ -1,51 +1,17 @@
 """
-A framework for integrating django wih flash.
+Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
+The tools included in the toolkit to help you make these kind of sites include:
 
-Features:
-Support for diocore actionscript framework.
-Localisation of django models.
-Translation via po files or django admin.
-Hierarchical serialization of django models.
-Hierarchical organisation of madels in the admin.
-Xslt transformation of serialized model xml.
-django commands for administration.
+* Internationalization of models, with admin support
+* Translation of model data using gettext
+* Automatic generation of xml from model trees using xslt
+* Admin support for model trees with more than 2 levels of related items
+* Basic approval support for models
+
+documentation at http://packages.python.org/django-easymode/
+
+release notes at http://packages.python.org/django-easymode/changes.html
 """
-import warnings
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-
-if not hasattr(settings, 'PROJECT_DIR'):
-    raise ImproperlyConfigured(
-        """
-        PLEASE DEFINE PROJECT_DIR AS: 
-        PROJECT_DIR = os.path.dirname(__file__) 
-        in your settings.py
-        """)
-
-if not 'rosetta' in settings.INSTALLED_APPS:
-    try:
-        import polib
-    except ImportError:
-        raise ImproperlyConfigured(
-            """
-            Please install either django-rosetta: 
-            http://code.google.com/p/django-rosetta/
-            or polib:
-            http://bitbucket.org/izi/polib/src/
-            otherwise easymode won't work"""
-        )
-    
-
-try:
-    import tinymce
-except ImportError:
-    warnings.warn(
-        """
-        Without tinymce most of the fields related to rich text do not work, 
-        this will also cause lots of tests to fail!!
-        http://code.google.com/p/django-tinymce/
-        """
-    )
 
 # monkey patch a bug in django's SubfieldBase
 # See easymode.hacks.SubfieldBaseFix 

@@ -12,6 +12,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.management.base import CommandError
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import templatize, to_locale, get_language
 from django.utils import tzinfo
 from django.template.loader import render_to_string
@@ -19,12 +20,22 @@ from django.template.loader import render_to_string
 from easymode.tree import introspection
 from easymode.utils import mutex
 from easymode.utils.languagecode import get_language_codes
-from easymode.utils import polib as polib_extensions
+from easymode.utils import polibext
 
-try:
+if 'rosetta' in settings.INSTALLED_APPS:
     from rosetta import polib
-except ImportError:
-    import polib
+else:
+    try:
+        import polib
+    except ImportError:
+        raise ImproperlyConfigured(
+            """
+            Please install either django-rosetta: 
+            http://code.google.com/p/django-rosetta/
+            or polib:
+            http://bitbucket.org/izi/polib/src/
+            otherwise easymode.i18n.gettext won't work"""
+        )
 
 source_re = re.compile(r'#: .*?:(\d+)', re.UNICODE)
 
@@ -97,18 +108,18 @@ class MakeModelMessages(object):
                     
                     if write_header: # write header and po stuffz0r
                         with codecs.open(locale_file, 'w', 'utf-8') as fp:
-                            fp.write(polib_extensions.po_to_unicode(po_form))
+                            fp.write(polibext.po_to_unicode(po_form))
                             
                     else: 
                         #merge existing translation with the new one
-                        msg = self.msgmerge(locale_file, polib_extensions.po_to_unicode(po_form).encode('utf-8'))
+                        msg = self.msgmerge(locale_file, polibext.po_to_unicode(po_form).encode('utf-8'))
                         if msg:
                             if len(po_form):
                                 # add the new entries to the po file
                                 with codecs.open(locale_file, 'a', 'utf-8') as fp:
                                     for entry in po_form: # this avoids printing the header
                                         fp.write(u"\n")
-                                        fp.write(polib_extensions.po_to_unicode(entry))
+                                        fp.write(polibext.po_to_unicode(entry))
                                         
                                 # filter away duplicates  
                                 msg = self.msguniq(locale_file)
@@ -123,7 +134,7 @@ class MakeModelMessages(object):
             return None
         
         # create po stream with header
-        po_stream = polib_extensions.PoStream(StringIO.StringIO(self.po_header)).parse()
+        po_stream = polibext.PoStream(StringIO.StringIO(self.po_header)).parse()
         
         for (name, field) in introspection.get_default_field_descriptors(model):
             occurrence = u"%s.%s.%s" % (model._meta.app_label, model.__class__.__name__, name)
@@ -163,7 +174,7 @@ class MakeModelMessages(object):
     
     def po_stream(self, po_string):
         """make a po stream object from a po_string"""
-        return polib_extensions.PoStream(StringIO.StringIO(po_string)).parse()
+        return polibext.PoStream(StringIO.StringIO(po_string)).parse()
 
 
     def msgmerge(self, locale_file, po_string):
