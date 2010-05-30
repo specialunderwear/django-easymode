@@ -1,7 +1,7 @@
 .. _translation_of_contents:
 
-Translation of database content
-===============================
+Translation of database content using gettext
+=============================================
 
 When using the :ref:`i18n <internationalization_of_models>` and 
 :ref:`l10n <localization_of_admin>` features of easymode, you can use gettext's

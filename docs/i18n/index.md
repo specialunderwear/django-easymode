@@ -1,5 +1,5 @@
-Internationalization and localization of django models
-======================================================
+Internationalization and localization of django models, with admin support
+==========================================================================
 
 .. _internationalization_of_models:
 

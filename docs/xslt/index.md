@@ -1,5 +1,7 @@
-Xslt is for Flash
-=================
+.. _auto_xml:
+
+Automatic generation of xml from models using xslt
+==================================================
 
 Most of the data being transferred to a flash frontend is in xml. This is both
 because xml is very well supported by Flash (e4x) and because hierarchical data
