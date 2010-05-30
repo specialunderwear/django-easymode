@@ -13,9 +13,9 @@ class BoolStandin(int):
 
 def standin_for(obj, **attrs):
     """
-    Returns a type that can be used as a standin for some other type.
+    Returns an object that can be used as a standin for the original object.
     
-    However it will have extra attrs, which you can define passed as keyword arguments.
+    The standin object will have extra attrs, which you can define passed as keyword arguments.
     
     This will be used in the __future__ to pass info about the origin of a value to
     a widget. The origin of a value can either be the database or the gettext catalog.
@@ -25,22 +25,26 @@ def standin_for(obj, **attrs):
     
     See :ref:`database_rules_all`
     """
-    base_type = obj.__class__
-    if base_type is bool:
-        base_type = BoolStandin
+    
+    obj_class = obj.__class__
+    if obj_class is bool:
+        obj_class = BoolStandin
     
     attr_names  = attrs.keys()
     attr_names.sort()
 
+    # create a readable class name
     additions = 'And'.join(map(capfirst, attr_names))
-    id = "%s%s" % (base_type.__name__, additions.encode('ascii', 'ignore'))
+    id = "%s%s" % (obj_class.__name__, additions.encode('ascii', 'ignore'))
     
+    # if we allready know this type don't create it again.
     cached_type = _defined_standins.get(id, None)
     if not cached_type:
         cls_attrs = dict([(attr_name, None) for attr_name in attr_names])
-        cached_type = type("%sStandIn" % id, (base_type,), cls_attrs)
+        cached_type = type("%sStandIn" % id, (obj_class,), cls_attrs)
         _defined_standins[id] = cached_type
     
+    # create new object based on original and add extra attrs.
     stand_in = cached_type(obj)
     for (key, value) in attrs.iteritems():
         setattr(stand_in, key, value)
