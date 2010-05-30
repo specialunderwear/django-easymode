@@ -11,10 +11,10 @@ then will become hierarchical very quickly, should a site need to be mostly dyna
 To enable a fully dynamic flash website, the technology used should support:
 
 1. Rapid creation/modification of data structures.
-2. A mechanism to fit these data structures in a hierarchy.
-3. Enable administration of these datastructures with minimal effort.
+2. A mechanism to organise these data structures in a hierarchy.
+3. Enable administration of these data structures with minimal effort.
 4. Enable transportation of all the information in such a hierarchical
-   data structure to a flash frontend.
+   data set to a flash frontend.
 
 When sites need to be internationalized, a fifth requirement forms:
 
@@ -48,7 +48,7 @@ The benefits of using django with easymode to create flash backends are:
 4. Data transport layer can be very simple because of the functional
    nature of xslt, which fits hierarchical data perfectly. (Can also be reused very easy)
 5. Because the data is transported as xml, flash developers can start
-   developing using static xml before the backend is finished.
+   development using static xml before the backend is finished.
 6. Actual mechanism to translate the content from one language to another 
    (:ref:`translation_of_contents`)
 7. Structure is uniform in all layers of the application. (backend, transport, frontend)
