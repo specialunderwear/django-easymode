@@ -33,7 +33,7 @@ def standin_for(obj, **attrs):
     attr_names  = attrs.keys()
     attr_names.sort()
 
-    # create a readable class name
+    # create a readable class name eg. unicodeAndTitleAndDescription
     additions = 'And'.join(map(capfirst, attr_names))
     id = "%s%s" % (obj_class.__name__, additions.encode('ascii', 'ignore'))
     
