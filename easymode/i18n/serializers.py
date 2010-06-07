@@ -122,8 +122,9 @@ class LocalizedSerializer(base.Serializer):
             "type" : field.get_internal_type()
         }
         # handle fields with a extra_attrs set as speciul
-        if getattr(field, 'extra_attrs', None):
-            fields_attrs.update(field.extra_attrs)
+        if hasattr(field, 'extra_attrs'):
+            if field.extra_attrs:
+                fields_attrs.update(field.extra_attrs)
             fields_attrs['name'] = field.name.replace('_', '.')
 
         self.xml.startElement("field", fields_attrs)
