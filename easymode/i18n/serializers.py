@@ -117,26 +117,16 @@ class LocalizedSerializer(base.Serializer):
         """
         self.indent(2)
 
-        # handle fields with a font set as speciul
-        if getattr(field, 'font', None):
-            logging.debug('has font %s' % field.name)
-            self.xml.startElement("field", {
-                "name" : field.name.replace('_', '.'),
-                "type" : field.get_internal_type(),
-                "font" : field.font
-            })            
-        elif getattr(field, 'styles', None):
-            logging.debug('has styles %s' % field.name)
-            self.xml.startElement("field", {
-                "name" : field.name.replace('_', '.'),
-                "type" : field.get_internal_type(),
-                "style" : ",".join(field.styles)
-            })
-        else:
-            self.xml.startElement("field", {
-                "name" : field.name,
-                "type" : field.get_internal_type()
-            })
+        fields_attrs = {
+            "name" : field.name,
+            "type" : field.get_internal_type()
+        }
+        # handle fields with a extra_attrs set as speciul
+        if getattr(field, 'extra_attrs', None):
+            fields_attrs.update(field.extra_attrs)
+            fields_attrs['name'] = field.name.replace('_', '.')
+
+        self.xml.startElement("field", fields_attrs)
 
         # Checks for a custom value serializer 
         if not hasattr(field, 'custom_value_serializer'):

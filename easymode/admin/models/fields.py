@@ -35,6 +35,9 @@ from tinymce.widgets import TinyMCE
 from easymode.utils import xmlutils
 from easymode.admin.forms import fields as form_fields
 
+__all__ = ('FlashUrlField', 'DiocoreCharField', 'DiocoreHTMLField', 'DiocoreTextField', 'CSSField',
+    'RelativeFilePathField', 'IncludeFileField', 'RemoteIncludeField', 'XmlField', 'SafeTextField', 'SafeHTMLField'
+)
 
 class FlashUrlField(CharField):
     """
@@ -74,6 +77,103 @@ class FlashUrlField(CharField):
         defaults.update(kwargs)
         return super(FlashUrlField, self).formfield(**defaults)
 
+class SafeTextField(models.TextField):
+    """
+    Removes all cariage returns from the input.
+
+    This class should be used instead of :class:`django.db.models.TextField`, if you
+    want to use easymode's gettext facilities. It will strip all cariage returns from
+    the input. Cariage returns are an error when included in gettext message id's. It
+    also allows you to specify the number of rows and columns of the textarea.
+    
+    :param rows: The number of rows of the textarea.
+    :param cols: The number of columns of the textarea.
+    """
+
+    _south_introspects = True
+    
+    def __init__(self, *args, **kwargs):
+        self.rows = kwargs.pop('rows', 5)
+        self.cols = kwargs.pop('cols', 40)
+        
+        super(SafeTextField, self).__init__(*args, **kwargs)
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'widget': AdminTextareaWidget(attrs={'rows':self.rows, 'cols':self.cols}),
+            'form_class': form_fields.PoSafeTextField
+        }
+        defaults.update(kwargs)
+        return super(SafeTextField, self).formfield(**defaults)
+
+
+class SafeHTMLField(TextField):
+    """
+    A html field with the following properties:
+
+    1. Escapes cariage returns
+    2. Will render as html, without escaping &lt; and &gt;
+    3. Validates that html and will log errors when invalid html 
+       is discovered, instead of crash.
+    4. Allows the max_length attribute, the max_length is then computed,
+       without counting markup. Also html entities are converted to normal
+       characters before measuring the length as well.
+    5. accepts tinymce configuration options.
+
+    usage::
+
+        html = SafeHTMLField(_('some rich text'), max_length=200, width=300, height=100, buttons="link,unlink,code")
+
+    :param max_length: The maximum length of the text, after stripping markup and
+        converting html entities to normal characters.
+    :param width: The width of the html editor in the admin
+    :param height: The height of the html editor in the admin
+    :param buttons: Configuration for the 
+        `theme_html_buttons1 <http://wiki.moxiecode.com/index.php/TinyMCE:Configuration/theme_advanced_buttons_1_n>`_. 
+        The default is "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat".
+    """
+    _south_introspects = True
+
+    def __init__(self, *args, **kwargs):
+        self.mce_width = kwargs.pop('width', 340)
+        self.mce_height = kwargs.pop('height', 160)
+        self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat")
+
+        super(SafeHTMLField, self).__init__(*args, **kwargs)
+
+    def custom_value_serializer(self, obj, xml):
+        richtext = self.value_to_string(obj)
+        value = u"<richtext>%s</richtext>"  % richtext
+
+        if xmlutils.is_valid(value):
+            parser = sax.make_parser(["easymode.utils.xmlutils"])
+            parser.setContentHandler(xml)
+            parser.parse(StringIO(value.encode('utf-8')))            
+        else:
+            logging.error('Invalid xml in %s: %s' % (obj, value))
+
+    def formfield(self, **kwargs):
+        mce_default_attrs = {
+            'theme_html_buttons1' : self.buttons,
+            'theme_advanced_resizing' : True,
+            'width': self.mce_width,
+            'height': self. mce_height,
+        }
+
+        defaults = {
+            'form_class': form_fields.PoSafeTextField,
+        }
+
+        # if this thing has a max_length then use a 
+        # special form field
+        if hasattr(self, 'max_length'):
+            defaults['form_class'] = form_fields.HtmlEntityField
+            defaults['max_length'] = self.max_length
+
+        defaults.update(kwargs)
+        defaults['widget'] = TinyMCE(mce_attrs=mce_default_attrs)
+
+        return super(SafeHTMLField, self).formfield(**defaults)
 
 class DiocoreCharField(CharField):
     """
@@ -95,12 +195,13 @@ class DiocoreCharField(CharField):
     
     :param font: The name of the font to be included in the xml.
     """
-    
-    _south_introspects = True
-    
+        
     def __init__(self, *args, **kwargs):
         self.font = kwargs.pop('font', None)
         super(DiocoreCharField, self).__init__(*args, **kwargs)
+        self.extra_attrs = {
+            'font' : self.font,
+        }
     
     def formfield(self, **kwargs):
         defaults = {
@@ -109,8 +210,41 @@ class DiocoreCharField(CharField):
         defaults.update(kwargs)
         return super(DiocoreCharField, self).formfield(**defaults)
 
+class DiocoreTextField(SafeTextField):
+    """
+    This textfield stores a font as well.
+    
+    Also it will replace underscores in it's name with '.'s
+    The serializer is built to detect this and will add the font as
+    an attribute in the xml::
+
+        class Chapter(models.Model):
+            main_title = DiocoreTextField(_('Main title'), font="grande")
+
+    will be serialized as:
+
+    .. code-block:: xml
+
+        <object pk="1" model="book.chapter">
+            <field type="CharField" name="main.title" font="grande">Hi i am the title</field>
+        </object>
+
+    :param font: The name of the font to be included in the xml.
+
+    See :class:`~easymode.admin.models.fields.SafeTextField` for more info.
+    """
+
+    _south_introspects = True
+
+    def __init__(self, *args, **kwargs):
+        self.font = kwargs.pop('font', None)
+        super(DiocoreTextField, self).__init__(*args, **kwargs)
+        self.extra_attrs = {
+            'font' : self.font,
+        }
         
-class DiocoreHTMLField(TextField):
+
+class DiocoreHTMLField(SafeHTMLField):
     """
     This textfield stores a font as well.
     Also it will replace underscores in it's name with '.'s
@@ -129,54 +263,20 @@ class DiocoreHTMLField(TextField):
         </object>
     
     :param font: The name of the font to be included in the xml.
-    """
     
-    _south_introspects = True
+    See :class:`~easymode.admin.models.fields.SafeHTMLField` for more info.
+    """
     
     def __init__(self, *args, **kwargs):
         self.font = kwargs.pop('font', None)
-        self.mce_width = kwargs.pop('width', 340)
-        self.mce_height = kwargs.pop('height', 160)
-        self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat,code")
-
         super(DiocoreHTMLField, self).__init__(*args, **kwargs)
-        
-    def custom_value_serializer(self, obj, xml):
-        richtext = self.value_to_string(obj)
-        value = u"<richtext>%s</richtext>"  % richtext
-        
-        if xmlutils.is_valid(value):
-            parser = sax.make_parser(["easymode.utils.xmlutils"])
-            parser.setContentHandler(xml)
-            parser.parse(StringIO(value.encode('utf-8')))            
-        else:
-            logging.error('Invalid xml in %s: %s' % (obj, value))
-    
-    def formfield(self, **kwargs):
-        mce_default_attrs = {
-            'theme_html_buttons1' : self.buttons,
-            'theme_advanced_resizing' : True,
-            'width': self.mce_width,
-            'height': self. mce_height,
-        }
-    
-        defaults = {
-            'form_class': form_fields.PoSafeTextField,
+        self.extra_attrs = {
+            'font' : self.font,
         }
         
-        # if this thing has a max_length then use a 
-        # special form field
-        if hasattr(self, 'max_length'):
-            defaults['form_class'] = form_fields.HtmlEntityField
-            defaults['max_length'] = self.max_length
-            
-        defaults.update(kwargs)
-        defaults['widget'] = TinyMCE(mce_attrs=mce_default_attrs)
-        
-        return super(DiocoreHTMLField, self).formfield(**defaults)
 
 
-class CSSField(DiocoreHTMLField):
+class CSSField(SafeHTMLField):
     """
     A field adds a *style* property when serialized by easymode. also
     it will turn any underscores in it's name into periods::
@@ -196,49 +296,11 @@ class CSSField(DiocoreHTMLField):
     """
     def __init__(self, *args, **kwargs):
         self.styles = kwargs.pop('styles', None)
-        self.mce_width = kwargs.pop('width', 340)
-        self.mce_height = kwargs.pop('height', 160)
-        self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat,code")
-
-        TextField.__init__(self, *args, **kwargs)
-
-
-class DiocoreTextField(TextField):
-    """
-    This textfield stores a font as well.
-    Also it will replace underscores in it's name with '.'s
-    The serializer is built to detect this and will add the font as
-    an attribute in the xml::
-    
-        class Chapter(models.Model):
-            main_title = DiocoreTextField(_('Main title'), font="grande")
-
-    will be serialized as:
-    
-    .. code-block:: xml
-        
-        <object pk="1" model="book.chapter">
-            <field type="CharField" name="main.title" font="grande">Hi i am the title</field>
-        </object>
-    
-    :param font: The name of the font to be included in the xml.
-    """
-
-    _south_introspects = True
-    
-    def __init__(self, *args, **kwargs):
-        self.font = kwargs.pop('font', None)
-        self.rows = kwargs.pop('rows', 5)
-        self.cols = kwargs.pop('cols', 40)
-        super(DiocoreTextField, self).__init__(*args, **kwargs)
-        
-    def formfield(self, **kwargs):
-        defaults = {
-            'widget': AdminTextareaWidget(attrs={'rows':self.rows, 'cols':self.cols}),
-            'form_class': form_fields.PoSafeTextField,
+        SafeHTMLField.__init__(self, *args, **kwargs)
+        self.extra_attrs = {
+            'style' : ",".join(self.styles),
         }
-        defaults.update(kwargs)
-        return super(DiocoreTextField, self).formfield(**defaults)
+        
 
 
 class RelativeFilePathField(fields.ChoiceField):
@@ -397,21 +459,3 @@ class XmlField(models.TextField):
         parser = sax.make_parser(["easymode.utils.xmlutils"])
         parser.setContentHandler(xml)
         parser.parse(StringIO(value))
-
-
-class SafeTextField(models.TextField):
-    """
-    Removes all cariage returns from the input.
-    
-    This class should be used instead of :class:`django.db.models.TextField`, if you
-    want to use easymode's gettext facilities. It will strip all cariage returns from
-    the input. Cariage returns are an error when included in gettext message id's.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(SafeTextField, self).__init__(*args, **kwargs)
-    
-    def formfield(self, **kwargs):
-        defaults = {'form_class': form_fields.PoSafeTextField}
-        defaults.update(kwargs)
-        return super(SafeTextField, self).formfield(**defaults)
