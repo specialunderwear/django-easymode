@@ -1,9 +1,11 @@
-import sys
 import os
+import sys
+
 from django.conf import settings
 
-from easymode.i18n import meta
 from easymode import i18n
+from easymode.i18n import meta
+
 
 class I18n(object):
     """

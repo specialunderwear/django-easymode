@@ -2,11 +2,13 @@ import re
 import time
 
 from django.conf import settings
-from django.utils import translation
-from django.utils.http import cookie_date
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.middleware.locale import LocaleMiddleware
+from django.utils import translation
+from django.utils.http import cookie_date
+
 from easymode.utils.languagecode import get_short_language_codes, get_language_code_from_shorthand, get_shorthand_from_language_code
+
 
 USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
 

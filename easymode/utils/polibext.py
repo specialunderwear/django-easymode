@@ -2,6 +2,7 @@
 Some extensions to polib (http://bitbucket.org/izi/polib)
 """
 import types
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 

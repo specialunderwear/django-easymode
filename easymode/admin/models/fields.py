@@ -228,11 +228,13 @@ class DiocoreTextField(TextField):
     
     def __init__(self, *args, **kwargs):
         self.font = kwargs.pop('font', None)
+        self.rows = kwargs.pop('rows', 5)
+        self.cols = kwargs.pop('cols', 40)
         super(DiocoreTextField, self).__init__(*args, **kwargs)
         
     def formfield(self, **kwargs):
         defaults = {
-            'widget': AdminTextareaWidget,
+            'widget': AdminTextareaWidget(attrs={'rows':self.rows, 'cols':self.cols}),
             'form_class': form_fields.PoSafeTextField,
         }
         defaults.update(kwargs)

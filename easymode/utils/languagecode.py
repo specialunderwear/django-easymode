@@ -7,6 +7,7 @@ import re
 from django.conf import settings
 from django.utils.translation import get_language
 
+
 USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
 
 

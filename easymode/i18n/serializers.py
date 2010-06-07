@@ -4,13 +4,13 @@ Contains serializers that also serialize translated fields
 import logging; 
 from StringIO import StringIO
 
-from django.core.serializers import base
-
 from django.conf import settings
+from django.core.serializers import base
 from django.utils.encoding import smart_unicode
 
 from easymode.tree.introspection import get_default_field_descriptors
 from easymode.utils.xmlutils import XmlPrinter
+
 
 # startDocument must only be called once
 # so override it

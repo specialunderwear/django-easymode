@@ -7,16 +7,15 @@ overriding the __metaclass__.
 """
 import copy
 
+from django.conf              import settings
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.db.models.fields  import NOT_PROVIDED
 from django.utils             import translation
-from django.conf              import settings
 from django.utils.encoding import force_unicode
 from django.utils.translation.trans_real import translation as translation_catalogs
-from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 
 from easymode.utils           import first_match 
 from easymode.utils.languagecode import get_all_language_codes, get_real_fieldname
-
 
 
 def get_fallback_languages():
