@@ -12,10 +12,38 @@ import sys
 import time
 import stat
 
+from contextlib import contextmanager
 from hashlib import sha1
 
 from django.conf import settings
 
+# the recursion level is counted globally and is just an approximation.
+# usually if the limit is reached there is something wrong in your app.
+# if not, try to set settings.RECURSION_LIMIT
+RECURSION_LEVEL_DICT = {}
+@contextmanager
+def approximate_recursion_level(key):
+    """
+    A context manager used to count approximate recursion depth for some function.
+    Multiple functions can be kept separately because it will be
+    counted per key.
+
+    usage::
+
+        with approximate_recursion_level('some_function_name') as recursion_depth:
+            if recursion_depth > getattr(settings, 'RECURSION_LIMIT', sys.getrecursionlimit() / 10):
+                raise Exception("Too deep")
+
+            # do some recursive dangerous things.
+
+    :param key: The key under which the recursion depth is kept.
+    """
+    # global RECURSION_LEVEL
+    if not RECURSION_LEVEL_DICT.get(key):
+        RECURSION_LEVEL_DICT[key] = 0
+    RECURSION_LEVEL_DICT[key] += 1
+    yield RECURSION_LEVEL_DICT[key]
+    RECURSION_LEVEL_DICT[key] -= 1
     
 def first_match(predicate, list):
     """
@@ -121,4 +149,3 @@ class mutex(object):
     def __exit__(self, exc_type, exc_value, traceback):
         """docstring for __exit__"""
         os.remove(self.lockfile)
-        
