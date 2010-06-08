@@ -5,7 +5,9 @@ serialization of django models with foreign keys.
 from StringIO import StringIO
 
 from easymode.i18n import serializers
-from easymode.tree.introspection import *
+from easymode.tree.introspection import get_default_field_descriptors, \
+    get_foreign_key_desciptors, get_generic_relation_descriptors
+
 
 class RecursiveXmlSerializer(serializers.LocalizedSerializer):
     """
@@ -21,6 +23,7 @@ class RecursiveXmlSerializer(serializers.LocalizedSerializer):
 
         self.stream = options.get("stream", StringIO())
         self.selected_fields = options.get("fields")
+        self.use_natural_keys = options.get("use_natural_keys", True)
         
         self.xml = options.get("xml", None)
         self.root = (self.xml == None)

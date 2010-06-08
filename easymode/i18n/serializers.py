@@ -1,12 +1,10 @@
 """
 Contains serializers that also serialize translated fields
 """
-import logging; 
 from StringIO import StringIO
 
 from django.conf import settings
-from django.core.serializers import base
-from django.utils.encoding import smart_unicode
+from django.core.serializers import xml_serializer
 
 from easymode.tree.introspection import get_default_field_descriptors
 from easymode.utils.xmlutils import XmlPrinter
@@ -22,7 +20,7 @@ def startDocumentOnlyOnce(self):
 
 XmlPrinter.startDocument = startDocumentOnlyOnce
 
-class LocalizedSerializer(base.Serializer):
+class LocalizedSerializer(xml_serializer.Serializer):
     """
     Serializes a queryset including translated fields
     THE OUTPUT OF THIS SERIALIZER IS NOT MEANT TO BE SERIALIZED BACK
@@ -40,6 +38,7 @@ class LocalizedSerializer(base.Serializer):
 
         self.stream = options.get("stream", StringIO())
         self.selected_fields = options.get("fields")
+        self.use_natural_keys = options.get("use_natural_keys", True)
         
         self.xml = options.get("xml", None)
         self.root = (self.xml == None)
@@ -68,9 +67,6 @@ class LocalizedSerializer(base.Serializer):
         self.end_serialization()
         return self.getvalue()
         
-    def indent(self, level):
-        if self.options.get('indent', None) is not None:
-            self.xml.ignorableWhitespace('\n' + ' ' * self.options.get('indent', None) * level)
 
     def start_serialization(self):
         """
@@ -81,6 +77,7 @@ class LocalizedSerializer(base.Serializer):
             self.xml.startDocument()
             self.xml.startElement("django-objects", {"version" : "1.0"})
 
+
     def end_serialization(self):
         """
         End serialization -- end the document.
@@ -90,25 +87,6 @@ class LocalizedSerializer(base.Serializer):
             self.xml.endElement("django-objects")
             self.xml.endDocument()
 
-    def start_object(self, obj):
-        """
-        Called as each object is handled.
-        """
-        if not hasattr(obj, "_meta"):
-            raise base.SerializationError("Non-model object (%s) encountered during serialization" % type(obj))
-
-        self.indent(1)
-        self.xml.startElement("object", {
-            "pk"    : smart_unicode(obj._get_pk_val()),
-            "model" : smart_unicode(obj._meta),
-        })
-
-    def end_object(self, obj):
-        """
-        Called after handling all fields for an object.
-        """
-        self.indent(1)
-        self.xml.endElement("object")
 
     def handle_field(self, obj, field):
         """
@@ -141,55 +119,6 @@ class LocalizedSerializer(base.Serializer):
 
         self.xml.endElement("field")
 
-    def handle_fk_field(self, obj, field):
-        """
-        Called to handle a ForeignKey (we need to treat them slightly
-        differently from regular fields).
-        """
-        self._start_relational_field(field)
-        related = getattr(obj, field.name)
-        if related is not None:
-            if field.rel.field_name == related._meta.pk.name:
-                # Related to remote object via primary key
-                related = related._get_pk_val()
-            else:
-                # Related to remote object via other field
-                related = getattr(related, field.rel.field_name)
-            self.xml.characters(smart_unicode(related))
-        else:
-            self.xml.addQuickElement("None")
-        self.xml.endElement("field")
-
-    def handle_m2m_field(self, obj, field):
-        """
-        Called to handle a ManyToManyField. Related objects are only
-        serialized as references to the object's PK (i.e. the related *data*
-        is not dumped, just the relation).
-        """
-        if field.creates_table:
-            self._start_relational_field(field)
-            for relobj in getattr(obj, field.name).iterator():
-                self.xml.addQuickElement("object", attrs={"pk" : smart_unicode(relobj._get_pk_val())})
-            self.xml.endElement("field")
-
-    def _start_relational_field(self, field):
-        """
-        Helper to output the <field> element for relational fields
-        """
-        self.indent(2)
-        self.xml.startElement("field", {
-            "name" : field.name,
-            "rel"  : field.rel.__class__.__name__,
-            "to"   : smart_unicode(field.rel.to._meta),
-        })
-
-    def getvalue(self):
-        """
-        Return the fully serialized queryset (or None if the output stream is
-        not seekable).
-        """
-        if callable(getattr(self.stream, 'getvalue', None)):
-            return self.stream.getvalue()
 
 def serialize_with_locale(queryset):
     """serialize queryset including localised fields"""
