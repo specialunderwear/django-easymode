@@ -9,6 +9,7 @@ from StringIO import StringIO
 from time import time
 from xml import sax
 from urllib import urlopen
+import warnings
 
 from django.db import connection, models
 from django.db.models import CharField, TextField
@@ -17,7 +18,8 @@ from django.utils.datastructures import DictWrapper
 from django.forms import fields
 from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
 
-import warnings
+from easymode.utils import xmlutils
+from easymode.admin.forms import fields as form_fields
 
 try:
     import tinymce
@@ -32,8 +34,6 @@ except ImportError:
 
 from tinymce.widgets import TinyMCE
 
-from easymode.utils import xmlutils
-from easymode.admin.forms import fields as form_fields
 
 __all__ = ('FlashUrlField', 'DiocoreCharField', 'DiocoreHTMLField', 'DiocoreTextField', 'CSSField',
     'RelativeFilePathField', 'IncludeFileField', 'RemoteIncludeField', 'XmlField', 'SafeTextField', 'SafeHTMLField'
@@ -297,9 +297,12 @@ class CSSField(SafeHTMLField):
     def __init__(self, *args, **kwargs):
         self.styles = kwargs.pop('styles', None)
         SafeHTMLField.__init__(self, *args, **kwargs)
-        self.extra_attrs = {
-            'style' : ",".join(self.styles),
-        }
+        if self.styles:
+            self.extra_attrs = {
+                'style' : ",".join(self.styles),
+            }
+        else:
+            self.extra_attrs = {}
         
 
 
