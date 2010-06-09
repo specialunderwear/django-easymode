@@ -125,8 +125,6 @@ The following features, which django supports, are not supported by easymode:
 - :attr:`~django.db.models.Field.unique_for_date`, :attr:`~django.db.models.Field.unique_for_month`,
   :attr:`~django.db.models.Field.unique_for_year`
 - :attr:`django.contrib.admin.ModelAdmin.fields`, use :attr:`django.contrib.admin.ModelAdmin.fieldsets` instead.
-- Automatic serialization of :class:`~django.db.models.ManyToManyField`. The model tree should 
-  be a `DAG <http://en.wikipedia.org/wiki/Directed_acyclic_graph>`_.
 - Inheritance for models is restricted to :attr:`~django.db.models.Options.abstract` base classes. 
   This is a direct result of the fact that :class:`~django.db.models.OneToOneField` are *not* supported by
   the serializer.
