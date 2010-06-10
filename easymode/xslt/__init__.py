@@ -128,4 +128,3 @@ def prepare_string_param(string):
     """
     result = u"'%s'" % (string.replace("'","&apos;") or '')
     return result.encode('utf-8')
-    

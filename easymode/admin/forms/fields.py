@@ -16,7 +16,12 @@ class PoSafeTextField(fields.CharField):
     """
 
     def clean(self, value):
-        return super(PoSafeTextField, self).clean(value.replace('\r',''))
+        if value is not None:
+            safe_value = value.replace('\r','')
+        else:
+            safe_value = value
+            
+        return super(PoSafeTextField, self).clean(safe_value)
     
 class HtmlEntityField(fields.CharField):
     """
@@ -26,10 +31,13 @@ class HtmlEntityField(fields.CharField):
     character.
     """
     def clean(self, value):
-        value = value.replace('\r','')
-        tagless_value = strip_tags(value)
-        entityless_value = re.sub(r'&[^;]+;', 'X', tagless_value)
-
+        if value is not None:
+            value = value.replace('\r','')
+            tagless_value = strip_tags(value)
+            entityless_value = re.sub(r'&[^;]+;', 'X', tagless_value)
+        else:
+            entityless_value = value
+        
         # validate using super class
         super(HtmlEntityField, self).clean(entityless_value)
         # return unmodified value, but with normalized line endings.
