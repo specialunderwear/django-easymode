@@ -239,3 +239,16 @@ are sure that the failing tests cause no harm to your application, they can be d
 
 will make sure these 2 tests will not be executed when running the test suite.
 
+RECURSION_LIMIT
+---------------
+
+When a model tree is not a dag, easymode can get into an infinite recursion when producing
+xml. Because xml is produced using :mod:`xml.sax`, which is a c-extension, your app will
+simply crash and not raise any exceptions. Easymode will try to help you, by never allowing
+recursion to go deeper then ``RECURSION_LIMIT``. The default is set to::
+
+    RECURSION_LIMIT = sys.getrecursionlimit() / 10
+
+which usually means 100. Take care when increasing this value, because most of the time when
+the limit is reached it actually *IS* caused by cycles in your data model and not because of
+how many objects you've got in your database.
