@@ -243,9 +243,10 @@ RECURSION_LIMIT
 ---------------
 
 When a model tree is not a dag, easymode can get into an infinite recursion when producing
-xml. Because xml is produced using :mod:`xml.sax`, which is a c-extension, your app will
-simply crash and not raise any exceptions. Easymode will try to help you, by never allowing
-recursion to go deeper then ``RECURSION_LIMIT``. The default is set to::
+xml, resulting in a stack overflow. Because xml is produced using :mod:`xml.sax`, which is 
+a c-extension, your app will simply crash and not raise any exceptions. Easymode will try 
+to help you, by never allowing recursion to go deeper then ``RECURSION_LIMIT``. The default 
+is set to::
 
     RECURSION_LIMIT = sys.getrecursionlimit() / 10
 
