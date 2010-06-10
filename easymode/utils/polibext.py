@@ -46,7 +46,7 @@ class PoStream(polib._POFileParser):
         from StringIO import StringIO
         
         po_string = codecs.open('sompofile.po', 'r', 'utf-8').read()
-        po_file_from_string = PoStream(None, StringIO(po_string)).parse()
+        po_file_from_string = PoStream(StringIO(po_string)).parse()
         
         unicode(po_file_from_string)
     
