@@ -38,7 +38,6 @@ def approximate_recursion_level(key):
 
     :param key: The key under which the recursion depth is kept.
     """
-    # global RECURSION_LEVEL
     if not RECURSION_LEVEL_DICT.get(key):
         RECURSION_LEVEL_DICT[key] = 0
     RECURSION_LEVEL_DICT[key] += 1
