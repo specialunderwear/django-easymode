@@ -4,7 +4,7 @@ Contains utils for:
 Matching first item in a list that matches some predicate.
 Mutex
 XML parser/generator that handles unknown entities.
-
+Controlling recursion depth
 """
 import os
 import errno
