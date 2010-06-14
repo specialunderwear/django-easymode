@@ -239,6 +239,8 @@ are sure that the failing tests cause no harm to your application, they can be d
 
 will make sure these 2 tests will not be executed when running the test suite.
 
+.. _recursion_limit:
+
 RECURSION_LIMIT
 ---------------
 

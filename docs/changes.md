@@ -1,6 +1,25 @@
 Release Notes
 =============
 
+v0.8.6
+------
+
+- Easymode will nolonger complain about rosetta, polib and tinymce when none of 
+  the features that require these packages are used.
+- Moved polib util to :mod:`easymode.utils.polibext` to avoid name clashes 
+- :class:`~easymode.admin.models.fields.DiocoreTextField` now accepts cols and rows as parameters.
+- The mechanism to add extra attributes to the xml produced by the serializer is 
+  now more generic. If a field has the 'extra_attrs' property, these attributes 
+  will be added as attributes to the field xml.
+- Updated the serializer to support natural keys: 
+  http://docs.djangoproject.com/en/dev/topics/serialization/#natural-keys 
+- Now easymode can automatically serialize many to many fields. The recursion is 
+  guarded, and will let you know when you made a cyclic relation in you model 
+  tree. (see :ref:`recursion_limit`).
+- :class:`~easymode.utils.mutex` now raises :class:`~easymode.utils.SemaphoreException` instead of doing sys.exit(). 
+- When to_python returns a weird object on a field instead of a string, it is now converted to unicode 
+  before it is used as a msgid.
+
 v0.6.1
 ------
 
