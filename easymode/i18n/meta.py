@@ -108,7 +108,7 @@ class DefaultFieldDescriptor(property):
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid
         msgid_language = getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE)
-        msgid = get_localized_property(obj, self.name, msgid_language)
+        msgid = force_unicode(get_localized_property(obj, self.name, msgid_language))
         
         if msgid:
             # check the translation in the current language
