@@ -111,13 +111,14 @@ class mutex(object):
         while True:
             try:
                 # if the file exists you can not create it and get an exclusive lock on it
+                # this is an atomic operation.
                 file_descriptor = os.open(self.lockfile, os.O_EXCL | os.O_RDWR | os.O_CREAT)
                 # we created the lockfile, so we're the owner
                 break
             except OSError as e:
                 if e.errno != errno.EEXIST:
                     # should not occur
-                    raise
+                    raise e
 
             # if we got here the file exists so lets see
             # how long we are waiting for it
