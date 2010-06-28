@@ -49,31 +49,6 @@ def _transform_libxslt(xml, xslt, params=None):
         raise XsltError(str(e))
 
 
-def _transform_libxsltmod(xml, xslt, params=None):
-    """
-    Transform ``xslt`` using any of the 3 supported xslt engines:
-
-    - `lxml <http://codespeak.net/lxml/>`_
-    - `libxml <http://xmlsoft.org/python.html>`_
-    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
-
-    :param xml: The xml to be transformed.
-    :param xslt: The xslt to be used when transforming the ``xml``.
-    :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
-        on strings you want to pass in.
-    """
-    handler = MessageHandler()
-    try:
-        result = libxsltmod.translate_to_string(
-            'f', xslt,
-            's', xml,
-            handler, params or {})            
-        return result
-    except RuntimeError:
-        messages = handler.getContent()
-        raise XsltError(messages)
-
-
 def _transform_lxml(xml, xslt_path, params=None):
     """
     Transform ``xslt`` using any of the 3 supported xslt engines:
@@ -110,14 +85,9 @@ try:
 
     transform = _transform_libxslt
 except:
-    try:
-        from lxml import etree
+    from lxml import etree
 
-        transform = _transform_lxml
-    except:
-        import libxsltmod
-        # the default is libxsltmod.
-        transform = _transform_libxsltmod
+    transform = _transform_lxml
 
 
 def prepare_string_param(string):
