@@ -4,7 +4,7 @@ Defines a :func:`render_to_response` function that resembles django.utils's
 passed as the second argument must have a ``__xml__`` method. (See :func:`~easymode.tree.decorators.toxml`)
 """
 from django.http import HttpResponse
-from django.template.loader import find_template_source
+from django.template.loader import find_template
 from easymode.xslt import transform
 from easymode import tree
 
@@ -23,10 +23,10 @@ def render_to_response(template, object, params=None, mimetype='text/html'):
     :param mimetype: The mimetype of the :class:`~django.http.HttpResponse`
     :rtype: :class:`django.http.HttpResponse`
     """
-    xsl = find_template_source(template)[0]
+    xsl, xsl_path = find_template(template)
     xml = tree.xml(object)
     
-    result = transform(xml, xsl, params)
+    result = transform(xml, str(xsl_path), params)
     return HttpResponse(result, mimetype=mimetype)
     
 def render_to_string(template, object, params=None):
@@ -41,10 +41,10 @@ def render_to_string(template, object, params=None):
         on strings you want to pass in.
     :rtype: :class:`unicode`
     """
-    xsl = find_template_source(template)[0]
+    xsl, xsl_path = find_template(template)
     xml = tree.xml(object)
 
-    result = transform(xml, xsl, params)
+    result = transform(xml, str(xsl_path), params)
     return result
 
 def render_xml_to_string(template, input, params=None):
@@ -57,6 +57,7 @@ def render_xml_to_string(template, input, params=None):
         on strings you want to pass in.
     :rtype: :class:`unicode`
     """
-    xsl = find_template_source(template)[0]
-    result = transform(input, xsl, params)  
+    xsl, xsl_path = find_template(template)
+
+    result = transform(input, str(xsl_path), params)  
     return result

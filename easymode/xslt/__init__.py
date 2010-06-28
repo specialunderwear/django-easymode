@@ -32,7 +32,7 @@ def _transform_libxslt(xml, xslt, params=None):
         on strings you want to pass in.
     """
     try:
-        xslt_doc = libxml2.parseDoc(xslt)
+        xslt_doc = libxml2.parseFile(xslt)
         xslt_proc = libxslt.parseStylesheetDoc(xslt_doc)
         xml_doc = libxml2.parseDoc(xml)
         
@@ -65,7 +65,7 @@ def _transform_libxsltmod(xml, xslt, params=None):
     handler = MessageHandler()
     try:
         result = libxsltmod.translate_to_string(
-            's', xslt,
+            'f', xslt,
             's', xml,
             handler, params or {})            
         return result
@@ -74,7 +74,7 @@ def _transform_libxsltmod(xml, xslt, params=None):
         raise XsltError(messages)
 
 
-def _transform_lxml(xml, xslt, params=None):
+def _transform_lxml(xml, xslt_path, params=None):
     """
     Transform ``xslt`` using any of the 3 supported xslt engines:
 
@@ -91,7 +91,7 @@ def _transform_lxml(xml, xslt, params=None):
     # they are encoded as unicode, which lxml does not like
     
     xml_doc = etree.fromstring(xml)
-    xslt_doc = etree.fromstring(xslt)
+    xslt_doc = etree.parse(xslt_path)
     xslt_proc = etree.XSLT(xslt_doc)
 
     if params:
