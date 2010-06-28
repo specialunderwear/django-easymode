@@ -51,11 +51,10 @@ def _transform_libxslt(xml, xslt, params=None):
 
 def _transform_lxml(xml, xslt_path, params=None):
     """
-    Transform ``xslt`` using any of the 3 supported xslt engines:
+    Transform ``xslt`` using any of the 2 supported xslt engines:
 
     - `lxml <http://codespeak.net/lxml/>`_
     - `libxml <http://xmlsoft.org/python.html>`_
-    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
 
     :param xml: The xml to be transformed.
     :param xslt: The xslt to be used when transforming the ``xml``.
