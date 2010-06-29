@@ -4,11 +4,11 @@ Defines a :func:`render_to_response` function that resembles django.utils's
 passed as the second argument must have a ``__xml__`` method. (See :func:`~easymode.tree.decorators.toxml`)
 """
 from django.http import HttpResponse
-from django.template.loader import find_template
 
-from easymode.xslt import transform
 from easymode import tree
 from easymode.utils import find_template_path
+from easymode.xslt import transform
+
 
 def render_to_response(template, object, params=None, mimetype='text/html'):
     """
