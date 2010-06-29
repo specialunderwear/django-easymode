@@ -2,13 +2,12 @@
 Contains an instance of Serializer and extends it to allow for recusive
 serialization of django models with foreign keys.
 """
-import logging
 import sys
 from StringIO import StringIO
 
 from django.conf import settings
 from django.core.serializers import xml_serializer
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_unicode, force_unicode
 
 from easymode.tree.introspection import get_default_field_descriptors, \
     get_foreign_key_desciptors, get_generic_relation_descriptors
@@ -136,17 +135,19 @@ class RecursiveXmlSerializer(xml_serializer.Serializer):
         """
         self.indent(2)
 
-        fields_attrs = {
+        field_attrs = {
             "name" : field.name,
             "type" : field.get_internal_type()
         }
         # handle fields with a extra_attrs set as speciul
         if hasattr(field, 'extra_attrs'):
             if field.extra_attrs:
-                fields_attrs.update(field.extra_attrs)
-            fields_attrs['name'] = field.name.replace('_', '.')
+                for (key, value) in field.extra_attrs.iteritems():
+                    field_attrs[key] = force_unicode(value)
 
-        self.xml.startElement("field", fields_attrs)
+            field_attrs['name'] = field.name.replace('_', '.')
+
+        self.xml.startElement("field", field_attrs)
 
         # Checks for a custom value serializer 
         if not hasattr(field, 'custom_value_serializer'):

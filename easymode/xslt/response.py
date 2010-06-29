@@ -5,9 +5,10 @@ passed as the second argument must have a ``__xml__`` method. (See :func:`~easym
 """
 from django.http import HttpResponse
 from django.template.loader import find_template
+
 from easymode.xslt import transform
 from easymode import tree
-
+from easymode.utils import find_template_path
 
 def render_to_response(template, object, params=None, mimetype='text/html'):
     """
@@ -23,7 +24,7 @@ def render_to_response(template, object, params=None, mimetype='text/html'):
     :param mimetype: The mimetype of the :class:`~django.http.HttpResponse`
     :rtype: :class:`django.http.HttpResponse`
     """
-    xsl, xsl_path = find_template(template)
+    xsl_path = find_template_path(template)
     xml = tree.xml(object)
     
     result = transform(xml, str(xsl_path), params)
@@ -41,9 +42,9 @@ def render_to_string(template, object, params=None):
         on strings you want to pass in.
     :rtype: :class:`unicode`
     """
-    xsl, xsl_path = find_template(template)
+    xsl_path = find_template_path(template)
     xml = tree.xml(object)
-
+    
     result = transform(xml, str(xsl_path), params)
     return result
 
@@ -57,7 +58,7 @@ def render_xml_to_string(template, input, params=None):
         on strings you want to pass in.
     :rtype: :class:`unicode`
     """
-    xsl, xsl_path = find_template(template)
+    xsl_path = find_template_path(template)
 
     result = transform(input, str(xsl_path), params)  
     return result
