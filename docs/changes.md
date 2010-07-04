@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+v0.9.1
+
+-----
+
+- Modified the xslt parser to use the file path instead of a string, so you can 
+  use xsl:include now.
+- libxsltmod is nolonger a supported xslt engine
+- Added util to add register all models in some module in one go.
+
 v0.8.6
 ------
 
