@@ -11,7 +11,7 @@ from django.utils.encoding import smart_unicode, force_unicode
 
 from easymode.tree.introspection import get_default_field_descriptors, \
     get_foreign_key_desciptors, get_generic_relation_descriptors
-from easymode.utils import approximate_recursion_level
+from easymode.utils import recursion_depth
 from easymode.utils.xmlutils import XmlPrinter
 
 
@@ -200,7 +200,7 @@ class RecursiveXmlSerializer(xml_serializer.Serializer):
         
         if field.rel.through._meta.auto_created:#  and obj.__class__ is not field.rel.to:
             # keep approximate recursion level
-            with approximate_recursion_level('handle_m2m_field') as recursion_level:
+            with recursion_depth('handle_m2m_field') as recursion_level:
                 
                 # a stack trace is better than python crashing.
                 if recursion_level > getattr(settings, 'RECURSION_LIMIT', sys.getrecursionlimit() / 10):

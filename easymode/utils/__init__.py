@@ -11,6 +11,7 @@ import errno
 import sys
 import time
 import stat
+import threading
 
 from contextlib import contextmanager
 from hashlib import sha1
@@ -19,23 +20,23 @@ from django.conf import settings
 from django.template import TemplateDoesNotExist
 from django.template.loader import template_source_loaders, find_template_loader
 
-__all__ = ('approximate_recursion_level', 'first_match', 'mutex', 'find_template_path', 'SemaphoreException')
+__all__ = ('recursion_depth', 'first_match', 'mutex', 'find_template_path', 'SemaphoreException')
 
 # the recursion level is counted globally and is just an approximation.
 # usually if the limit is reached there is something wrong in your app.
 # if not, try to set settings.RECURSION_LIMIT
-RECURSION_LEVEL_DICT = {}
+RECURSION_LEVEL_DICT = threading.local()
 @contextmanager
-def approximate_recursion_level(key):
+def recursion_depth(key):
     """
-    A context manager used to count approximate recursion depth for some function.
+    A context manager used to guard recursion depth for some function.
     Multiple functions can be kept separately because it will be
     counted per key.
 
     usage::
 
-        with approximate_recursion_level('some_function_name') as recursion_depth:
-            if recursion_depth > getattr(settings, 'RECURSION_LIMIT', sys.getrecursionlimit() / 10):
+        with recursion_depth('some_function_name') as recursion_level:
+            if recursion_level > getattr(settings, 'RECURSION_LIMIT', sys.getrecursionlimit() / 10):
                 raise Exception("Too deep")
 
             # do some recursive dangerous things.
