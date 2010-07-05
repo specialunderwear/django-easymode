@@ -32,6 +32,9 @@ def recursion_depth(key):
     A context manager used to guard recursion depth for some function.
     Multiple functions can be kept separately because it will be
     counted per key.
+    
+    Any exceptions raise in the recursive function will reset the counter,
+    because the stack will be unwinded.
 
     usage::
 
@@ -43,21 +46,26 @@ def recursion_depth(key):
 
     :param key: The key under which the recursion depth is kept.
     """
-    if not RECURSION_LEVEL_DICT.get(key):
-        RECURSION_LEVEL_DICT[key] = 0
-    RECURSION_LEVEL_DICT[key] += 1
-    yield RECURSION_LEVEL_DICT[key]
-    RECURSION_LEVEL_DICT[key] -= 1
+    try:
+        if not getattr(RECURSION_LEVEL_DICT, 'key', False):
+            RECURSION_LEVEL_DICT.key = 0
+        RECURSION_LEVEL_DICT.key += 1
+        yield RECURSION_LEVEL_DICT.key
+        RECURSION_LEVEL_DICT.key -= 1
+    except Exception as e:
+        RECURSION_LEVEL_DICT.key = 0
+        raise e
     
 def first_match(predicate, list):
     """
     returns the first value of predicate applied to list, which
     does not return None
     
-    >>> def return_if_even(x):
-    >>>     if x % 2 is 0:
-    >>>         return x
-    >>>     return None
+    >>> 
+    >>> def return_if_even(x): 
+    ...     if x % 2 is 0:
+    ...         return x
+    ...     return None
     >>> 
     >>> first_match(return_if_even, [1, 3, 4, 7])
     4

@@ -275,38 +275,3 @@ class Testi18n(TestCase):
         contains_konijntje = re.search(r'Ik ben geen konijntje', xml_representation)
         self.assertTrue(contains_konijntje)
                 
-    def test_semaphore(self):
-        """the semaphore should bind a file to the context and hold on to it untill after the context is closed"""
-        lockfile = join('/tmp', sha1(settings.SECRET_KEY).hexdigest() +'.semaphore')
-        for a in range(1, 4):
-            with mutex():
-                assert(os.path.isfile(lockfile))
-        
-            assert(not os.path.exists(lockfile))
-
-    def test_semaphore_exception(self):
-        """The semaphore should throw an exception when the wait time is over"""
-        lockfile = join('/tmp', sha1(settings.SECRET_KEY).hexdigest() +'.semaphore')
-        try:
-            with mutex(max_wait=0, lockfile=lockfile):
-                with mutex(max_wait=0, lockfile=lockfile):
-                    pass
-        except SemaphoreException as e:
-            pass
-        else:
-            self.fail('Should have triggered SemaphoreException')
-        self.assertFalse(os.path.exists(lockfile))
-        
-    def test_fdopen_works_correctly(self):
-        """fdopen should allow proper locking"""
-        lockfile = join('/tmp', sha1(settings.SECRET_KEY).hexdigest() +'.semaphore')
-        
-        try:
-            ty = os.open(lockfile, os.O_EXCL | os.O_RDWR | os.O_CREAT)
-            fd = os.open(lockfile, os.O_EXCL | os.O_RDWR | os.O_CREAT)
-        except OSError as e:
-            self.assertEqual(e.errno, errno.EEXIST)
-        else:
-            self.fail("If the file exists an OSError should be thrown")
-        finally:
-            os.remove(lockfile)

@@ -28,8 +28,11 @@ from easymode.tests.testcases.testi18n import *
 from easymode.tests.testcases.testrelatedadmin import *
 from easymode.tests.testcases.testtoxml import *
 from easymode.tests.testcases.testxslt import *
+from easymode.tests.testcases.testutils import *
 
 from easymode.utils.languagecode import *
+from easymode.utils import *
+
 __test__ = {
     "test_get_language_codes" : get_language_codes,
     "test_get_short_language_codes" : get_short_language_codes,
@@ -37,7 +40,8 @@ __test__ = {
     "test_strip_language_code" : strip_language_code,
     "test_get_real_fieldname" : get_real_fieldname,
     "test_localize_fieldnames" : localize_fieldnames,
-    "get_language_codes_as_disjunction" : get_language_codes_as_disjunction,
+    "test_get_language_codes_as_disjunction" : get_language_codes_as_disjunction,
+    "test_first_match" : first_match,
 }
 #for filename in filenames: # import testcases into current scoope
 #    modulename = re.sub(pattern, r'\1', filename)

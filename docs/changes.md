@@ -2,8 +2,7 @@ Release Notes
 =============
 
 v0.9.1
-
------
+------
 
 - Modified the xslt parser to use the file path instead of a string, so you can 
   use xsl:include now.
