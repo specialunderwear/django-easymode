@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v0.9.2
+------
+
+- Fixed bug in recursion_depth context manager and added tests.
+
 v0.9.1
 ------
 

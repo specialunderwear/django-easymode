@@ -16,7 +16,7 @@ documentation at http://packages.python.org/django-easymode/
 
 release notes at http://packages.python.org/django-easymode/changes.html"""
 
-version = '0.9.1'
+version = '0.9.2'
 packages = []
 data_files = []
 
