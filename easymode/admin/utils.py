@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.sites import AlreadyRegistered
 from django.db.models.base import ModelBase
 
 from easymode.i18n.admin.decorators import L10n
@@ -16,7 +17,10 @@ def register_all(module):
     for member_name in member_names:
         obj = getattr(module, member_name, None)
         if isinstance(obj, ModelBase):
-            if hasattr(obj, 'localized_fields'):
-                admin.site.register(obj, L10n(obj, admin.ModelAdmin))
-            else:
-                admin.site.register(obj)
+            try:
+                if hasattr(obj, 'localized_fields'):
+                    admin.site.register(obj, L10n(obj, admin.ModelAdmin))
+                else:
+                    admin.site.register(obj)
+            except AlreadyRegistered:
+                pass
