@@ -4,6 +4,7 @@ locale
 *.pyo
 example/example.sqlite
 .svn/
+.ropeproject
 polib.py
 reversion
 tinymce
