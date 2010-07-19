@@ -57,7 +57,7 @@ setup(name='django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
-    install_requires=['Django>=1.2.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.2.1'],
+    install_requires=['Django>=1.2.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.3.1'],
     license='GPL',
     classifiers=[
         'Development Status :: 4 - Beta',

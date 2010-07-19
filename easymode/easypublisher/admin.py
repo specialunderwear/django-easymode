@@ -53,7 +53,7 @@ class EasyPublisher(VersionAdmin):
                        for version in self.get_draft_versions(object_id).select_related("revision__user")]
         context = {
             "action_list": action_list, 
-            "title": _("Ongepubliceerde items"), 
+            "title": _("Unpublished items"), 
             'draft_view':True, 
             'has_draft':self.has_draft(object_id)
         }
@@ -232,29 +232,39 @@ class EasyPublisher(VersionAdmin):
                 form_validated = False
                 new_object = obj
             prefixes = {}
-            for FormSet in self.get_formsets(request, new_object):
+            for FormSet, inline in zip(self.get_formsets(request, new_object),
+                                       self.inline_instances):
                 prefix = FormSet.get_default_prefix()
                 prefixes[prefix] = prefixes.get(prefix, 0) + 1
                 if prefixes[prefix] != 1:
                     prefix = "%s-%s" % (prefix, prefixes[prefix])
                 formset = FormSet(request.POST, request.FILES,
-                                  instance=new_object, prefix=prefix)
+                                  instance=new_object, prefix=prefix,
+                                  queryset=inline.queryset(request))
+                # Strip extra empty forms from the formset.
+                num_forms = formset.total_form_count() - formset.extra
+                del formset.forms[num_forms:]
+                formset.total_form_count = lambda: num_forms
+                # Add this hacked formset to the form.
                 formsets.append(formset)
             if all_valid(formsets) and form_validated:
                 self.save_model(request, new_object, form, change=True)
                 form.save_m2m()
                 for formset in formsets:
                     self.save_formset(request, form, formset, change=True)
+                
                 # _ _ _ ____ ___ ____ _  _    ____ _  _ ___ 
                 # | | | |__|  |  |    |__|    |  | |  |  |  
                 # |_|_| |  |  |  |___ |  |    |__| |__|  |
                 # this is not copy pasted:
                 self.update_draft(version, request)
-                # end of not copy pasted code
                 
                 change_message = _(u"Publisher message %(datetime)s") % {"datetime": format(version.revision.date_created, _(settings.DATETIME_FORMAT))}
                 self.log_change(request, new_object, change_message)
-                self.message_user(request, _(u'%(model)s "%(name)s" publisher message.') % {"model": opts.verbose_name, "name": unicode(obj)})
+                self.message_user(request, _(u'%(model)s "%(name)s" publisher message.') % {"model": force_unicode(opts.verbose_name), "name": unicode(obj)})
+
+                # end of not copy pasted code
+
                 # Redirect to the model change form.
                 if revert:
                     return HttpResponseRedirect("../../")
@@ -270,13 +280,14 @@ class EasyPublisher(VersionAdmin):
             form = ModelForm(instance=obj, initial=self.get_revision_form_data(request, obj, version))
             prefixes = {}
             revision_versions = version.revision.version_set.all()
-            for FormSet in self.get_formsets(request, obj):
+            for FormSet, inline in zip(self.get_formsets(request, obj), self.inline_instances):
                 # This code is standard for creating the formset.
                 prefix = FormSet.get_default_prefix()
                 prefixes[prefix] = prefixes.get(prefix, 0) + 1
                 if prefixes[prefix] != 1:
                     prefix = "%s-%s" % (prefix, prefixes[prefix])
-                formset = FormSet(instance=obj, prefix=prefix)
+                formset = FormSet(instance=obj, prefix=prefix,
+                                  queryset=inline.queryset(request))
                 # Now we hack it to push in the data from the revision!
                 try:
                     fk_name = FormSet.fk.name
@@ -287,31 +298,35 @@ class EasyPublisher(VersionAdmin):
                                          for related_version in revision_versions
                                          if ContentType.objects.get_for_id(related_version.content_type_id).model_class() == FormSet.model
                                          and unicode(related_version.field_dict[fk_name]) == unicode(object_id)])
-                pk_name = FormSet.model._meta.pk.name
-                initial = formset.initial or []
-                for initial_row in initial:
-                    pk = unicode(initial_row[pk_name])
-                    if pk in related_versions:
-                        initial_row.update(related_versions[pk].field_dict)
-                        del related_versions[pk]
+                initial = []
+                for related_obj in formset.queryset:
+                    if unicode(related_obj.pk) in related_versions:
+                        initial.append(related_versions.pop(unicode(related_obj.pk)).field_dict)
                     else:
-                        initial_row["DELETE"] = True
-                initial.extend([related_version.field_dict
-                                for related_version in related_versions.values()])
+                        initial_data = model_to_dict(related_obj)
+                        initial_data["DELETE"] = True
+                        initial.append(initial_data)
+                for related_version in related_versions.values():
+                    initial_row = related_version.field_dict
+                    del initial_row["id"]
+                    initial.append(initial_row)
                 # Reconstruct the forms with the new revision data.
-                formset._total_form_count = len(initial)
                 formset.initial = initial
-                formset._construct_forms()
+                formset.forms = [formset._construct_form(n) for n in xrange(len(initial))]
                 # Add this hacked formset to the form.
                 formsets.append(formset)
         # Generate admin form helper.
-        adminForm = helpers.AdminForm(form, self.get_fieldsets(request, obj), self.prepopulated_fields)
+        adminForm = helpers.AdminForm(form, self.get_fieldsets(request, obj),
+            self.prepopulated_fields, self.get_readonly_fields(request, obj),
+            model_admin=self)
         media = self.media + adminForm.media
         # Generate formset helpers.
         inline_admin_formsets = []
         for inline, formset in zip(self.inline_instances, formsets):
             fieldsets = list(inline.get_fieldsets(request, obj))
-            inline_admin_formset = helpers.InlineAdminFormSet(inline, formset, fieldsets)
+            readonly = list(inline.get_readonly_fields(request, obj))
+            inline_admin_formset = helpers.InlineAdminFormSet(inline, formset,
+                fieldsets, readonly, model_admin=self)
             inline_admin_formsets.append(inline_admin_formset)
             media = media + inline_admin_formset.media
         # Generate the context.
@@ -322,7 +337,6 @@ class EasyPublisher(VersionAdmin):
                         "media": mark_safe(media),
                         "inline_admin_formsets": inline_admin_formsets,
                         "errors": helpers.AdminErrorList(form, formsets),
-                        "root_path": self.admin_site.root_path,
                         "app_label": opts.app_label,
                         "add": False,
                         "change": True,
@@ -336,7 +350,11 @@ class EasyPublisher(VersionAdmin):
                         "opts": opts,
                         "content_type_id": ContentType.objects.get_for_model(self.model).id,
                         "save_as": False,
-                        "save_on_top": self.save_on_top,})
+                        "save_on_top": self.save_on_top,
+                        "changelist_url": reverse("admin:%s_%s_changelist" % (opts.app_label, opts.module_name)),
+                        "change_url": reverse("admin:%s_%s_change" % (opts.app_label, opts.module_name), args=(obj.pk,)),
+                        "history_url": reverse("admin:%s_%s_history" % (opts.app_label, opts.module_name), args=(obj.pk,)),
+                        "recoverlist_url": reverse("admin:%s_%s_recoverlist" % (opts.app_label, opts.module_name))})
         # Render the form.
         if revert:
             form_template = self.revision_form_template
@@ -345,7 +363,6 @@ class EasyPublisher(VersionAdmin):
         else:
             assert False
         return render_to_response(form_template, context, template.RequestContext(request))
-
 
 def _add_foreign_key_aware_model_admin_behaviour(method):
     """

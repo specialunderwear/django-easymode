@@ -10,7 +10,7 @@ Django supports internationalization of text in templates and code by means of
 gettext. For internationalization of dynamic model data, easymode offers simple
 decorators to enable internationalized fields.
 
-The only requuirement fields have to satisfy to be able to be internationalised
+The only requirement fields have to satisfy to be able to be internationalised
 by easymode, is that their :func:`~django.db.models.to_python` method may not access ``self``.
 
 suppose we have the following model.

@@ -19,14 +19,14 @@
     {% endblock %}
     {% block breadcrumbs %}
     <div class="breadcrumbs">
-		<a href="../../../../../">{% trans "Home" %}</a> &rsaquo;
-		<a href="../../../../">{{app_label|capfirst|escape}}</a> &rsaquo; 
+		<a href="{% url admin:index %}">{% trans "Home" %}</a> &rsaquo;
+		<a href="{% url admin:app_list app_label %}">{{app_label|capfirst|escape}}</a> &rsaquo; 
 		{% if parent_model %}
          <a href="{{ parent_model }}">{{ parent_name|capfirst|escape }}</a> &rsaquo; 
          {% else %}
              {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo; 
          {% endif %}
-		<a href="../../">{{original|truncatewords:"18"}}</a> &rsaquo;
+		<a href="{{change_url}}">{{original|truncatewords:"18"}}</a> &rsaquo;
 		<a href="../">{% trans "Drafts" %}</a> &rsaquo;
 		{% blocktrans with opts.verbose_name as verbose_name %}Publish {{verbose_name}}{% endblocktrans %}
 	</div>
