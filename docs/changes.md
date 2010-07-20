@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+v0.9.3
+------
+
+- fixes :class:`easymode.admin.abstract.AbstractOrderedModel`
+- register_all will ignore models that are :class:`django.contrib.admin.sites.AlreadyRegistered`,
+  but still register other models in the module.
+
 v0.9.2
 ------
 
