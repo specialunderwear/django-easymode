@@ -1,3 +1,6 @@
+"""
+Tools for debugging python applications
+"""
 from StringIO import StringIO
 import inspect
 

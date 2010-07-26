@@ -3,14 +3,12 @@ import os
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
-description="""Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
-The tools included in the toolkit to help you make these kind of sites include:
+description="""With easymode you can create backends for dynamic flash/flex websites.
+Easymode makes internationalization simple and outputs xml by
+default. To tailor the xml to your application, you can transform
+it using xslt templates, which easymode integrates.
 
-* Internationalization of models, with admin support
-* Translation of model data using gettext
-* Automatic generation of xml from model trees using xslt
-* Admin support for model trees with more than 2 levels of related items
-* Basic approval support for models
+For more info, look at http://packages.python.org/django-easymode/details.html
 
 documentation at http://packages.python.org/django-easymode/
 
