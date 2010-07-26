@@ -45,7 +45,7 @@ class FlashUrlField(CharField):
     
     A valid flash url must be one of:
     
-    1. an absolute url, eg. *http://example.com/
+    1. an absolute url, eg. *http://example.com/*
     2. a relative url, eg. */main/chapter* 
     3. a flash url with a hash eg. *#/main/chapter*
     """

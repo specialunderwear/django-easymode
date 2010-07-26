@@ -1,51 +1,6 @@
 """
-Cache middleware. If enabled, each Django-powered page will be cached based on
-URL. The canonical way to enable cache middleware is to set
-``UpdateCacheMiddleware`` as your first piece of middleware, and
-``FetchFromCacheMiddleware`` as the last::
-
-    MIDDLEWARE_CLASSES = [
-        'django.middleware.cache.UpdateCacheMiddleware',
-        ...
-        'django.middleware.cache.FetchFromCacheMiddleware'
-    ]
-
-This is counter-intuitive, but correct: ``UpdateCacheMiddleware`` needs to run
-last during the response phase, which processes middleware bottom-up;
-``FetchFromCacheMiddleware`` needs to run last during the request phase, which
-processes middleware top-down.
-
-The single-class ``CacheMiddleware`` can be used for some simple sites.
-However, if any other piece of middleware needs to affect the cache key, you'll
-need to use the two-part ``UpdateCacheMiddleware`` and
-``FetchFromCacheMiddleware``. This'll most often happen when you're using
-Django's ``LocaleMiddleware``.
-
-More details about how the caching works:
-
-* Only parameter-less GET or HEAD-requests with status code 200 are cached.
-
-* The number of seconds each page is stored for is set by the "max-age" section
-  of the response's "Cache-Control" header, falling back to the
-  CACHE_MIDDLEWARE_SECONDS setting if the section was not found.
-
-* If CACHE_MIDDLEWARE_ANONYMOUS_ONLY is set to True, only anonymous requests
-  (i.e., those not made by a logged-in user) will be cached. This is a simple
-  and effective way of avoiding the caching of the Django admin (and any other
-  user-specific content).
-
-* This middleware expects that a HEAD request is answered with a response
-  exactly like the corresponding GET request.
-
-* When a hit occurs, a shallow copy of the original response object is returned
-  from process_request.
-
-* Pages will be cached based on the contents of the request headers listed in
-  the response's "Vary" header.
-
-* This middleware also sets ETag, Last-Modified, Expires and Cache-Control
-  headers on the response object.
-
+Replacements for django middlewares that allow you to see what is put in to the cache
+and comes out of the cache.
 """
 import logging
 
@@ -68,12 +23,8 @@ def get_cache_key_parameters(request):
     
 class DebugUpdateCacheMiddleware(object):
     """
-    Response-phase cache middleware that updates the cache if the response is
-    cacheable.
-
-    Must be used as part of the two-part update/fetch cache middleware.
-    UpdateCacheMiddleware must be the first piece of middleware in
-    MIDDLEWARE_CLASSES so that it'll get called last during the response phase.
+    Same as :class:`~django.middleware.cache.django.middleware.cache.UpdateCacheMiddleware` but is shows you
+    when something is put into the cache.
     """
     def __init__(self):
         self.cache_timeout = settings.CACHE_MIDDLEWARE_SECONDS
@@ -111,11 +62,8 @@ class DebugUpdateCacheMiddleware(object):
 
 class DebugFetchFromCacheMiddleware(object):
     """
-    Request-phase cache middleware that fetches a page from the cache.
-
-    Must be used as part of the two-part update/fetch cache middleware.
-    FetchFromCacheMiddleware must be the last piece of middleware in
-    MIDDLEWARE_CLASSES so that it'll get called last during the request phase.
+    Same as :class:`~django.middleware.cache.django.middleware.cache.FetchFromCacheMiddleware` but it shows
+    you what it is retrieving from the cache if it can find something.
     """
     def __init__(self):
         self.cache_timeout = settings.CACHE_MIDDLEWARE_SECONDS
@@ -154,10 +102,8 @@ class DebugFetchFromCacheMiddleware(object):
 
 class DebugCacheMiddleware(DebugUpdateCacheMiddleware, DebugFetchFromCacheMiddleware):
     """
-    Cache middleware that provides basic behavior for many simple sites.
-
-    Also used as the hook point for the cache decorator, which is generated
-    using the decorator-from-middleware utility.
+    combines :class:`~easymode.debug.middleware.DebugFetchFromCacheMiddleware` and 
+    :class:`easymode.debug.middleware.DebugUpdateCacheMiddleware`
     """
     def __init__(self, cache_timeout=None, key_prefix=None, cache_anonymous_only=None):
         self.cache_timeout = cache_timeout

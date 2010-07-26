@@ -141,7 +141,8 @@ Api docs
     tree/api
     xslt/api
     utils/api
-    fields    
+    fields
+    debug    
 
 Version naming convention
 -------------------------

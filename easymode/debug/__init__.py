@@ -2,7 +2,17 @@ from StringIO import StringIO
 import inspect
 
 def stack_trace(depth=None):
-    """returns a stack trace"""
+    """
+    returns a print friendly stack trace at the current frame,
+    without aborting the application.
+    
+    :param depth: The depth of the stack trace. if omitted, the entire
+        stack will be printed.
+    
+    usage::
+    
+        print stack_trace(10)
+    """
     frames = inspect.stack()[2:]
     if depth:
         frames = frames[:depth]
