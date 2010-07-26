@@ -8,7 +8,7 @@ __all__ = ('register_all',)
 
 def register_all(module, exclude=[]):
     """
-    Register all models in _module_ with the admin
+    Register all models in *module* with the admin
     
     :param module: The module that contains the models
     :param exclude: A list of models classes that should not be registered

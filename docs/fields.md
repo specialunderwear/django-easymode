@@ -1,3 +1,9 @@
+:mod:`easymode.admin.utils`
+===========================
+
+.. automodule:: easymode.admin.utils
+    :members:
+
 :mod:`easymode.admin.models.fields`
 ===================================
 
