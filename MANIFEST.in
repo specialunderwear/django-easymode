@@ -3,13 +3,16 @@ include LICENSE
 include MANIFEST.in
 include TODO
 include docs/conf.py
+include docs/Makefile
 include docs/easypublisher.md
 include docs/index.md
-include docs/Makefile
 include docs/settings.md
 include docs/commands.md
 include docs/middleware.md
 include docs/templatetags.md
+include docs/changes.md
+include docs/debug.md
+include docs/fields.md
 recursive-include docs/i18n *
 recursive-include docs/tree *
 recursive-include docs/xslt *
