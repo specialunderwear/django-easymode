@@ -13,6 +13,7 @@ include docs/templatetags.md
 include docs/changes.md
 include docs/debug.md
 include docs/fields.md
+include docs/details.md
 recursive-include docs/i18n *
 recursive-include docs/tree *
 recursive-include docs/xslt *
