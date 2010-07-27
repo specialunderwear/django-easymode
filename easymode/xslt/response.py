@@ -6,7 +6,7 @@ passed as the second argument must have a ``__xml__`` method. (See :func:`~easym
 from django.http import HttpResponse
 
 from easymode import tree
-from easymode.utils import find_template_path
+from easymode.utils.template import find_template_path
 from easymode.xslt import transform
 
 

@@ -6,21 +6,17 @@ Mutex
 XML parser/generator that handles unknown entities.
 Controlling recursion depth
 """
-import os
 import errno
-import sys
-import time
-import stat
+import os
 import threading
-
+import time
 from contextlib import contextmanager
 from hashlib import sha1
 
 from django.conf import settings
-from django.template import TemplateDoesNotExist
-from django.template.loader import template_source_loaders, find_template_loader
 
-__all__ = ('recursion_depth', 'first_match', 'mutex', 'find_template_path', 'SemaphoreException')
+
+__all__ = ('recursion_depth', 'first_match', 'mutex', 'SemaphoreException', 'bases_walker')
 
 # the recursion level is counted globally and is just an approximation.
 # usually if the limit is reached there is something wrong in your app.
@@ -171,24 +167,20 @@ class mutex(object):
         #Remove the lockfile, releasing the semaphore for other processes to obtain
         os.remove(self.lockfile)
 
-def find_template_path(name):
+
+def bases_walker(cls):
     """
-    Same as :func:`django.template.loader.find_template`, but it only returns the path
-    to the template file.
+    Loop through all bases of cls
+            
+    >>> str = u'hai'
+    >>> for base in bases_walker(unicode):
+    ...     isinstance(str, base)
+    True
+    True
+    
+    :param cls: The class in which we want to loop through the base classes.
     """
-    global template_source_loaders
-    if template_source_loaders is None:
-        loaders = []
-        for loader_name in settings.TEMPLATE_LOADERS:
-            loader = find_template_loader(loader_name)
-            if loader is not None:
-                loaders.append(loader)
-        template_source_loaders = tuple(loaders)
-    for loader in template_source_loaders:
-        try:
-            _, display_name = loader(name)
-            if display_name:
-                return display_name
-        except TemplateDoesNotExist:
-            pass
-    raise TemplateDoesNotExist(name)
+    for base in cls.__bases__:
+        yield base
+        for more in bases_walker(base):
+            yield more

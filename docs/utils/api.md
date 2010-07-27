@@ -27,3 +27,9 @@
 
 .. automodule:: easymode.utils.standin
     :members:
+
+:mod:`easymode.utils.template`
+==============================
+
+.. automodule:: easymode.utils.template
+    :members:

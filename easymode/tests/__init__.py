@@ -42,6 +42,7 @@ __test__ = {
     "test_localize_fieldnames" : localize_fieldnames,
     "test_get_language_codes_as_disjunction" : get_language_codes_as_disjunction,
     "test_first_match" : first_match,
+    'test_bases_walker' : bases_walker,
 }
 #for filename in filenames: # import testcases into current scoope
 #    modulename = re.sub(pattern, r'\1', filename)
