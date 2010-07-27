@@ -35,6 +35,6 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
         widget_html = self.widget.render(name, value, *args, **kwargs)
         
         if extra:
-            return mark_safe(u'<div class="localized">%s <small><a class="extra_gettext" title="%s">%s%s</a></small></div>' % (widget_html, extra, unichr(8756), unichr(176)))
+            return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">%s%s</a></small></div>' % (widget_html, extra, unichr(8756), unichr(176)))
 
         return mark_safe(u'<div class="localized">%s <small>%s</small></div>' % (widget_html, unichr(8756)))
