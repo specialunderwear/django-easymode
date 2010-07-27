@@ -161,7 +161,7 @@ class Testi18n(TestCase):
         assert(result != {})
         
     def test_meta(self):
-        """Transmeta should have a title_en as well as a title is default locale is en"""
+        """field should have a title_en as well as a title if default locale is en"""
         i = self.setup_l10n_model()
         
         assert(i.title_en == i.title == 'Ik ben de groot moeftie van cambodja')
@@ -179,12 +179,12 @@ class Testi18n(TestCase):
         assert(field == self.title_de)
 
     def test_meta_get_localized_field_name(self):
-        """Transmeta's get_localized_field_name should return the correct localized property name"""
+        """get_localized_field_name should return the correct localized property name"""
         field = meta.get_localized_field_name(self, 'title')
         assert(field == 'title_en')
             
     def test_meta_now_selects_correct_field_on_propert_write(self):
-        """Transmeta should write to title_en if language is en and property is title"""            
+        """Easymode should write to title_en if language is en and property is title"""            
         i = self.setup_l10n_model()
         i.title = 'ik wijzig em ff ok?'
         i.save()
