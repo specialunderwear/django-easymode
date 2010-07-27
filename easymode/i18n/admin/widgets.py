@@ -6,13 +6,16 @@ __all__ = ('WidgetWrapper',)
 def find_extra_attrs(value):
     "finds extra attributes in *value* if they are there"
     extra = None
-    if hasattr(value, 'stored_value'):
-        if hasattr(value, 'msg') and value.stored_value != value.msg:
+    value_is_from_database = True
+
+    if hasattr(value, 'standin_value_is_from_database'):
+        value_is_from_database = value.standin_value_is_from_database
+        if value.stored_value != value.msg:
             extra = value.msg
-        elif hasattr(value, 'fallback') and value.stored_value != value.fallback:
+        elif value.stored_value != value.fallback:
             extra = value.fallback
-            
-    return extra
+    
+    return extra, value_is_from_database
 
 class WidgetWrapper(RelatedFieldWidgetWrapper):
     """
@@ -31,10 +34,12 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
         self.choices = getattr(self.widget, 'choices', None)
 
     def render(self, name, value, *args, **kwargs):
-        extra = find_extra_attrs(value)
+        (extra, value_is_from_database) = find_extra_attrs(value)
         widget_html = self.widget.render(name, value, *args, **kwargs)
         
-        if extra:
-            return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">%s%s</a></small></div>' % (widget_html, extra, unichr(8756), unichr(176)))
-
-        return mark_safe(u'<div class="localized">%s <small>%s</small></div>' % (widget_html, unichr(8756)))
+        if extra and value_is_from_database:
+            return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">\u2234\u207A</a></small></div>' % (widget_html, extra))
+        elif not value_is_from_database:
+            return mark_safe(u'<div class="localized">%s <small>\u2234\u207A</small></div>' % widget_html)
+        
+        return mark_safe(u'<div class="localized">%s <small>\u2234</small></div>' % widget_html)

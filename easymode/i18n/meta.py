@@ -81,6 +81,10 @@ class GettextVO:
     A value object that contains information about the origin
     of the value in question.
     
+    .. attribute:: standin_value_is_from_database
+
+        is True if the value came from the database
+
     .. attribute:: msgid
     
         The message id that originated the lookup
@@ -95,14 +99,16 @@ class GettextVO:
     
     .. attribute:: stored_value
         
-        the value as it is stored in the databas
+        the value as it is stored in the database
     
     """
-    msgid = None
-    msg = None
-    fallback = None
-    stored_value = None
-
+    
+    def __init__(self):
+        self.standin_value_is_from_database = False
+        self.msgid = None
+        self.msg = None
+        self.fallback = None
+        self.stored_value = None
                        
 class DefaultFieldDescriptor(property):
     """
@@ -131,7 +137,7 @@ class DefaultFieldDescriptor(property):
         real_field_name = get_real_fieldname(self.name, current_language)
 
         vo = GettextVO()
-
+        
         # first check if the database contains the localized data
         vo.stored_value = getattr(obj, real_field_name)
 
@@ -181,6 +187,7 @@ class DefaultFieldDescriptor(property):
         # a standin. A standin is the return value, with some extra properties.
         # see GettextVO for the extra properties added.
         if valid_for_gettext(vo.stored_value):
+            vo.standin_value_is_from_database = True
             # database always wins
             return standin_for(vo.stored_value, **vo.__dict__)
         elif valid_for_gettext(vo.msg):
