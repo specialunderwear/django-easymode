@@ -51,7 +51,7 @@ def standin_for(obj, **attrs):
     except (AttributeError, TypeError):
         try:
             stand_in = cached_type(obj)
-        except TypeError:
+        except (AttributeError, TypeError):
             stand_in = obj
     
     # add extra attrs
