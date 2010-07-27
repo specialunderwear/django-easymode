@@ -37,15 +37,3 @@ class I18n(object):
         cls._meta.permissions.append(("can_edit_global_fields", "Can edit restricted fields"))
 
         return cls
-    
-def L10n_CMS(*localized_fields):
-
-    def modify_class(cls):
-        model_dir = os.path.join(settings.PROJECT_DIR, 'cms' + getattr(settings, 'LOCALE_POSTFIX', ''))
-        cls = meta.localize_cms_stuff_fields(cls, *localized_fields)
-        if getattr(settings, 'AUTO_CATALOG', True):
-            i18n.register(cls, getattr(settings, 'LOCALE_DIR', None) or model_dir)
-        
-        return cls
-        
-    return modify_class
