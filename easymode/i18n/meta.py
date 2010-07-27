@@ -21,6 +21,10 @@ from easymode.utils.languagecode import get_all_language_codes, get_real_fieldna
 
 __all__ = ('GettextVO',)
 
+def valid_for_gettext(value):
+    """Gettext acts weird when empty string is passes, and passing none would be even weirder"""
+    return value not in (None, "")
+    
 def get_fallback_languages():
     """Retrieve the fallback languages from the settings.py"""
     lang = translation.get_language()
@@ -133,12 +137,26 @@ class DefaultFieldDescriptor(property):
 
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid, as a unicode string.
-        vo.msgid = force_unicode(get_localized_property(obj, self.name, 
-            getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE)))
+        vo.msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))
 
         # check the translation in the current language
-        vo.msg = self.to_python(translation.ugettext(vo.msgid))
-
+        # but avoid empty string and None 
+        if valid_for_gettext(vo.msgid):
+            vo.msg = self.to_python(translation.ugettext(force_unicode(vo.msgid)))
+        elif valid_for_gettext(vo.stored_value):
+            # we can not use the msgid for gettext but we did find a valid
+            # translation in the database. Fine we stop here and return that
+            # value. No need for a standin, because we don't have a catalog value.
+            return vo.stored_value
+        else:
+            # we can not use the msgid for gettext lookups, so there is no
+            # point in trying. Also if we are sure we don't have any old
+            # translations in the catalog, we do not need to return a
+            # standin either
+            return vo.msgid
+        
+        # we got here so we've got a valid messageid. Now collect data from the catalog(s)
+        
         # if there isn't anything new in the catalog belonging to the current language:
         if vo.msg is vo.msgid:
             # maybe we have a translation in any of the fallback languages.
@@ -149,29 +167,36 @@ class DefaultFieldDescriptor(property):
 
                 # if the msgid is '' or None we don't have to look
                 # for translations because there are none.
-                if vo.fallback not in (None, "") and vo.msgid not in (None, ""):
+                if valid_for_gettext(vo.fallback) and valid_for_gettext(vo.msgid):
                     # there might be a translation in any
                     # of the fallback languages.
                     for fallback in get_fallback_languages():
                         catalog = translation_catalogs(fallback)
-                        msg = catalog.ugettext(vo.msgid)
+                        msg = catalog.ugettext(force_unicode(vo.msgid))
                         if self.to_python(msg) is not vo.msgid:
                             vo.fallback = self.to_python(msg)
                             break
 
-        if vo.stored_value not in (None, ""):
+        # if we came here we collected data from the catalog and we should return
+        # a standin. A standin is the return value, with some extra properties.
+        # see GettextVO for the extra properties added.
+        if valid_for_gettext(vo.stored_value):
+            # database always wins
             return standin_for(vo.stored_value, **vo.__dict__)
-        elif vo.msg not in (None, ""):
+        elif valid_for_gettext(vo.msg):
+            # runner up is the translation in the native language
             return standin_for(vo.msg, **vo.__dict__)
-        elif vo.fallback not in (None, ""):
+        elif valid_for_gettext(vo.fallback):
+            # and last is the translation in a fallback language
             return standin_for(vo.fallback, **vo.__dict__)
 
-        if vo.msgid in (None, ""):
-            return standin_for(self.to_python(u''), **vo.__dict__)
+        assert(valid_for_gettext(vo.msgid))
 
-        # # no fallback language and the database does not have
-        # # the localized data, so use the translation of the msgid
-        return self.to_python(standin_for(vo.msg, **vo.__dict__))
+        # there is a very very small probability that the translation of
+        # a valid msgid evaluates to empty string or None (after to_python).
+        # If that happened, we got here. I choose to return None, because i like
+        # to be like that
+        return None
 
     def __set__(self, obj, value):
         """Write the localised version of the field this descriptor emulates."""
