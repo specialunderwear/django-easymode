@@ -54,9 +54,3 @@ The benefits of using django with easymode to create flash backends are:
 6. Actual mechanism to translate the content from one language to another 
    (:ref:`translation_of_contents`)
 7. Structure is uniform in all layers of the application. (backend, transport, frontend)
-
-:mod:`easymode.i18n.meta`
-===========================
-
-.. automodule:: easymode.i18n.meta
-    :members:
