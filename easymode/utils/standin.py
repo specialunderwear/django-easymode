@@ -44,9 +44,22 @@ def standin_for(obj, **attrs):
         cached_type = type("%sStandIn" % id, (obj_class,), cls_attrs)
         _defined_standins[id] = cached_type
     
-    # create new object based on original and add extra attrs.
-    stand_in = cached_type(obj)
-    for (key, value) in attrs.iteritems():
-        setattr(stand_in, key, value)
+    # create new object based on original and copy all properties
+    try:
+        stand_in = cached_type()
+        stand_in.__dict__.update(obj.__dict__)
+    except (AttributeError, TypeError):
+        try:
+            stand_in = cached_type(obj)
+        except TypeError:
+            stand_in = obj
+    
+    # add extra attrs
+    try:
+        for (key, value) in attrs.iteritems():
+            setattr(stand_in, key, value)
+    except AttributeError:
+        # if nothing works return original object
+        return obj
     
     return stand_in
