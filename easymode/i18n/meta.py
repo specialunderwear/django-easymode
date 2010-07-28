@@ -178,7 +178,7 @@ class DefaultFieldDescriptor(property):
                     for fallback in get_fallback_languages():
                         catalog = translation_catalogs(fallback)
                         msg = catalog.ugettext(force_unicode(vo.msgid))
-                        if self.to_python(msg) is not vo.msgid:
+                        if self.to_python(msg) != vo.msgid:
                             vo.fallback = self.to_python(msg)
                             break
 
