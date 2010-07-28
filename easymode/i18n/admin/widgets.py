@@ -42,6 +42,6 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
         if extra and value_is_from_database:
             return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">\u2234\u207A</a></small></div>' % (widget_html, extra))
         elif not value_is_from_database:
-            return mark_safe(u'<div class="localized">%s <small>\u2234\u207A</small></div>' % widget_html)
+            return mark_safe(u'<div class="localized">%s <small>\u2234\u00B0</small></div>' % widget_html)
         
         return mark_safe(u'<div class="localized">%s <small>\u2234</small></div>' % widget_html)
