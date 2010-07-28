@@ -10,6 +10,8 @@ class BoolStandin(int):
             return 'False'
         else:
             return 'True'
+    def __str__(self):
+        return self.__repr__()
 
 def standin_for(obj, **attrs):
     """
