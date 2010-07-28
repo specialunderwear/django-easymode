@@ -1,17 +1,10 @@
+from types import NoneType
 from django.utils.text import capfirst
+
+__all__ = ('standin_for',)
 
 _defined_standins = dict()
 
-class BoolStandin(int):
-    def __nonzero__(self):
-        return self != 0
-    def __repr__(self):
-        if self == 0:
-            return 'False'
-        else:
-            return 'True'
-    def __str__(self):
-        return self.__repr__()
 
 def standin_for(obj, **attrs):
     """
@@ -19,18 +12,52 @@ def standin_for(obj, **attrs):
     
     The standin object will have extra attrs, which you can define passed as keyword arguments.
     
-    This will be used in the __future__ to pass info about the origin of a value to
-    a widget. The origin of a value can either be the database or the gettext catalog.
-    You will be able to change the origin. This is very usefull if for example you
-    saved a model without realising all fields will be committed to the database and
-    you made changes to the gettext catalog afterwards.
+    Use standin like this:
     
+    >>> a = u'I am some string'
+    >>> b = standin_for(a, origin='outerspace', package='easymode.utils.standin')
+    >>> b
+    u'I am some string'
+    >>> b == a
+    True
+    >>> b.origin
+    'outerspace'
+    >>> b.package
+    'easymode.utils.standin'
+    >>> isinstance(b, unicode)
+    True
+    >>> type(b)
+    <class 'easymode.utils.standin.unicodeOriginAndPackageStandIn'>
+    
+    Some types are not supported by standin_for. This is because these types are often used in statements like::
+        
+        a = True
+        if a is True:
+            print 'hi'
+    
+    The *is* keyword checks for equal memory adress, and in case of a standin that can never be *True*.
+     Also, since it is impossible to extend :class:`bool` and :class:`types.NoneType` you can never get::
+    
+        isinstance(standin, bool)
+        isinstance(standin, NoneType)
+    
+    To work with anything else but the real thing.
+    This is why :class:`bool` and :class:`types.NoneType` instances are returned unmodified.
+            
     See :ref:`database_rules_all`
+    
+    :param obj: An instance of some class
+    :param **attrs: Attributes that will be added to the standin for *obj*
     """
     
     obj_class = obj.__class__
-    if obj_class is bool:
-        obj_class = BoolStandin
+    if obj_class is bool or obj_class is NoneType:
+        # we can not have a standing for bool or NoneType
+        # because too many code uses a is True or a is None.
+        # Also you can never get isinstance(standin, bool) and
+        # isinstance(standin, NoneType) to work because you can
+        # never extend these types.
+        return obj
     
     attr_names  = attrs.keys()
     attr_names.sort()
@@ -48,11 +75,11 @@ def standin_for(obj, **attrs):
     
     # create new object based on original and copy all properties
     try:
-        stand_in = cached_type()
-        stand_in.__dict__.update(obj.__dict__)
+        stand_in = cached_type(obj)
     except (AttributeError, TypeError):
         try:
-            stand_in = cached_type(obj)
+            stand_in = cached_type()
+            stand_in.__dict__.update(obj.__dict__)
         except (AttributeError, TypeError):
             stand_in = obj
     

@@ -30,8 +30,9 @@ from easymode.tests.testcases.testtoxml import *
 from easymode.tests.testcases.testxslt import *
 from easymode.tests.testcases.testutils import *
 
-from easymode.utils.languagecode import *
 from easymode.utils import *
+from easymode.utils.languagecode import *
+from easymode.utils.standin import *
 
 __test__ = {
     "test_get_language_codes" : get_language_codes,
@@ -42,7 +43,8 @@ __test__ = {
     "test_localize_fieldnames" : localize_fieldnames,
     "test_get_language_codes_as_disjunction" : get_language_codes_as_disjunction,
     "test_first_match" : first_match,
-    'test_bases_walker' : bases_walker,
+    "test_bases_walker" : bases_walker,
+    "test_standin_for": standin_for,
 }
 #for filename in filenames: # import testcases into current scoope
 #    modulename = re.sub(pattern, r'\1', filename)
