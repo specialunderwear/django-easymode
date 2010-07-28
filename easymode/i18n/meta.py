@@ -109,7 +109,8 @@ class GettextVO:
         self.msg = None
         self.fallback = None
         self.stored_value = None
-                       
+
+
 class DefaultFieldDescriptor(property):
     """
     Descriptor that implements access to the default language.
