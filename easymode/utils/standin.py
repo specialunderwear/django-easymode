@@ -55,6 +55,7 @@ def standin_for(obj, **attrs):
         
     :param obj: An instance of some class
     :param **attrs: Attributes that will be added to the standin for *obj*
+    :rtype: A new object that can be used where the original was used. However it has extra attributes.
     """
     
     obj_class = obj.__class__
