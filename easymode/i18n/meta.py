@@ -44,7 +44,7 @@ def get_localized_property(context, field=None, language=None):
     if language:
         return getattr(context, get_real_fieldname(field, language))
     
-    if settings.FALLBACK_LANGUAGES:
+    if hasattr(settings, 'FALLBACK_LANGUAGES'):
         attrs = [translation.get_language()]
         attrs += get_fallback_languages()
     else:
