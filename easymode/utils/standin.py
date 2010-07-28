@@ -14,10 +14,10 @@ def standin_for(obj, **attrs):
     
     Use standin like this:
     
-    >>> a = u'I am some string'
+    >>> a = u'I am E.T.'
     >>> b = standin_for(a, origin='outerspace', package='easymode.utils.standin')
     >>> b
-    u'I am some string'
+    u'I am E.T.'
     >>> b == a
     True
     >>> b.origin
@@ -36,14 +36,23 @@ def standin_for(obj, **attrs):
             print 'hi'
     
     The *is* keyword checks for equal memory adress, and in case of a standin that can never be *True*.
-     Also, since it is impossible to extend :class:`bool` and :class:`types.NoneType` you can never get::
+    Also, since it is impossible to extend :class:`bool` and :class:`~types.NoneType` you can never get::
     
         isinstance(standin, bool)
         isinstance(standin, NoneType)
     
     To work with anything else but the real thing.
-    This is why :class:`bool` and :class:`types.NoneType` instances are returned unmodified.
-            
+    This is why :class:`bool` and :class:`~types.NoneType` instances are returned unmodified:
+    
+    >>> a = False
+    >>> b = standin_for(a, crazy=True)
+    >>> b
+    False
+    >>> b.crazy
+    Traceback (most recent call last):
+        ...
+    AttributeError: 'bool' object has no attribute 'crazy'
+    
     See :ref:`database_rules_all`
     
     :param obj: An instance of some class
