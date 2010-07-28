@@ -164,16 +164,15 @@ class DefaultFieldDescriptor(property):
         # we got here so we've got a valid messageid. Now collect data from the catalog(s)
         
         # if there isn't anything new in the catalog belonging to the current language:
-        if vo.msg is vo.msgid:
+        if vo.msg == vo.msgid:
             # maybe we have a translation in any of the fallback languages.
             if hasattr(settings, 'FALLBACK_LANGUAGES'):
                 # first check if the database has the localized data in
                 # any of the fallback languages.
                 vo.fallback = get_localized_property(obj, self.name)
 
-                # if the msgid is '' or None we don't have to look
-                # for translations because there are none.
-                if valid_for_gettext(vo.fallback) and valid_for_gettext(vo.msgid):
+                # if the fallback is the same as the msgid, go and look in the catalog
+                if vo.fallback == vo.msgid:
                     # there might be a translation in any
                     # of the fallback languages.
                     for fallback in get_fallback_languages():

@@ -1,3 +1,4 @@
+from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 
@@ -10,6 +11,7 @@ def find_extra_attrs(value):
 
     if hasattr(value, 'standin_value_is_from_database'):
         value_is_from_database = value.standin_value_is_from_database
+
         if value.stored_value != value.msg:
             extra = value.msg
         elif value.stored_value != value.fallback:
