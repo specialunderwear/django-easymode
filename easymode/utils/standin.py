@@ -52,9 +52,7 @@ def standin_for(obj, **attrs):
     Traceback (most recent call last):
         ...
     AttributeError: 'bool' object has no attribute 'crazy'
-    
-    See :ref:`database_rules_all`
-    
+        
     :param obj: An instance of some class
     :param **attrs: Attributes that will be added to the standin for *obj*
     """
