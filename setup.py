@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import re
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
@@ -35,6 +36,8 @@ def fullsplit(path, result=None):
         return result
     return fullsplit(head, [tail] + result)
 
+PYC = re.compile(r'.*\.py[co]$')
+
 for dirpath, dirnames, filenames in os.walk('easymode'):
     # Ignore dirnames that start with '.'
     for i, dirname in enumerate(dirnames):
@@ -42,7 +45,7 @@ for dirpath, dirnames, filenames in os.walk('easymode'):
     if '__init__.py' in filenames:
         packages.append('.'.join(fullsplit(dirpath)))
     elif filenames:
-        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
+        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames if not PYC.match(f)]])
 
 setup(name='django-easymode',
     version=version,

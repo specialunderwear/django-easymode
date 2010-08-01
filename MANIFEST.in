@@ -14,9 +14,9 @@ include docs/changes.md
 include docs/debug.md
 include docs/fields.md
 include docs/details.md
-recursive-include docs/i18n *
-recursive-include docs/tree *
-recursive-include docs/xslt *
-recursive-include docs/utils *
-recursive-include example *
-recursive-include easymode *
+recursive-include docs/i18n *.md *.png
+recursive-include docs/tree *.md *.png
+recursive-include docs/xslt *.md *.png
+recursive-include docs/utils *.md
+recursive-include example *.py *.txt *.html *.po *.xml *.xslt *.xsl *.js
+recursive-include easymode *.py *.txt *.html *.po *.xml *.xslt *.xsl *.js
