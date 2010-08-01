@@ -8,32 +8,29 @@ from easymode import middleware
 from easymode.utils import languagecode
 from easymode.tests.testutils import TestSettingsManager
 
-SOME_TEXT = """
-<a href="/example/modifyme.html">hhh</a>
-<a href="/en/example/staysthesame.html">hhh</a>
-<a href="/xx/notareallangugaecode.html"/>
-<a href="/de/reallanguagecode.html"/>
-"""
-
 @decorator_from_middleware(middleware.LocaliseUrlsMiddleware)
-def theview(request):
-    return HttpResponse(SOME_TEXT)
+def localise_urls_middleware_view(request):
+    return HttpResponse("""
+    <a href="/example/modifyme.html">hhh</a>
+    <a href="/en/example/staysthesame.html">hhh</a>
+    <a href="/xx/notareallangugaecode.html"/>
+    <a href="/de/reallanguagecode.html"/>
+    """)
 
 class TestLocaliseUrlsMiddleware(TestCase):
     """Test the middlewares that come with easymode"""
     
-    
     def test_localise_urls_middleware(self):
         "The LocaliseUrlsMiddleware should insert the languagecode as a slug in all anchor tags"
                 
-        result = theview(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en'}))
+        result = localise_urls_middleware_view(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en'}))
                 
         self.assertContains(result,'href="/en/example/modifyme.html')
         self.assertContains(result, 'href="/en/example/staysthesame.html')
         self.assertContains(result, 'href="/en/xx/notareallangugaecode.html')
         self.assertContains(result, 'href="/de/reallanguagecode.html"')
         
-        result = theview(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'xx'}))
+        result = localise_urls_middleware_view(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'xx'}))
         
         self.assertContains(result,'href="/xx/example/modifyme.html')
         self.assertContains(result, 'href="/en/example/staysthesame.html')
@@ -54,7 +51,7 @@ class TestLocaliseUrlsMiddleware(TestCase):
         
         try:
 
-            result = theview(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en-us'}))
+            result = localise_urls_middleware_view(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en-us'}))
                 
             self.assertContains(result,'href="/en/example/modifyme.html')
             self.assertContains(result, 'href="/en/example/staysthesame.html')
@@ -67,7 +64,7 @@ class TestLocaliseUrlsMiddleware(TestCase):
 
 
 @decorator_from_middleware(middleware.LocaleFromUrlMiddleWare)
-def theview(request):
+def locale_from_url_middle_ware_view(request):
     return HttpResponse(request.LANGUAGE_CODE)
 
 class TestLocaleFromUrlMiddleWare(TestCase):
@@ -75,8 +72,8 @@ class TestLocaleFromUrlMiddleWare(TestCase):
     
     def setUp(self):
         self.settingsManager = TestSettingsManager()
-        self.RequestMockShort = type('RequestMock', tuple(), {'path_info':'/en/hi.html', 'set_cookie':lambda x, y, z: x})
-        self.RequestMockLong = type('RequestMock', tuple(), {'path_info':'/en-us/hi.html', 'set_cookie':lambda x, y, z: x})
+        self.RequestMockShort = type('RequestMockShort', tuple(), {'path_info':'/en/hi.html', 'set_cookie':lambda x, y, z: x})
+        self.RequestMockLong = type('RequestMockLong', tuple(), {'path_info':'/en-us/hi.html', 'set_cookie':lambda x, y, z: x})
     
     def tearDown(self):
         self.settingsManager.revert()
@@ -91,10 +88,10 @@ class TestLocaleFromUrlMiddleWare(TestCase):
         reload(languagecode)
         reload(middleware)
 
-        result = theview(self.RequestMockShort())
+        result = locale_from_url_middle_ware_view(self.RequestMockShort())
         self.assertEqual(result.content, 'en')
         
-        result =  theview(self.RequestMockLong())
+        result =  locale_from_url_middle_ware_view(self.RequestMockLong())
         self.assertEqual(result.content, 'en-us')
         
         
@@ -113,11 +110,11 @@ class TestLocaleFromUrlMiddleWare(TestCase):
         
         # if the url is prefixed with a known shorthand
         # the language is returned
-        result = theview(self.RequestMockShort())
+        result = locale_from_url_middle_ware_view(self.RequestMockShort())
         self.assertEqual(result.content, 'en-us')
 
         # if the url is not prefixed with a known shorthand
         # the LANGUAGE_CODE is returned.
-        result = theview(self.RequestMockLong())
+        result = locale_from_url_middle_ware_view(self.RequestMockLong())
         self.assertEqual(result.content, settings.LANGUAGE_CODE)
 
