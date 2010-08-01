@@ -41,7 +41,7 @@ __all__ = ('Testi18n',)
 class Testi18n(TestCase):
     """tests for the internationalisation/localisation support"""
 
-    def extraSetUp(self):        
+    def setUp(self):        
         gc.collect()
         translation.activate(settings.LANGUAGE_CODE)
         

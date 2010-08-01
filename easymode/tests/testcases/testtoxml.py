@@ -25,7 +25,7 @@ class RecursiveSerializerTest(TestCase):
     xmlserializable models.
     """
     
-    def extraSetUp(self):
+    def setUp(self):
         t = TestModel(charfield='In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.')
         t.save()
         f = t.submodels.create(subcharfield="Quisque facilisis erat a dui.", subintegerfield=10)

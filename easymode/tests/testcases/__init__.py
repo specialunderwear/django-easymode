@@ -1,10 +1,11 @@
+from functools import wraps
 import os.path
 import shutil
 
 from django.contrib.auth.models import User
 from django.conf import settings
-
 from easymode.tests.models import *
+from easymode.tests.testutils import TestSettingsManager
 
 def initdb(cls):
     """
@@ -16,13 +17,14 @@ def initdb(cls):
     
     Then at the end they are removed again.
     """
-    from easymode.tests.testutils import TestSettingsManager
     
-    # return cls
-    mgr = TestSettingsManager()
+    orig_setup = cls.setUp
+    orig_teardown = cls.tearDown
     
+    @wraps(orig_setup)
     def setUp(self):
-        mgr.set(INSTALLED_APPS=settings.INSTALLED_APPS+[
+        self.settingsManager = TestSettingsManager()
+        self.settingsManager.set(INSTALLED_APPS=settings.INSTALLED_APPS+[
             'easymode',
             'easymode.tests',
             ],
@@ -38,18 +40,19 @@ def initdb(cls):
         for skipped_test in getattr(settings , 'SKIPPED_TESTS', []):
             if hasattr(cls, skipped_test):
                 setattr(cls, skipped_test, lambda x: True)
-            
-        if hasattr(self, 'extraSetUp'):
-            self.extraSetUp()
+
+        orig_setup(self)
     
-    def  tearDown(self):
+    @wraps(orig_teardown)
+    def tearDown(self):
+        orig_teardown(self)
         # don't try to remove the locale dir in the project dir because it has all translations
         # test cases should have a separate locale dir, preferably in /tmp
         if not (os.path.normpath(settings.LOCALE_DIR) == os.path.normpath(settings.PROJECT_DIR)):
             locale_dir = os.path.join(settings.LOCALE_DIR, 'locale')
             if os.path.exists(locale_dir):
                 shutil.rmtree(locale_dir)
-        mgr.revert()
+        self.settingsManager.revert()
         
     cls.setUp = setUp
     cls.tearDown = tearDown

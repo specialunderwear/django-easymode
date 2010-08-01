@@ -22,7 +22,7 @@ class XsltTest(TestCase):
     Test the functionality related to xslt
     """
     
-    def extraSetUp(self):
+    def setUp(self):
         t = TestModel(charfield='Hoi Ik ben de root node')
         t.save()
         f = t.submodels.create(subcharfield="Hoi Ik ben de first level sub node", subintegerfield=10)
