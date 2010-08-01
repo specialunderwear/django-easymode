@@ -12,8 +12,12 @@ from easymode import tree
 if 'en-us' not in get_language_codes():
     raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
 
-# CONFIRMED_XML_DIGEST = 'ffcb6719a199ffc189ae35bff10a29d0'
+
+__all__ = ('RecursiveSerializerTest',)
+
 CONFIRMED_XML_DIGEST = '02658bdf2a2e131ae4027396672037f7'
+
+
 @initdb
 class RecursiveSerializerTest(TestCase):
     """

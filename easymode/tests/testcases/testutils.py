@@ -8,8 +8,8 @@ from django.test import TestCase
 
 from easymode.utils import mutex, SemaphoreException, recursion_depth
 
+__all__ = ('TestUtils',)
 
-# from 
 class TestUtils(TestCase):
     
     def test_semaphore(self):

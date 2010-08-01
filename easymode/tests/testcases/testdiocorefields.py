@@ -10,6 +10,8 @@ from easymode.tests.testcases import initdb
 from easymode.tests.models import TestL10nModel
 from easymode import tree
 
+__all__ = ('TestDiocoreFields',)
+
 @initdb
 class TestDiocoreFields(TestCase):
     """docstring for TestDiocoreFields"""

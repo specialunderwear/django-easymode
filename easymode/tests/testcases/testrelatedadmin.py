@@ -15,6 +15,8 @@ from easymode.tree.admin import relation
 OUTPUT = """    <a href=""></a><br>
 """
 
+__all__ = ('TestRelatedAdmin',)
+
 @initdb
 class TestRelatedAdmin(TestCase):
     

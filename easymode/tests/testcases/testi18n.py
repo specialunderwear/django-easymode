@@ -34,6 +34,9 @@ from easymode.i18n import gettext
 from easymode.tests.testutils.scriptutil import ffindgrep
 from easymode import tree
 
+
+__all__ = ('Testi18n',)
+
 @initdb
 class Testi18n(TestCase):
     """tests for the internationalisation/localisation support"""

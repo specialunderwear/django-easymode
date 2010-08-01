@@ -14,6 +14,8 @@ from easymode.utils.languagecode import get_language_codes
 if 'en-us' not in get_language_codes():
     raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
 
+__all__ = ('XsltTest',)
+
 @initdb
 class XsltTest(TestCase):
     """

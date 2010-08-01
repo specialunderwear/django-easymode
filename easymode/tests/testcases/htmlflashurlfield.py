@@ -7,6 +7,7 @@ from easymode.tree    import xml
 from easymode.tests.models import UrlFieldTestModel
 from easymode.tests.testcases import initdb
 
+
 @initdb
 class HtmlFlashUrlFieldTest(TestCase):
     def extraSetUp(self):

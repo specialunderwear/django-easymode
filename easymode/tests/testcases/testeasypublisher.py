@@ -4,6 +4,8 @@ from django.conf import settings
 from easymode.tests.testcases import initdb
 import reversion
 
+__all__ = ('TestEasyPublisher',)
+
 @initdb
 class TestEasyPublisher(TestCase):
     """Tests for easypublisher"""

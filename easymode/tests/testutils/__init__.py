@@ -3,6 +3,8 @@ from django.core.management import call_command
 from django.db.models import loading
 from django.test import TestCase
 
+__all__ = ('TestSettingsManager',)
+
 NO_SETTING = ('!', None)
 
 class TestSettingsManager(object):
