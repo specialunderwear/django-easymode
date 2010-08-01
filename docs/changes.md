@@ -12,7 +12,7 @@ v0.10.4
   
   1. If a value is from the gettext catalog or fallback, easymode will display **∴°**
   2. If a value is from the database, but the catalog has a different value, easymode will
-     display **∴⁺**
+     display **∴⁺** . You can hover over this symbol to see the catalog value.
   3. If a value is from the database and there is no conflict with the catalog, easymode will
      display only **∴**
 - Fixed bug where a value that evaluated to *None* was set with the :class:`string` **None** instead of

@@ -33,21 +33,27 @@ TAKE CARE
 
 The translation mechanism using gettext is best used when a site is initially
 going to be translated to other languages. After this fase, content will most likely be
-edited directly in the admin interface, and you will encounter the issues described in
-:ref:`database_rules_all`. It takes proper planning to make full use of the
-gettext capabilities of easymode. 
+edited directly in the admin interface, and you can have issues with translations not
+showing up. This can happen when content was allready stored in the database, as 
+described in :ref:`database_rules_all`. In effect any changes made to the gettext
+catalog after editors are changing content in the admin interface has a very low
+probability of being shown on the website [#f1]_. However, easymode will help you,
+showing you the origin of a value in the admin, by displaying symbols next to the
+input fields:
+  
+1. If a value is from the gettext catalog or fallback, easymode will display **∴°**
+2. If a value is from the database, but the catalog has a different value, easymode will
+   display **∴⁺** . You can hover over this symbol to see the catalog value.
+3. If a value is from the database and there is no conflict with the catalog, easymode will
+   display only **∴**
 
-In effect any changes made to the gettext
-catalog after editors are changing content in the admin interface
-has a very low probability of being shown on the website. [#f1]_
-
-The proper workflow is:
+It takes proper planning to make full use of the
+gettext capabilities of easymode. The proper workflow is:
 
 - edit and add base content of the website, *ALL OF IT* and make sure you don't want to modify it anymore.
 - translate content using gettext, and *COMPLETELY STOP ALL EDITING, JUST 
   LOCK UP THE SITE DURING TRANSLATION!!!!!* (because of :ref:`database_rules_all`)
-- edit and modify all you like in the admin, all translations will be there. [#f2]_
-  
+- edit and modify all you like in the admin, all translations will be there. [#f2]_  
 
 If you choose to deviate from this workflow be sure to understand all the next topics
 and learn how to use :ref:`easy_reset_language`.
