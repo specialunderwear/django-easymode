@@ -6,6 +6,7 @@ from django.conf import settings
 
 from easymode import middleware
 from easymode.utils import languagecode
+from easymode.tests.testcases import initdb
 from easymode.tests.testutils import TestSettingsManager
 
 __all__ = ('TestLocaliseUrlsMiddleware', 'TestLocaleFromUrlMiddleWare')
@@ -19,9 +20,14 @@ def localise_urls_middleware_view(request):
     <a href="/de/reallanguagecode.html"/>
     """)
 
+@initdb
 class TestLocaliseUrlsMiddleware(TestCase):
     """Test the middlewares that come with easymode"""
-    
+
+    def tearDown(self):
+        self.settingsManager.revert()
+        reload(languagecode)
+        
     def test_localise_urls_middleware(self):
         "The LocaliseUrlsMiddleware should insert the languagecode as a slug in all anchor tags"
                 
@@ -47,33 +53,26 @@ class TestLocaliseUrlsMiddleware(TestCase):
         langugage
         """
         
-        m = TestSettingsManager()
-        m.set(USE_SHORT_LANGUAGE_CODES=True)
+        self.settingsManager.set(USE_SHORT_LANGUAGE_CODES=True)
         reload(languagecode)
-        
-        try:
 
-            result = localise_urls_middleware_view(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en-us'}))
-                
-            self.assertContains(result,'href="/en/example/modifyme.html')
-            self.assertContains(result, 'href="/en/example/staysthesame.html')
-            self.assertContains(result, 'href="/en/xx/notareallangugaecode.html')
-            self.assertContains(result, 'href="/de/reallanguagecode.html"')
-
-        finally:
-            m.revert()
-            reload(languagecode)
+        result = localise_urls_middleware_view(type('RequestMock', tuple(), {'path':'koek', 'LANGUAGE_CODE':'en-us'}))
+            
+        self.assertContains(result,'href="/en/example/modifyme.html')
+        self.assertContains(result, 'href="/en/example/staysthesame.html')
+        self.assertContains(result, 'href="/en/xx/notareallangugaecode.html')
+        self.assertContains(result, 'href="/de/reallanguagecode.html"')
 
 
 @decorator_from_middleware(middleware.LocaleFromUrlMiddleWare)
 def locale_from_url_middle_ware_view(request):
     return HttpResponse(request.LANGUAGE_CODE)
 
+@initdb
 class TestLocaleFromUrlMiddleWare(TestCase):
     "Test the LocaleFromUrlMiddleWare"
     
     def setUp(self):
-        self.settingsManager = TestSettingsManager()
         self.RequestMockShort = type('RequestMockShort', tuple(), {'path_info':'/en/hi.html', 'set_cookie':lambda x, y, z: x})
         self.RequestMockLong = type('RequestMockLong', tuple(), {'path_info':'/en-us/hi.html', 'set_cookie':lambda x, y, z: x})
     
@@ -100,6 +99,7 @@ class TestLocaleFromUrlMiddleWare(TestCase):
     def test_locale_from_url_middle_ware_short(self):
         """When USE_SHORT_LANGUAGE_CODES=True languages in urls should be
         treated as shorthands for longer language codes."""
+        
         self.settingsManager.set(USE_SHORT_LANGUAGE_CODES=True,
             LANGUAGE_CODE='de',
             LANGUAGES=(
