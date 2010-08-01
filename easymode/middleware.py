@@ -7,7 +7,9 @@ from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
 from django.utils.http import cookie_date
 
-from easymode.utils.languagecode import get_short_language_codes, get_language_code_from_shorthand, get_shorthand_from_language_code
+from easymode.utils.languagecode import get_short_language_codes,\
+    get_language_code_from_shorthand,\
+    get_shorthand_from_language_code as language_as_slug
 
 
 USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
@@ -16,31 +18,41 @@ USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
 # Compiled regular expressions
 ################################################################################
 
-MATCH_LANGUAGE_CODE = re.compile(r"^/(%s)/.*" % "|".join(map(lambda l: l[0], settings.LANGUAGES)))
-MATCH_SHORT_LANGUAGE_CODE = re.compile(r"^/(%s)/.*" % "|".join(get_short_language_codes()))
+MATCH_LANGUAGE_CODE = re.compile(
+    r"^/(%s)/.*" % "|".join(map(lambda l: l[0], settings.LANGUAGES)))
+MATCH_SHORT_LANGUAGE_CODE = re.compile(
+    r"^/(%s)/.*" % "|".join(get_short_language_codes()))
 
 if USE_SHORT_LANGUAGE_CODES:
-    HREF_REGEX = re.compile(ur'<a([^>]+)href="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
-        "|".join(map(lambda l: l + "/" , get_short_language_codes())), 
-        settings.MEDIA_URL[1:], 
-        settings.ADMIN_MEDIA_PREFIX[1:]
-    ))
-    FORM_REGEX = re.compile(ur'<form([^>]+)action="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
-        "|".join(map(lambda l: l + "/" , get_short_language_codes())),
-         settings.MEDIA_URL[1:],
-         settings.ADMIN_MEDIA_PREFIX[1:]
-    ))
+    HREF_REGEX = re.compile(
+        ur'<a([^>]+)href="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
+            "|".join(map(lambda l: l + "/" , get_short_language_codes())), 
+            settings.MEDIA_URL[1:], 
+            settings.ADMIN_MEDIA_PREFIX[1:]
+        )
+    )
+    FORM_REGEX = re.compile(
+        ur'<form([^>]+)action="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
+            "|".join(map(lambda l: l + "/" , get_short_language_codes())),
+             settings.MEDIA_URL[1:],
+             settings.ADMIN_MEDIA_PREFIX[1:]
+        )
+    )
 else:
-    HREF_REGEX = re.compile(ur'<a([^>]+)href="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
-        "|".join(map(lambda l: l[0] + "/" , settings.LANGUAGES)), 
-        settings.MEDIA_URL[1:], 
-        settings.ADMIN_MEDIA_PREFIX[1:]
-    ))
-    FORM_REGEX = re.compile(ur'<form([^>]+)action="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
-        "|".join(map(lambda l: l[0] + "/" , settings.LANGUAGES)),
-         settings.MEDIA_URL[1:],
-         settings.ADMIN_MEDIA_PREFIX[1:]
-    ))
+    HREF_REGEX = re.compile(
+        ur'<a([^>]+)href="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
+            "|".join(map(lambda l: l[0] + "/" , settings.LANGUAGES)), 
+            settings.MEDIA_URL[1:], 
+            settings.ADMIN_MEDIA_PREFIX[1:]
+        )
+    )
+    FORM_REGEX = re.compile(
+        ur'<form([^>]+)action="/(?!(%s|%s|%s))([^"]*)"([^>]*)>' % (
+            "|".join(map(lambda l: l[0] + "/" , settings.LANGUAGES)),
+             settings.MEDIA_URL[1:],
+             settings.ADMIN_MEDIA_PREFIX[1:]
+        )
+    )
 
 ################################################################################
 # helper functions
@@ -65,15 +77,15 @@ def has_lang_prefix(path):
 
 class NoVaryOnCookieSessionMiddleWare(SessionMiddleware):
     """
-    Works like django's :class:`django.middleware.SessionMiddleWare`, but it does not
-    add cookie to the vary header. You need this if you use google
+    Works like django's :class:`django.middleware.SessionMiddleWare`, but it
+    does not add cookie to the vary header. You need this if you use google
     analytics and want to use django site caching.
     """
 
     def process_response(self, request, response):
         """
-        If ``request.session was modified``, or if the configuration is to save the
-        session every time, save the changes and set a session cookie.
+        If ``request.session was modified``, or if the configuration is to save
+        the session every time, save the changes and set a session cookie.
         """
         try:
             modified = request.session.modified
@@ -99,12 +111,13 @@ class NoVaryOnCookieSessionMiddleWare(SessionMiddleware):
 
 class LocaleFromUrlMiddleWare(LocaleMiddleware):
     """
-    Like :class:`django.middleware.LocaleMiddleware` this middleware activates the current language.
-    It does not try to guess the language from the request headers, it looks
-    for it in the url, or it defaults to ``settings.LANGUAGE_CODE``.
+    Like :class:`django.middleware.LocaleMiddleware` this middleware activates
+    the current language. It does not try to guess the language from the request
+    headers, it looks for it in the url, or it defaults to
+    ``settings.LANGUAGE_CODE``.
     
-    Also we don't use the accept language to determine the language of the page anymore,
-    so the Accept-Language is nolonger considered for the vary headers.
+    Also we don't use the accept language to determine the language of the page
+    anymore, so the Accept-Language is nolonger considered for the vary headers.
     """
     def process_request(self, request):
         language = has_lang_prefix(request.path_info)
@@ -141,24 +154,28 @@ class LocaliseUrlsMiddleware(object):
         path = unicode(request.path)
 
         if not path.startswith(settings.MEDIA_URL) and \
-                not path.startswith(settings.ADMIN_MEDIA_PREFIX) and \
-                response.status_code == 200 and \
-                response._headers['content-type'][1].split(';')[0] == "text/html":
+            not path.startswith(settings.ADMIN_MEDIA_PREFIX) and \
+            response.status_code == 200 and \
+            response._headers['content-type'][1].split(';')[0] == "text/html":
                 
             response.content = HREF_REGEX.sub(
-                ur'<a\1href="/%s/\3"\4>' % get_shorthand_from_language_code(request.LANGUAGE_CODE), 
+                ur'<a\1href="/%s/\3"\4>' % language_as_slug(request.LANGUAGE_CODE), 
                 response.content.decode('utf-8'))
             response.content = FORM_REGEX.sub(
-                ur'<form\1action="/%s/\3"\4>' % get_shorthand_from_language_code(request.LANGUAGE_CODE), 
+                ur'<form\1action="/%s/\3"\4>' % language_as_slug(request.LANGUAGE_CODE), 
                 response.content.decode('utf-8'))
                 
         if (response.status_code == 301 or response.status_code == 302 ):
             location = response._headers['location']
             prefix = has_lang_prefix(location[1])
             if not prefix and location[1].startswith("/") and \
-                    not location[1].startswith(settings.MEDIA_URL) and \
-                    not location[1].startswith(settings.ADMIN_MEDIA_PREFIX):
-                response._headers['location'] = (location[0], "/%s%s" % (get_shorthand_from_language_code(request.LANGUAGE_CODE), location[1]))
+               not location[1].startswith(settings.MEDIA_URL) and \
+               not location[1].startswith(settings.ADMIN_MEDIA_PREFIX):
+                response._headers['location'] = (
+                    location[0], "/%s%s" % (
+                        language_as_slug(request.LANGUAGE_CODE), location[1]
+                    )
+                )
         return response
 
 ################################################################################

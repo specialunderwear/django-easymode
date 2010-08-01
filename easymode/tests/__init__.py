@@ -1,18 +1,24 @@
+"""
+Imports all testcases found in the 'testcases' subfolder of 
+folder containg the file parameter.
+Doing that is enough to make the testrunner find them.
+"""
+
 import glob
 import re
 import os
 
 from django.conf import settings
 
-"""
-Imports all testcases found in the 'testcases' subfolder of 
-folder containg the file parameter.
-Doing that is enough to make the testrunner find them.
+from easymode.utils.languagecode import get_language_codes
 
-so 
->>> import_testcases("/tmp/stuff/tests.py")
-will import all testcases in /tmp/stuff/testcases/
-"""
+if 'de' not in get_language_codes():
+    raise Exception('the language "de" must be in your LANGUAGES to run the test suite')
+if 'en-us' not in get_language_codes():
+    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
+
+if settings.LANGUAGE_CODE is not 'en':
+    raise Exception('To run the test suite the LANGUAGE_CODE must be set to "en"')
 
 path = os.path.join(os.path.dirname(__file__), 'testcases')
 pattern = os.path.join(path , r'(.+).py')
@@ -29,6 +35,7 @@ from easymode.tests.testcases.testrelatedadmin import *
 from easymode.tests.testcases.testtoxml import *
 from easymode.tests.testcases.testxslt import *
 from easymode.tests.testcases.testutils import *
+from easymode.tests.testcases.testmiddleware import *
 
 from easymode.utils import *
 from easymode.utils.languagecode import *

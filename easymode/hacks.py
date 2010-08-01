@@ -1,8 +1,8 @@
 """
-Overrides django's subclassing.py because it breaks everything when trying to inspect
-the model objects with inspect. This is because subclassing.Creator throws an exception
-when it is accesses with no context. It SHOULD return the descriptor object
-instead. And now it does.
+Overrides django's subclassing.py because it breaks everything when trying to
+inspect the model objects with inspect. This is because subclassing.Creator
+throws an exception when it is accesses with no context. It SHOULD return the
+descriptor object instead. And now it does.
 """
 from django.db.models.fields.subclassing import LegacyConnection
 
@@ -13,8 +13,9 @@ class SubfieldBaseFix(LegacyConnection):
 
     MONKEYPATCHED by easymode
     
-    The original SubfieldBase throws an exception when it's descriptor is accesses 
-    with no context. It SHOULD return the descriptor object instead. And now it does.
+    The original SubfieldBase throws an exception when it's descriptor is
+    accesses with no context. It SHOULD return the descriptor object instead.
+    And now it does.
     """
     def __new__(cls, base, name, attrs):
         new_class = super(SubfieldBaseFix, cls).__new__(cls, base, name, attrs)

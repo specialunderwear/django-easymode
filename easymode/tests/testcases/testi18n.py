@@ -34,14 +34,6 @@ from easymode.i18n import gettext
 from easymode.tests.testutils.scriptutil import ffindgrep
 from easymode import tree
 
-if 'de' not in get_language_codes():
-    raise Exception('the language "de" must be in your LANGUAGES to run the test suite')
-if 'en-us' not in get_language_codes():
-    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
-
-if settings.LANGUAGE_CODE is not 'en':
-    raise Exception('To run the test suite the LANGUAGE_CODE must be set to "en"')
-
 @initdb
 class Testi18n(TestCase):
     """tests for the internationalisation/localisation support"""

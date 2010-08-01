@@ -4,8 +4,8 @@ import re
 from distutils.core import setup
 from distutils.command.install import INSTALL_SCHEMES
 
-description="""With easymode you can create backends for dynamic flash/flex websites.
-Easymode makes internationalization simple and outputs xml by
+description="""With easymode you can create backends for dynamic flash/flex
+websites.Easymode makes internationalization simple and outputs xml by
 default. To tailor the xml to your application, you can transform
 it using xslt templates, which easymode integrates.
 
@@ -45,7 +45,9 @@ for dirpath, dirnames, filenames in os.walk('easymode'):
     if '__init__.py' in filenames:
         packages.append('.'.join(fullsplit(dirpath)))
     elif filenames:
-        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames if not PYC.match(f)]])
+        data_files.append([dirpath, 
+            [os.path.join(dirpath, f) for f in filenames if not PYC.match(f)]
+        ])
 
 setup(name='django-easymode',
     version=version,
@@ -59,7 +61,9 @@ setup(name='django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
-    install_requires=['Django>=1.2.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.3.1'],
+    install_requires=[
+        'Django>=1.2.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.3.1'
+    ],
     license='GPL',
     classifiers=[
         'Development Status :: 4 - Beta',

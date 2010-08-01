@@ -1,6 +1,7 @@
 """
-Easymode is an aspect oriented toolkit that helps making xml based flash websites easy.
-The tools included in the toolkit to help you make these kind of sites include:
+Easymode is an aspect oriented toolkit that helps making xml based flash
+websites easy. The tools included in the toolkit to help you make these kind of
+sites include:
 
 * Internationalization of models, with admin support
 * Translation of model data using gettext
