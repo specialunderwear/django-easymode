@@ -40,20 +40,21 @@ catalog after editors are changing content in the admin interface has a very low
 probability of being shown on the website [#f1]_. However, easymode will help you,
 showing you the origin of a value in the admin, by displaying symbols next to the
 input fields:
-  
-1. If a value is from the gettext catalog or fallback, easymode will display **∴°**
-2. If a value is from the database, but the catalog has a different value, easymode will
-   display **∴⁺** . You can hover over this symbol to see the catalog value.
-3. If a value is from the database and there is no conflict with the catalog, easymode will
-   display only **∴**
+
+- If a value is from the gettext catalog or fallback, easymode will display **∴°**
+- If a value is from the database, but the catalog has a different value, easymode will
+  display **∴⁺** . You can hover over this symbol to see the catalog value.
+- If a value is from the database and there is no conflict with the catalog, easymode will
+  display only **∴**
 
 It takes proper planning to make full use of the
 gettext capabilities of easymode. The proper workflow is:
 
-- edit and add base content of the website, *ALL OF IT* and make sure you don't want to modify it anymore.
-- translate content using gettext, and *COMPLETELY STOP ALL EDITING, JUST 
-  LOCK UP THE SITE DURING TRANSLATION!!!!!* (because of :ref:`database_rules_all`)
-- edit and modify all you like in the admin, all translations will be there. [#f2]_  
+1. edit and add base content of the website, **ALL OF IT** and make sure you don't want
+   to modify it anymore.
+2. translate content using gettext, and **completely stop all editing, just 
+   lock up the site during translation!** [#f2]_ [#f3]_
+3. edit and modify all you like in the admin, all translations will be there. [#f4]_  
 
 If you choose to deviate from this workflow be sure to understand all the next topics
 and learn how to use :ref:`easy_reset_language`.
@@ -180,10 +181,16 @@ This inconvenience can be resolved using the :ref:`easy_reset_language` command
 
 .. [#f1]  Obviously, other gettext
     catalogs, generated from static content, that are not managed by easymode are unaffected.
-.. [#f2] Watch out
+.. [#f2] You can make sure nobody goes into the admin to edit things, by commenting out the admin
+    routes in urls.py    the new message id. Unless the content is allready saved in the database (:ref:`database_rules_all`).
+.. [#f3] If you don't lock up the admin you might have issues with
+    translations not showing up. Someone could for some reason save an item in the wrong language.
+    This means the value in the database will be used instead of the translation in the catalig. 
+    You can detect when this has happened by looking for a ∴⁺ sign in the admin next to the untranslated field.
+    Hover over the field to see the value in the catalog.
+.. [#f4] Watch out
     when  you completely replace existing content in the :ref:`msgid_language`. The
     :ref:`msgid_language` is used for the message id's in the catalogs. When you completely
     replace the existing message id with something different, gettext will see that as adding
     a new message instead of changing an existing message. When this happens, translations
     can nolonger be associated with the new message and all languages will fall back to
-    the new message id. Unless the content is allready saved in the database (:ref:`database_rules_all`).
