@@ -41,11 +41,10 @@ if len(filenames): # delete __init__.py. yes it is always first.
 for filename in filenames:
     modulename = re.sub(pattern, r'\1', filename)
     try:
-       __module__ = sys.modules[__name__]
        testcase_module = __import__("easymode.tests.testcases.%s" % modulename, locals(), globals(), [''])
        test_class_names = getattr(testcase_module, '__all__')
        for test in testcase_module.__all__:
-           setattr(__module__, test, getattr(testcase_module, test))
+           setattr(sys.modules[__name__], test, getattr(testcase_module, test))
     except Exception, e:
        print "%s in %s, please correct if you want to run this test suite." % (e, modulename)
 
