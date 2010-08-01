@@ -8,6 +8,8 @@ from easymode import middleware
 from easymode.utils import languagecode
 from easymode.tests.testutils import TestSettingsManager
 
+__all__ = ('TestLocaliseUrlsMiddleware', 'TestLocaleFromUrlMiddleWare')
+
 @decorator_from_middleware(middleware.LocaliseUrlsMiddleware)
 def localise_urls_middleware_view(request):
     return HttpResponse("""
