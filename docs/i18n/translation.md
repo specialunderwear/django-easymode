@@ -63,7 +63,7 @@ Translation mechanism explained
 -------------------------------
 
 It is important to realise, that allthough you can make translations using gettext,
-the catalog is not the only place translations are stored. The 
+the catalog is not the only place where translations are stored. The 
 :ref:`I18n decorator<internationalization_of_models>` not only registers a model
 for catalog management, it also modifies the model.
 
