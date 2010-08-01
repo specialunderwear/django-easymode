@@ -1,6 +1,25 @@
 Release Notes
 =============
 
+v0.10.4
+-------
+
+- Added option to exclude models from register_all
+- Backwards incompatible change: easymode nolonger has any bindings for 
+  django-cms.
+- Easymode will now show you the origin of a value, by displaying symbols next to
+  the input field in the admin:
+  
+  1. If a value is from the gettext catalog or fallback, easymode will display **∴°**
+  2. If a value is from the database, but the catalog has a different value, easymode will
+     display **∴⁺**
+  3. If a value is from the database and there is no conflict with the catalog, easymode will
+     display only **∴**
+- Fixed bug where a value that evaluated to *None* was set with the :class:`string` **None** instead of
+  :class:`types.NoneType` :class:`None`
+- fixes bug where get_localized_property would crash if settings did not have 
+  FALLBACK_LANGUAGES defined.
+
 v0.9.3
 ------
 
