@@ -14,6 +14,9 @@ documentation at http://packages.python.org/django-easymode/
 release notes at http://packages.python.org/django-easymode/changes.html
 """
 
+__all__ = ('admin', 'debug', 'easypublisher', 'i18n', 'management',
+    'templatetags', 'tree', 'utils', 'xslt')
+
 # monkey patch a bug in django's SubfieldBase
 # See easymode.hacks.SubfieldBaseFix 
 from easymode.hacks import SubfieldBaseFix

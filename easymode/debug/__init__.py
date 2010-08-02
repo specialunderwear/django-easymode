@@ -4,6 +4,8 @@ Tools for debugging python applications
 from StringIO import StringIO
 import inspect
 
+__all__ = ('stack_trace', 'middleware')
+
 def stack_trace(depth=None):
     """
     returns a print friendly stack trace at the current frame,

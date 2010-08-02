@@ -21,6 +21,8 @@ from django.db.models.signals import post_save
 
 from easymode.i18n.gettext import MakeModelMessages
 
+__all__ = ('register', 'unregister', 'admin', 'decorators', 'gettext', 'meta')
+
 _post_save_handlers = WeakKeyDictionary()
 
 def register(cls, location=None):

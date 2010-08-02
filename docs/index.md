@@ -42,6 +42,7 @@ Or you can do:
 - ``pip install django-easymode``
 
 Or:
+
 - ``pip install -e git://github.com/LUKKIEN/django-easymode.git#egg=easymode``
 
 Note the version number in the top left corner and use:

@@ -4,6 +4,8 @@ Generic django admin extensions.
 
 from django.contrib import admin
 
+__all__ = ('DragAndDropAdmin', 'abstract', 'fields', 'forms', 'models', 'utils')
+
 class DragAndDropAdmin(admin.ModelAdmin):
     """
     Admin class that allows dragging and dropping of items

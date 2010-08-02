@@ -2,7 +2,7 @@
 Contains xslt transformation functionality to be used with django models
 """
 
-__all__ = ('XsltError', 'transform', 'prepare_string_param')
+__all__ = ('XsltError', 'transform', 'prepare_string_param', 'response')
 
 
 class XsltError(Exception):

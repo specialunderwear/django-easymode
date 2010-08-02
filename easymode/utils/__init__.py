@@ -16,7 +16,14 @@ from hashlib import sha1
 from django.conf import settings
 
 
-__all__ = ('recursion_depth', 'first_match', 'mutex', 'SemaphoreException', 'bases_walker')
+__all__ = (
+    # members
+    'recursion_depth', 'first_match', 'mutex',
+    'SemaphoreException','bases_walker',
+
+    # packages
+    'languagecode', 'polibext', 'standin', 'template', 'xmlutils',
+)
 
 # the recursion level is counted globally and is just an approximation.
 # usually if the limit is reached there is something wrong in your app.
