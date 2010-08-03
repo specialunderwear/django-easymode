@@ -27,7 +27,7 @@ def chain(request):
 def xslt(request):
     """Shows xml output transformed with standard xslt"""
     foos = foobar_models.Foo.objects.all()
-    return render_xslt_to_response('xslt/model-to-xml.xsl', foos)
+    return render_xslt_to_response('xslt/model-to-xml.xsl', foos, mimetype='text/xml')
 
 def frontend(request, format='html'):
     if format == 'xml':
