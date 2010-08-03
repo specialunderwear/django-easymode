@@ -84,8 +84,11 @@ The following features, which django supports, are not supported by easymode:
 - Inheritance for models is restricted to :attr:`~django.db.models.Options.abstract` base classes. 
   This is a direct result of the fact that :class:`~django.db.models.OneToOneField` are *not* supported by
   the serializer.
+- :attr:`django.contrib.admin.ModelAdmin.prepopulated_fields` is not supported.
 
-All these features are not supported because the ammount of work to have them was greater than the benefit of having them.
+Most these features are not supported because the ammount of work to have them
+was greater than the benefit of having them. However, it could also be that I
+just `didn't need it yet <http://c2.com/xp/YouArentGonnaNeedIt.html>`_.
 
 Api docs
 ========
@@ -106,5 +109,5 @@ Version naming convention
 * Each update to the development status will increase the first digit. (eg beta or alpha or production ready)
 * Each new feature will increase the second digit.
 * Each bugfix or refactor will increase the last digit
+* An update to a 'big' digit, resets the 'smaller' digits.
 
-    

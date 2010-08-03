@@ -58,7 +58,8 @@ The first is by decorating a model with the :func:`~easymode.tree.decorators.tox
 
 The ``Foo`` model has now gained a ``__xml__`` method on both itself as on the
 queryset it produces. Calling it will produce hierarchical xml, where all inverse
-relations are followed. (Except for :class:`~django.db.models.ManyToManyField`, they are not supported).
+*ForeignKey* [#f2]_ relations are followed (easymode's serializer follows the
+managers on a related model).
 
 The preferred method for calling the ``__xml__`` method is by it's function::
 
@@ -71,7 +72,7 @@ Getting xml from several queries
 --------------------------------
 
 The next option, which can also be used with multiple queries, is use the
-:class:`~easymode.tree.query.XmlQuerySetChain`::
+:class:`~easymode.tree.query.XmlQuerySetChain` ::
 
     from easymode.tree import xml
     from easymode.tree.query import XmlQuerySetChain
@@ -118,3 +119,18 @@ Other helpers can be found in the :mod:`easymode.xslt.response` module.
 .. [#f1] Xslt requires a python xslt package. Easymode can work with 
          `lxml <http://codespeak.net/lxml/>`_ , 
          `libxslt <http://xmlsoft.org/XSLT/python.html>`_
+
+.. [#f2]  While :class:`~django.db.models.ForeignKey` relations are followed
+            'inverse' by the managers on the related model, this is not the case
+            for :class:`~django.db.models.ManyToManyField`. Instead they are
+            followed 'straight'. 
+            
+            Easymode does not follow 'straight' foreigkey relations because that
+            would cause a cycle, instead it only takes the value of the foreignkey,
+            which is an integer. If you do need some data from the related object
+            in your xml, you can define the
+            `natural_key <http://docs.djangoproject.com/en/dev/topics/serialization/#serialization-of-natural-keys>`_
+            method on the related model. The output of that method will become
+            the value of the foreignkey, instead of an integer. This way you can
+            include data from a 'straight' related model, without introducing
+            cyclic relations.

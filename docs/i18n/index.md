@@ -146,3 +146,30 @@ Fieldsets are also supported
 :class:`~easymode.i18n.admin.decorators.L10n`. However :attr:`~django.contrib.admin.ModelAdmin.fields`
 is not supported, because easymode uses it to hide fields. Since you can do the exact
 same thing with fieldsets, this should not be a problem.
+
+Don't internationalize relations
+--------------------------------
+
+.. code-block:: python
+
+    @I18n('available', 'text')
+    class SomeModel(models.Model):
+        parent = models.ForeignKey(ParentModel, related_name='children')
+        available = models.BooleanField(_('Available in this language'), default=True)
+        text = models.TextField(_('The main issue'))
+
+In the above example it is tempting to internationalize the parent relation, so
+you can exclude the content for some language, or maybe even give it an entirely
+different parent.
+
+Most likely using :class:`~easymode.i18n.decorators.I18n`
+on :class:`~django.db.models.ForeignKey`, :class:`~django.db.models.ManyToManyField`,
+or :class:`~django.db.models.OneToOneField` is not going to work.
+
+When you are internationalizing a relation, most of the time you want to make
+content available in one language, but maybe not the other. It is better to have
+an internationalized :class:`~django.db.models.BooleanField` and exclude content
+for other languages in that way.
+
+When you've got different urls or domains for different languages, you should use
+the :mod:`django.contrib.sites` framework instead.
