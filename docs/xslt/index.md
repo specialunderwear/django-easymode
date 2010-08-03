@@ -143,4 +143,3 @@ Other helpers can be found in the :mod:`easymode.xslt.response` module.
 
 .. literalinclude:: ../../easymode/templates/xslt/model-to-xml.xsl
     :language: xslt
-    :linenos:
