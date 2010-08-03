@@ -32,6 +32,34 @@
 		</xsl:if>
 	</xsl:template>
 
+	<!-- 
+		ManyToManyField is only shown if not empty.
+		ForeignKey is only shown if natural_key is defined on
+		the related object.
+		
+		see http://packages.python.org/django-easymode/xslt/index.html#id2
+	-->
+	<xsl:template match="field[@to]">
+		<xsl:if test="natural or object">
+			<xsl:element name="{@name}">
+				<xsl:copy-of select="@rel"/>
+				<xsl:choose>
+					<xsl:when test="count(natural) > 1">
+						<xsl:for-each select="natural">
+							<property><xsl:value-of select="."/></property>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="natural"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:if test="object">
+					<xsl:apply-templates select="object"/>
+				</xsl:if>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+
 	<!-- just copy unmatched nodes -->
 	<!-- so we know something is wrong -->
 	<xsl:template match="@*|node()">

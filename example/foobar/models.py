@@ -26,6 +26,9 @@ class Foo(models.Model):
         
     class Meta:
         ordering = ('id',)
+    
+    def natural_key(self):
+        return (self.bar,)
         
 class Bar(models.Model):
     foo = models.ForeignKey(Foo, related_name='bars')
