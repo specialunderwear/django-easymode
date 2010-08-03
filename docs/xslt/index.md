@@ -100,7 +100,8 @@ Now you know how to get the xml as a tree from the models, it is time to show
 how xslt can be used to transform this tree into something a flash developer can
 use for his application.
 
-Easymode comes with one xslt that can give good results, depending on your needs::
+Easymode comes with one xslt template [#f3]_ that can give good results,
+depending on your needs::
 
     from easymode.xslt.response import render_to_response
     
@@ -116,21 +117,30 @@ should be passed to the xslt processor as a string.
 
 Other helpers can be found in the :mod:`easymode.xslt.response` module. 
 
+----
+
 .. [#f1] Xslt requires a python xslt package. Easymode can work with 
-         `lxml <http://codespeak.net/lxml/>`_ , 
-         `libxslt <http://xmlsoft.org/XSLT/python.html>`_
+     `lxml <http://codespeak.net/lxml/>`_ , 
+     `libxslt <http://xmlsoft.org/XSLT/python.html>`_
 
 .. [#f2]  While :class:`~django.db.models.ForeignKey` relations are followed
-            'inverse' by the managers on the related model, this is not the case
-            for :class:`~django.db.models.ManyToManyField`. Instead they are
-            followed 'straight'. 
-            
-            Easymode does not follow 'straight' foreigkey relations because that
-            would cause a cycle, instead it only takes the value of the foreignkey,
-            which is an integer. If you do need some data from the related object
-            in your xml, you can define the
-            `natural_key <http://docs.djangoproject.com/en/dev/topics/serialization/#serialization-of-natural-keys>`_
-            method on the related model. The output of that method will become
-            the value of the foreignkey, instead of an integer. This way you can
-            include data from a 'straight' related model, without introducing
-            cyclic relations.
+    'inverse' by the managers on the related model, this is not the case
+    for :class:`~django.db.models.ManyToManyField`. Instead they are
+    followed 'straight'. 
+
+    Easymode does not follow 'straight' foreigkey relations because that
+    would cause a cycle, instead it only takes the value of the foreignkey,
+    which is an integer. If you do need some data from the related object
+    in your xml, you can define the
+    `natural_key <http://docs.djangoproject.com/en/dev/topics/serialization/#serialization-of-natural-keys>`_
+    method on the related model. The output of that method will become
+    the value of the foreignkey, instead of an integer. This way you can
+    include data from a 'straight' related model, without introducing
+    cyclic relations.
+
+.. [#f3] The default xslt, with template path: *'xslt/model-to-xml.xsl'* comes 
+    with easymode and looks like this:
+
+.. literalinclude:: ../../easymode/templates/xslt/model-to-xml.xsl
+    :language: xslt
+    :linenos:
