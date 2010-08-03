@@ -180,7 +180,7 @@ class DiocoreCharField(CharField):
     This charfield stores a font as well.
     Also it will replace underscores in it's name with '.'s
     The serializer is built to detect this and will add the font as
-    an attribute in the xml.
+    an attribute in the xml::
     
         class Chapter(models.Model):
             main_title = DiocoreCharField(_('Main title'), max_length=255, font="grande")
