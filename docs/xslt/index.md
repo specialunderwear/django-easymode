@@ -15,15 +15,15 @@ mirrors your database model, which you can then transform using xslt [#f1]_.
 Why Xslt?
 ---------
 
-Xslt is a functional programming language, specifically designed to be used to
+Xslt is a functional programming language, specifically designed to
 transform one type of xml into another. So if we can reduce django's template
 rendering process to transforming one type of xml to another, xslt would be a
 dead on match for the job.
 
-In fact we can. Easymode comes with a couple of serializers. These serializers
-differ from the normal django serializers, in that they treat a foreign key
+In fact we can. Easymode comes with a special xml serializer. This serializer
+differs from the normal django serializers, in that it treats a foreign key
 relation as a child parent relation. So while django's standard serializers
-output is flat xml, easymode's serializers output hierarchical xml.
+output is flat xml, easymode's serializer outputs hierarchical xml.
 
 Relations must be organized as a DAG
 ------------------------------------
@@ -81,8 +81,9 @@ The next option, which can also be used with multiple queries, is use the
     qsc = XmlQuerySetChain(foos)
     rawxml = xml(qsc)
 
-Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to group some :class:`~django.db.models.QuerySet` objects together
-into a single xml::
+Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to 
+group some :class:`~django.db.models.QuerySet` objects together into a single
+xml::
 
     from easymode.tree import xml
     from easymode.tree.query import XmlQuerySetChain
