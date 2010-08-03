@@ -37,6 +37,7 @@ class HtmlEntityField(fields.CharField):
             entityless_value = re.sub(r'&[^;]+;', 'X', tagless_value)
         else:
             entityless_value = value
+            value = u''
         
         # validate using super class
         super(HtmlEntityField, self).clean(entityless_value)
