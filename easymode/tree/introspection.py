@@ -19,6 +19,9 @@ Easymode will patch SubFieldBase for you, you just have to make sure
 not to reference it before easymode is imported. This
 means you can not load any apps that use SubFieldBase before
 you load easymode.
+
+Also some built in django fields will give you the same error, including
+ImageField and FileField. Try something like django-filebrowser instead.
 """
 
 def _get_members_of_type(obj, member_type):
