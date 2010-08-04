@@ -22,11 +22,11 @@ select a different section to edit the related models.
 .. image:: related.png
 
 In the above picture, at the bottom of the ``Bars`` fieldset, there is a small
-*+* button. Using this button you can create new ``Bar`` objects which have a
+*+* button [#f1]_. Using this button you can create new ``Bar`` objects which have a
 relation to the current ``Foo`` object. Just like with foreign key fields, the
-*+* button opens a popup in which you can create a new related item. 
+*+* button [#f1]_ opens a popup in which you can create a new related item. 
 
-The items above the *+* button are all ``Bar`` objects that have a foreign key
+The items above the *+* button [#f1]_ are all ``Bar`` objects that have a foreign key
 which points to the current ``Foo`` object. Clicking them will let you edit them.
 
 Implementing the tree
@@ -105,3 +105,9 @@ mixed with regular
 `InlineModelAdmin <http://docs.djangoproject.com/en/dev/ref/contrib/admin/#inlinemodeladmin-objects>`_
 you can create deep trees and manage them
 too.
+
+----
+
+.. [#f1] The '+' button and the fieldset for all the related items will only
+    show up **AFTER** you save the model. This is because you can't create
+    relations to objects that do not yet exist.
