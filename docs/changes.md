@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-v0.10.4
+v0.10.5
 -------
 
 - Added option to exclude models from register_all
@@ -19,6 +19,8 @@ v0.10.4
   :class:`types.NoneType` :class:`None`
 - fixes bug where get_localized_property would crash if settings did not have 
   FALLBACK_LANGUAGES defined.
+- :class:`django.db.models.ManyToManyField` and :class:`django.db.models.ForeignKey`
+  are now handled by the default xslt ('xslt/model-to-xml.xsl').
 
 v0.9.3
 ------
