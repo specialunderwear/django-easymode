@@ -7,6 +7,7 @@ import subprocess
 import codecs
 import logging
 import StringIO
+import unicodedata
 
 from datetime import datetime
 

@@ -122,7 +122,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'easymode',
     'easymode.easypublisher',
-    # 'easymode.tests',
     'django.contrib.admin',
     'reversion',
     'foobar',

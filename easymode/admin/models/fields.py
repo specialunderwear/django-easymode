@@ -1,25 +1,26 @@
 """
 Fields to be used in models.
 """
-
-import re
-import os
 import logging
+import os
+import re
+import warnings
 from StringIO import StringIO
 from time import time
-from xml import sax
 from urllib import urlopen
-import warnings
+from xml import sax
 
+from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
 from django.db import connection, models
 from django.db.models import CharField, TextField
-from django.utils.translation import ugettext_lazy as _
-from django.utils.datastructures import DictWrapper
 from django.forms import fields
-from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
+from django.utils.datastructures import DictWrapper
+from django.utils.translation import ugettext_lazy as _
+from tinymce.widgets import TinyMCE
 
-from easymode.utils import xmlutils
 from easymode.admin.forms import fields as form_fields
+from easymode.utils import xmlutils
+
 
 try:
     import tinymce
@@ -32,7 +33,6 @@ except ImportError:
         """
     )
 
-from tinymce.widgets import TinyMCE
 
 
 __all__ = ('FlashUrlField', 'DiocoreCharField', 'DiocoreHTMLField', 'DiocoreTextField', 'CSSField',

@@ -1,11 +1,11 @@
-from functools import wraps
 import os.path
 import shutil
+from functools import wraps
 
-from django.contrib.auth.models import User
 from django.conf import settings
-from easymode.tests.models import *
+
 from easymode.tests.testutils import TestSettingsManager
+
 
 def initdb(cls):
     """

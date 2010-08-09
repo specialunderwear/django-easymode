@@ -16,9 +16,7 @@ class TestSubModelInline(admin.StackedInline):
 
 class TestModelAdmin(relation.ForeignKeyAwareModelAdmin):
     """docstring for TestModelAdmin"""
-    # fieldsets = [
-    #     ('main name', {'fields': ['charfield'], 'classes': ['collapse']})
-    # ]
+
     inlines = [TestSubModelInline]
     
     children = [test_models.TestSubModel,test_models.TestSecondSubmodel]
@@ -33,7 +31,6 @@ class TestL10nModelAdmin(EasyPublisher):
     pass
 
 
-# register_all(test_models)
 admin.site.register(test_models.TestModel, TestModelAdmin)
 admin.site.register(test_models.TestSubModel)
 admin.site.register(test_models.TestSecondSubmodel)

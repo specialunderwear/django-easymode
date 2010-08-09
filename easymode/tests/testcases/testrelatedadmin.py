@@ -1,17 +1,14 @@
-from hashlib import md5
-
-from django.test import TestCase
 from django.contrib import admin
 from django.forms.formsets import BaseFormSet
-from django.test.client import Client
+from django.test import TestCase
 
-from easymode.tests.models import *
 from easymode.tests.admin import TestModelAdmin, SelfAwareTestModelAdmin
+from easymode.tests.models import TestModel
 from easymode.tests.testcases import initdb
-
 from easymode.tree.admin.widgets import foreignkey
+
+
 # from tree.admin import forms
-from easymode.tree.admin import relation
 OUTPUT = """    <a href=""></a><br>
 """
 
