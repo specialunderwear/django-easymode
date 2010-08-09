@@ -3,7 +3,8 @@ from hashlib import md5
 from django.test import TestCase
 
 from easymode import tree
-from easymode.tests.models import TestModel, TestGenericFkModel
+from easymode.utils.languagecode import get_real_fieldname
+from easymode.tests.models import TestModel, TestGenericFkModel, TagModel
 from easymode.tests.testcases import initdb
 from easymode.tree.serializers import RecursiveXmlSerializer
 
@@ -67,4 +68,17 @@ class RecursiveSerializerTest(TestCase):
         
         xml_with_natural_keys = tree.xml(TestModel.objects.all())
         assert(xml_with_natural_keys.find('<natural>In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.</natural>') != -1)
+    
+    def test_many_to_many_field(self):
+        "ManyToManyField should be followed in one direction, like foreign keys"
         
+        data = tree.xml(TestModel.objects.all())
+        assert(data.index('<field type="CharField" name="value">good</field>')!= -1)
+        assert(data.index('<field type="CharField" name="value">ugly</field>')!= -1)
+        
+        bad_tag = TagModel.objects.get(value_en='bad')
+        first_item = TestModel.objects.get(pk=1)
+        first_item.tags.add(bad_tag)
+        first_item.save()
+        data = tree.xml(TestModel.objects.all())
+        assert(data.index('<field type="CharField" name="value">bad</field>')!= -1)
