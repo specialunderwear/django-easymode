@@ -8,6 +8,10 @@
 			<None/>
 		</field>
 		<field type="CharField" name="charfield_en">In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.</field>
+		<field to="tests.tagmodel" name="tags" rel="ManyToManyRel">
+			<object pk="1"/>
+			<object pk="3"/>
+		</field>
 	</object>
 	<object pk="1" model="tests.testsubmodel">
 		<field to="tests.testmodel" name="testmodel" rel="ManyToOneRel">1</field>
@@ -38,5 +42,32 @@
 	<object pk="4" model="tests.testsubsubmodel">
 		<field to="tests.testsubmodel" name="testsubmodel" rel="ManyToOneRel">2</field>
 		<field type="CharField" name="subsubcharfield">Ut felis.</field>
+	</object>
+	<object pk="1" model="tests.tagmodel">
+		<field type="CharField" name="value_en-us">
+			<None/>
+		</field>
+		<field type="CharField" name="value_de">
+			<None/>
+		</field>
+		<field type="CharField" name="value_en">good</field>
+	</object>
+	<object pk="2" model="tests.tagmodel">
+		<field type="CharField" name="value_en-us">
+			<None/>
+		</field>
+		<field type="CharField" name="value_de">
+			<None/>
+		</field>
+		<field type="CharField" name="value_en">bad</field>
+	</object>
+	<object pk="3" model="tests.tagmodel">
+		<field type="CharField" name="value_en-us">
+			<None/>
+		</field>
+		<field type="CharField" name="value_de">
+			<None/>
+		</field>
+		<field type="CharField" name="value_en">ugly</field>
 	</object>
 </django-objects>

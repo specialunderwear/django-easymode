@@ -10,7 +10,7 @@ from easymode.tree.serializers import RecursiveXmlSerializer
 
 __all__ = ('RecursiveSerializerTest',)
 
-CONFIRMED_XML_DIGEST = '02658bdf2a2e131ae4027396672037f7'
+CONFIRMED_XML_DIGEST = '2caeeae817ed103f8c92020717460a9d'
 
 
 @initdb
@@ -30,6 +30,7 @@ class RecursiveSerializerTest(TestCase):
         ser = RecursiveXmlSerializer()
         res = TestModel.objects.all()
         xml = ser.serialize(res)
+        
         assert(md5(xml).hexdigest() == CONFIRMED_XML_DIGEST)
         
     def test_model_to_xml(self):
@@ -53,11 +54,17 @@ class RecursiveSerializerTest(TestCase):
         r.save()
         r.relateds.create(name='ik ben graaf')
         r.save()
-        # print r
-        # print "\n"
-        # print r.__dict__
-        # print "\n"
-        # print r.__class__.__dict__
-        # print "\n"
-        # print r.__xml__()
-        assert("This test must be implemented, it does work!" is False)
+        xml = TestGenericFkModel.objects.all().__xml__()
+        assert(xml.index( 'ik ben cool') != -1)
+        assert(xml.index( 'ik ben graaf') != -1)
+        r.relateds.create(name='ik lust spruitjes')
+        r.save()
+        xml = TestGenericFkModel.objects.all().__xml__()
+        assert(xml.index( 'ik lust spruitjes') != -1)
+    
+    def test_natural_keys(self):
+        "natural keys will show up in the xml"
+        
+        xml_with_natural_keys = tree.xml(TestModel.objects.all())
+        assert(xml_with_natural_keys.find('<natural>In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.</natural>') != -1)
+        

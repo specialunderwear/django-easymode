@@ -7,15 +7,20 @@ from easymode.i18n.decorators import I18n
 from easymode.tree.decorators import toxml
 
 
-@I18n('charfield')
 @toxml
+@I18n('charfield')
 class TestModel(models.Model):
     """test model"""
 
-    charfield = models.CharField(max_length=255)
+    charfield = models.CharField(max_length=255, unique=True)
+    tags = models.ManyToManyField('TagModel', related_name='testmodels')
     
     def __unicode__(self):
         return u"%s%s - %s" % (self.__class__.__name__, self.pk, self.charfield)
+
+    def natural_key(self):
+        return (self.charfield,)
+    
 
 class TestSubModel(models.Model):
     """hangs onto testmodel"""
@@ -26,7 +31,8 @@ class TestSubModel(models.Model):
 
     def __unicode__(self):
         return u"%s%s - %s" % (self.__class__.__name__, self.pk, self.subcharfield)
-    
+
+
 class TestSecondSubmodel(models.Model):
     """hangs on to TestModel as well"""
     
@@ -35,6 +41,7 @@ class TestSecondSubmodel(models.Model):
     
     def __unicode__(self):
         return self.ultrafield
+
 
 class TestSubSubModel(models.Model):
     """Even subier sub model"""
@@ -45,21 +52,19 @@ class TestSubSubModel(models.Model):
     def __unicode__(self):
         return self.subsubcharfield
 
+
+@I18n('value')
+class TagModel(models.Model):
+    
+    value = models.CharField(max_length=23)
+
+
 @toxml
 class UrlFieldTestModel(models.Model):
     title    = models.CharField(max_length=256)
     revision = models.PositiveIntegerField()
     url      = FlashUrlField(max_length=256)
-# 
-# @toxml
-# class IncludeFileFieldTestModel(models.Model):
-#     title = models.CharField(max_length=256)
-#     file  = IncludeFileField(base=os.path.dirname(__file__), relative_path='hax')
-# 
-# @toxml
-# class RemoteIncludeFieldModel(models.Model):
-#     title = models.CharField(max_length=256)
-#     url   = RemoteIncludeField(interval=60)
+
 
 @toxml
 @I18n('title', 'description')
@@ -73,6 +78,7 @@ class TestL10nModel(models.Model):
     def __unicode__(self):
         return u"%s%s" % (self.__class__.__name__, self.pk)
 
+
 class GenericRelatedModel(models.Model):
     """it is used in a generic relation"""
 
@@ -85,6 +91,7 @@ class GenericRelatedModel(models.Model):
     def __unicode__(self):
         return u"%s%s" % (self.__class__.__name__, self.pk)
 
+
 @toxml
 class TestGenericFkModel(models.Model):
     """it is used for testing"""
@@ -94,5 +101,3 @@ class TestGenericFkModel(models.Model):
 
     def __unicode__(self):
         return u"%s%s" % (self.__class__.__name__, self.pk)
-
-
