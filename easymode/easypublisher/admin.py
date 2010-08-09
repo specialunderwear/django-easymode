@@ -6,6 +6,7 @@ from django.conf.urls.defaults import patterns, url
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
+from django.forms import model_to_dict
 from django.forms.formsets import all_valid
 from django.db import transaction
 from django.http import HttpResponseRedirect

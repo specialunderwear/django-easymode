@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from easymode.admin.utils import register_all
 from easymode.easypublisher.admin import EasyPublisher
 from easymode.i18n.admin.decorators import L10n
 from easymode.tests import models as test_models

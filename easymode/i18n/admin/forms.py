@@ -1,13 +1,12 @@
 from django import forms
-from django.forms.models import fields_for_model
-from django.utils.datastructures import SortedDict
-from django.forms.util import ErrorList
-from django.utils.translation import get_language
-from django.forms.util import ValidationError
 from django.forms.models import ModelFormMetaclass
+from django.forms.util import ErrorList, ValidationError
+from django.utils.datastructures import SortedDict
+from django.utils.translation import get_language
 
 from easymode.i18n.admin.widgets import WidgetWrapper
 from easymode.utils.languagecode import get_real_fieldname
+
 
 class LocalisedForm(forms.ModelForm):
     """

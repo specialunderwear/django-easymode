@@ -1,6 +1,6 @@
-from django.utils.encoding import force_unicode
-from django.utils.safestring import mark_safe
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.utils.safestring import mark_safe
+
 
 __all__ = ('WidgetWrapper',)
 
