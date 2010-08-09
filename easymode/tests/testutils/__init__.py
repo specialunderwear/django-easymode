@@ -29,7 +29,7 @@ class TestSettingsManager(object):
 
     def syncdb(self):
         loading.cache.loaded = False
-        call_command('syncdb', verbosity=0)
+        call_command('syncdb', interactive=False, verbosity=0)
 
     def revert(self):
         for k,v in self._original_settings.iteritems():

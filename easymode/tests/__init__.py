@@ -27,8 +27,7 @@ if 'en-us' not in get_language_codes():
 if settings.LANGUAGE_CODE is not 'en':
     raise Exception('To run the test suite the LANGUAGE_CODE must be set to "en"')
 
-
-# Find all testcases in the testcases folder
+# find all tests in the testcases folder
 path = os.path.join(os.path.dirname(__file__), 'testcases')
 pattern = os.path.join(path , r'(.+).py')
 

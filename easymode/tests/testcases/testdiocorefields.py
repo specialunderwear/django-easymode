@@ -16,6 +16,8 @@ __all__ = ('TestDiocoreFields',)
 class TestDiocoreFields(TestCase):
     """docstring for TestDiocoreFields"""
     
+    fixtures = ['auth-user']
+    
     def setup_l10n_model(self):
         translation.activate('en')
         i = TestL10nModel(title='Ik ben de groot moeftie van cambodja', 

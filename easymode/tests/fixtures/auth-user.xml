@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="auth.user">
+		<field type="CharField" name="username">admin</field>
+		<field type="CharField" name="first_name"/>
+		<field type="CharField" name="last_name"/>
+		<field type="CharField" name="email">admin@admin.admin</field>
+		<field type="CharField" name="password">sha1$172ce$6aababc64c2c7df692006dfed319a6c71f82dc9a</field>
+		<field type="BooleanField" name="is_staff">True</field>
+		<field type="BooleanField" name="is_active">True</field>
+		<field type="BooleanField" name="is_superuser">True</field>
+		<field type="DateTimeField" name="last_login">2010-07-27 08:09:57</field>
+		<field type="DateTimeField" name="date_joined">2010-04-13 15:48:44</field>
+		<field to="auth.group" name="groups" rel="ManyToManyRel"/>
+		<field to="auth.permission" name="user_permissions" rel="ManyToManyRel"/>
+	</object>
+	<object pk="2" model="auth.user">
+		<field type="CharField" name="username">editor</field>
+		<field type="CharField" name="first_name"/>
+		<field type="CharField" name="last_name"/>
+		<field type="CharField" name="email"/>
+		<field type="CharField" name="password">sha1$32cd8$7186aa9a32967954084b7100b9772faf6a55a177</field>
+		<field type="BooleanField" name="is_staff">True</field>
+		<field type="BooleanField" name="is_active">True</field>
+		<field type="BooleanField" name="is_superuser">False</field>
+		<field type="DateTimeField" name="last_login">2010-06-15 16:18:53</field>
+		<field type="DateTimeField" name="date_joined">2010-04-13 15:55:08</field>
+		<field to="auth.group" name="groups" rel="ManyToManyRel">
+			<object pk="1"/>
+		</field>
+		<field to="auth.permission" name="user_permissions" rel="ManyToManyRel"/>
+	</object>
+</django-objects>

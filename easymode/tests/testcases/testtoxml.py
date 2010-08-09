@@ -2,15 +2,10 @@ from hashlib import md5
 
 from django.test import TestCase
 
-from easymode.tree.serializers import RecursiveXmlSerializer
-
-from easymode.tests.models import *
-from easymode.tests.testcases import initdb
-from easymode.utils.languagecode import get_language_codes
 from easymode import tree
-
-if 'en-us' not in get_language_codes():
-    raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')
+from easymode.tests.models import TestModel, TestGenericFkModel
+from easymode.tests.testcases import initdb
+from easymode.tree.serializers import RecursiveXmlSerializer
 
 
 __all__ = ('RecursiveSerializerTest',)
@@ -24,19 +19,7 @@ class RecursiveSerializerTest(TestCase):
     Test the functionality related to
     xmlserializable models.
     """
-    
-    def setUp(self):
-        t = TestModel(charfield='In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.')
-        t.save()
-        f = t.submodels.create(subcharfield="Quisque facilisis erat a dui.", subintegerfield=10)
-        s = t.submodels.create(subcharfield="Hoi ik ben de tweede first level sub node", subintegerfield=100)
-        w = t.secondsubmodels.create(ultrafield="Sed tempor. Ut felis. Maecenas erat.")
-        f.subsubmodels.create(subsubcharfield="Cras eu mauris.")
-        f.subsubmodels.create(subsubcharfield="Etiam imperdiet urna sit amet risus.")
-        s.subsubmodels.create(subsubcharfield="Proin tincidunt, velit vel porta elementum, magna diam molestie sapien, non aliquet massa pede eu diam.")
-        s.subsubmodels.create(subsubcharfield="Ut felis.")        
-        t.save()
-    
+    fixtures = ['tests-testmodel.xml']
     
     def test_create_test_models(self):
         """create test models"""
@@ -53,7 +36,7 @@ class RecursiveSerializerTest(TestCase):
         """test the __xml__ method added to the model"""
         xml = TestModel.objects.get(pk=1).__xml__()
         assert( md5(xml).hexdigest() == CONFIRMED_XML_DIGEST)
- 
+     
     def test_model_to_xml_with_xml_function(self):
         """test the xml function in package tree"""
         xml = tree.xml(TestModel.objects.get(pk=1))

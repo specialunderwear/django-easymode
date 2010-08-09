@@ -1,10 +1,11 @@
-from django.db import models
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
 
-from easymode.tree.decorators import toxml
-from easymode.admin.models.fields import *
+from easymode.admin.models.fields import DiocoreTextField, DiocoreHTMLField, FlashUrlField, DiocoreCharField
 from easymode.i18n.decorators import I18n
+from easymode.tree.decorators import toxml
+
 
 @I18n('charfield')
 @toxml

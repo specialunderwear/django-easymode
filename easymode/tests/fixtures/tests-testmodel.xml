@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="tests.testmodel">
+		<field type="CharField" name="charfield_en-us">
+			<None/>
+		</field>
+		<field type="CharField" name="charfield_de">
+			<None/>
+		</field>
+		<field type="CharField" name="charfield_en">In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.</field>
+	</object>
+	<object pk="1" model="tests.testsubmodel">
+		<field to="tests.testmodel" name="testmodel" rel="ManyToOneRel">1</field>
+		<field type="CharField" name="subcharfield">Quisque facilisis erat a dui.</field>
+		<field type="IntegerField" name="subintegerfield">10</field>
+	</object>
+	<object pk="2" model="tests.testsubmodel">
+		<field to="tests.testmodel" name="testmodel" rel="ManyToOneRel">1</field>
+		<field type="CharField" name="subcharfield">Hoi ik ben de tweede first level sub node</field>
+		<field type="IntegerField" name="subintegerfield">100</field>
+	</object>
+	<object pk="1" model="tests.testsecondsubmodel">
+		<field to="tests.testmodel" name="testmodel" rel="ManyToOneRel">1</field>
+		<field type="TextField" name="ultrafield">Sed tempor. Ut felis. Maecenas erat.</field>
+	</object>
+	<object pk="1" model="tests.testsubsubmodel">
+		<field to="tests.testsubmodel" name="testsubmodel" rel="ManyToOneRel">1</field>
+		<field type="CharField" name="subsubcharfield">Cras eu mauris.</field>
+	</object>
+	<object pk="2" model="tests.testsubsubmodel">
+		<field to="tests.testsubmodel" name="testsubmodel" rel="ManyToOneRel">1</field>
+		<field type="CharField" name="subsubcharfield">Etiam imperdiet urna sit amet risus.</field>
+	</object>
+	<object pk="3" model="tests.testsubsubmodel">
+		<field to="tests.testsubmodel" name="testsubmodel" rel="ManyToOneRel">2</field>
+		<field type="CharField" name="subsubcharfield">Proin tincidunt, velit vel porta elementum, magna diam molestie sapien, non aliquet massa pede eu diam.</field>
+	</object>
+	<object pk="4" model="tests.testsubsubmodel">
+		<field to="tests.testsubmodel" name="testsubmodel" rel="ManyToOneRel">2</field>
+		<field type="CharField" name="subsubcharfield">Ut felis.</field>
+	</object>
+</django-objects>

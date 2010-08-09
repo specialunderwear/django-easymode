@@ -20,6 +20,8 @@ __all__ = ('TestRelatedAdmin',)
 @initdb
 class TestRelatedAdmin(TestCase):
     
+    fixtures = ['auth-user']
+    
     def setUp(self):
         t = TestModel(charfield='Hoi Ik ben de root node')
         t.save()
