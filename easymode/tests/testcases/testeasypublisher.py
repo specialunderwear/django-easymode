@@ -47,6 +47,7 @@ class TestEasyPublisher(TestCase):
         admin_url = reverse('admin:tests_testl10nmodel_change', args=[1])
         response = self.client.post(admin_url, self.post_data)
         self.failUnlessEqual(response.status_code, 302)
+        return response
     
     def test_non_privileged_user_can_not_change_model(self):
         "All changes done by an editor to TestL10nModel should not be saved to the model table"
@@ -94,11 +95,13 @@ class TestEasyPublisher(TestCase):
         return data
         
     def test_publisher_ui_works(self):
-        pass
+        admin_url = reverse('admin:tests_testl10nmodel_change', args=[1])
+        response = self.client.get(admin_url)
+        self.failUnlessEqual(response.status_code, 200)
     
     def test_non_privileged_user_can_not_edit_restricted_fields_without_permission(self):
         """If a user does not have the can_edit_global_fields permission for a
-        model, untranslated fields should be hidden"""
+        model, untranslated fields should be hidden and not editable in any way"""
         
         self.client.login(username=self.username, password=self.username)
         
@@ -113,8 +116,11 @@ class TestEasyPublisher(TestCase):
         data = self.test_publication_workflow()
         self.failIfEqual(data.price, self.post_data['price'])
         self.failIfEqual(data.body, self.post_data['body'])
-    
+
     def test_if_editor_has_permission_he_can_edit_all_fields(self):
+        """If a user has permision can_edit_untranslated_fields_of_testl10nmodel
+        he should be able to edit all the untranslated fields"""
+        
         # give the editor permission
         editor = User.objects.get(username=self.username)
         perm = Permission.objects.get(codename='can_edit_untranslated_fields_of_testl10nmodel')

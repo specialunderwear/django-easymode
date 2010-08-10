@@ -47,7 +47,7 @@ class TestDiocoreFields(TestCase):
             'title': "Ik ben de groot moeftie van oeral",
             'description': "Ik weet\r weinig tot niks van brei \rcursussen",
             'body':"Het zou kunnen dat\r linksaf\r slaan hier een goede keuze is.",
-            'price':34.0,
+            'price': '34',
         }
         
         if self.client.login(username='admin', password='admin'):
