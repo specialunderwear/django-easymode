@@ -16,22 +16,11 @@ __all__ = ('TestDiocoreFields',)
 class TestDiocoreFields(TestCase):
     """docstring for TestDiocoreFields"""
     
-    fixtures = ['auth-user']
-    
-    def setup_l10n_model(self):
-        translation.activate('en')
-        i = TestL10nModel(title='Ik ben de groot moeftie van cambodja', 
-            description="Ik weet weinig tot niks van brei cursussen",
-            body="Het zou kunnen dat linksaf slaan hier een goede keuze is.",
-            price=12.0,
-            )
-        i.save()
-        return i
-        
+    fixtures = ['auth-user', 'tests-testl10nmodel']
         
     def test_diocore_fields_are_special(self):
         """Diocore fields should have a font attribute after serialization"""
-        i = self.setup_l10n_model()
+        i = TestL10nModel.objects.get(pk=1)
         xml = tree.xml(i)
 
         title_has_font = re.search(r'field font="arial" type="CharField" name="title"', xml)
@@ -47,7 +36,7 @@ class TestDiocoreFields(TestCase):
             'title': "Ik ben de groot moeftie van oeral",
             'description': "Ik weet\r weinig tot niks van brei \rcursussen",
             'body':"Het zou kunnen dat\r linksaf\r slaan hier een goede keuze is.",
-            'price': '34',
+            'price':34.0,
         }
         
         if self.client.login(username='admin', password='admin'):
@@ -55,7 +44,7 @@ class TestDiocoreFields(TestCase):
             add_view_url = reverse("admin:tests_testl10nmodel_add")            
             response = self.client.post(add_view_url, h)
 
-            i = TestL10nModel.objects.get(pk=1)
+            i = TestL10nModel.objects.get(pk=3)
 
             assert(i.title == 'Ik ben de groot moeftie van oeral')
             assert(i.description == "Ik weet weinig tot niks van brei cursussen")
