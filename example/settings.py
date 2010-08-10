@@ -8,7 +8,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # some tests fail because they are not yet implemented!
-SKIPPED_TESTS = ('test_non_privileged_user_can_not_edit_restricted_fields_without_permission',)
+SKIPPED_TESTS = ('test_permissions_for_change_view_are_evaluated_each_request',)
 
 PROJECT_DIR = os.path.dirname(__file__)
 
