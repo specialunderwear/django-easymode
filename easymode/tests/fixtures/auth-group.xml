@@ -128,6 +128,31 @@
 				<natural>sessions</natural>
 				<natural>session</natural>
 			</object>
+			<object>
+				<natural>change_testl10nmodel</natural>
+				<natural>tests</natural>
+				<natural>testl10nmodel</natural>
+			</object>
+			<object>
+				<natural>add_testmodel</natural>
+				<natural>tests</natural>
+				<natural>testmodel</natural>
+			</object>
+			<object>
+				<natural>can_edit_global_fields</natural>
+				<natural>tests</natural>
+				<natural>testmodel</natural>
+			</object>
+			<object>
+				<natural>change_testmodel</natural>
+				<natural>tests</natural>
+				<natural>testmodel</natural>
+			</object>
+			<object>
+				<natural>delete_testmodel</natural>
+				<natural>tests</natural>
+				<natural>testmodel</natural>
+			</object>
 		</field>
 	</object>
 </django-objects>
