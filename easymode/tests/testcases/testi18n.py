@@ -14,8 +14,10 @@ from os.path import join, isdir
 
 
 from django.test import TestCase
+from django.db import IntegrityError
 from django.db.models.signals import post_save
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils import translation
 from django.utils.translation import trans_real
 
@@ -41,6 +43,8 @@ __all__ = ('Testi18n',)
 class Testi18n(TestCase):
     """tests for the internationalisation/localisation support"""
 
+    fixtures = ['auth-user', 'auth-group']
+    
     def setUp(self):        
         gc.collect()
         translation.activate(settings.LANGUAGE_CODE)
@@ -269,4 +273,31 @@ class Testi18n(TestCase):
         xml_representation = tree.xml(i)
         contains_konijntje = re.search(r'Ik ben geen konijntje', xml_representation)
         self.assertTrue(contains_konijntje)
+
+    post_data = {
+        'price': 100,
+        'title': 'Your mother',
+        'description': 'lmao',
+        'body': 'MY BAR IS LOL HAHA',
+    }
                 
+    def test_permissions_for_change_view_are_evaluated_each_request(self):
+        "The permissions on different views should be evauluated each request"
+        admin_add = reverse('admin:tests_testl10nmodel_add')
+        admin_change = reverse('admin:tests_testl10nmodel_change', args=[1])
+
+        can_login = self.client.login(username='admin', password='admin')
+        self.client.post(admin_add, self.post_data)
+
+        can_login = self.client.login(username='editor', password='editor')
+        response = self.client.post(admin_change, self.post_data)
+        self.failUnlessEqual(response.status_code, 302)
+
+        try:            
+            can_login = self.client.login(username='admin', password='admin')
+            self.client.post(admin_add, self.post_data)
+        except IntegrityError as e:
+            self.fail(e)
+
+        self.failUnlessEqual(can_login, True)
+            

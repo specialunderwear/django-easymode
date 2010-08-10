@@ -67,7 +67,7 @@ class TestEasyPublisher(TestCase):
         # there should be a test in reversion
         metas = EasyPublisherMetaData.objects.select_related()
         self.failUnlessEqual(len(metas), 1)
-
+    
         return metas[0]
         
     def test_reversion_has_the_draft(self):
@@ -116,7 +116,7 @@ class TestEasyPublisher(TestCase):
         data = self.test_publication_workflow()
         self.failIfEqual(data.price, self.post_data['price'])
         self.failIfEqual(data.body, self.post_data['body'])
-
+    
     def test_if_editor_has_permission_he_can_edit_all_fields(self):
         """If a user has permision can_edit_untranslated_fields_of_testl10nmodel
         he should be able to edit all the untranslated fields"""
@@ -126,7 +126,7 @@ class TestEasyPublisher(TestCase):
         perm = Permission.objects.get(codename='can_edit_untranslated_fields_of_testl10nmodel')
         editor.user_permissions.add(perm)
         editor.save()
-
+    
         data = self.test_publication_workflow()
         self.failUnlessEqual(data.price, self.post_data['price'])
         self.failUnlessEqual(data.body, self.post_data['body'])
