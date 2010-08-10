@@ -69,7 +69,7 @@
 				<natural>foo</natural>
 			</object>
 			<object>
-				<natural>can_edit_global_fields</natural>
+				<natural>can_edit_untranslated_fields_of_foo</natural>
 				<natural>foobar</natural>
 				<natural>foo</natural>
 			</object>
@@ -139,7 +139,7 @@
 				<natural>testmodel</natural>
 			</object>
 			<object>
-				<natural>can_edit_global_fields</natural>
+				<natural>can_edit_untranslated_fields_of_testmodel</natural>
 				<natural>tests</natural>
 				<natural>testmodel</natural>
 			</object>

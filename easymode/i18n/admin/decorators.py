@@ -128,8 +128,10 @@ class L10n(object):
             cls.list_editable = lazy_localized_list(cls.list_editable, self.model.localized_fields)
             
             def change_view(self, request, object_id, extra_context=None):
-                if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):
-                    
+                perm_name = "%s.can_edit_untranslated_fields_of_%s" % (
+                    self.model._meta.app_label, self.model.__name__.lower()
+                )
+                if not request.user.has_perm(perm_name):
                     # remember what fields are visible for admin users
                     if not hasattr(self, 'admin_fields'):
                         setattr(self, 'admin_fields', self.fields)

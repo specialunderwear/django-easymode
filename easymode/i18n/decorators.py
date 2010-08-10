@@ -34,6 +34,10 @@ class I18n(object):
         if getattr(settings, 'AUTO_CATALOG', True):
             i18n.register(cls, getattr(settings, 'LOCALE_DIR', None) or model_dir )
         
-        cls._meta.permissions.append(("can_edit_global_fields", "Can edit restricted fields"))
+        # add permission for editing the untranslated fields in this model
+        cls._meta.permissions.append(
+            ("can_edit_untranslated_fields_of_%s" % cls.__name__.lower(), 
+            "Can edit untranslated fields of %s" % cls.__name__.lower())
+        )
 
         return cls

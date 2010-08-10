@@ -128,7 +128,7 @@
     <object pk="38" model="auth.permission">
         <field type="CharField" name="name">Can edit restricted fields</field>
         <field to="contenttypes.contenttype" name="content_type" rel="ManyToOneRel">12</field>
-        <field type="CharField" name="codename">can_edit_global_fields</field>
+        <field type="CharField" name="codename">can_edit_untranslated_fields_foo</field>
     </object>
     <object pk="40" model="auth.permission">
         <field type="CharField" name="name">Can change bar</field>
