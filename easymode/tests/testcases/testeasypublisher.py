@@ -93,12 +93,47 @@ class TestEasyPublisher(TestCase):
         self.failUnlessEqual(data.title, self.post_data['title'])
         self.failUnlessEqual(data.description, self.post_data['description'])
         return data
-        
-    def test_publisher_ui_works(self):
+    
+    def draft_access_helper(self):
         admin_url = reverse('admin:tests_testl10nmodel_change', args=[1])
         response = self.client.get(admin_url)
-        self.failUnlessEqual(response.status_code, 200)
+        self.failUnlessEqual(response.status_code, 302)
+
+        # See that the user is redirected to the draft
+        draft_url = reverse('admin:tests_testl10nmodel_draft', args=[1, 1])
+        self.assertRedirects(response, draft_url)
+        
+    def test_non_privileged_users_get_drafts_when_accessing_items(self):
+        """
+        When a non privileged user tries to access an item with a draft,
+        instead the draft itself should be presented
+        """
+        # create a draft
+        self.test_publication_workflow()
+        self.draft_access_helper()
+        
+    def test_privileged_users_get_drafts_when_accessing_items(self):
+        self.test_publication_workflow()
+        self.username = 'admin'
+        self.password = 'admin'
+        self.draft_access_helper()
+        self.username = 'editor'
+        self.password = 'editor'
     
+    def test_draft_view(self):
+        self.test_publication_workflow()
+        draft_url = reverse('admin:tests_testl10nmodel_draft', args=[1, 1])
+        
+        # get draft
+        response = self.client.get(draft_url)
+        self.assertContains(response, 'Press the save button below to make this draft the current version')
+        self.assertContains(response, '<a href="../../current/" class="historylink">Current</a>')
+        self.assertContains(response, '<a href="../../drafts/" class="historylink">Drafts</a>')
+        self.assertTemplateUsed(response, 'easymode/easypublisher/publish_form.html')
+    
+    def test_current_view(self):
+        current_url = reverse('admin:tests_testl10nmodel_current', args=[1])
+        
     def test_non_privileged_user_can_not_edit_restricted_fields_without_permission(self):
         """If a user does not have the can_edit_global_fields permission for a
         model, untranslated fields should be hidden and not editable in any way"""

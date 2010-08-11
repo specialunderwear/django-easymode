@@ -276,7 +276,7 @@ class Testi18n(TestCase):
 
                 
     def test_permissions_for_change_view_are_evaluated_each_request(self):
-        "The permissions on different views should be evauluated each request"
+        "The permissions on different views should be evaluated each request"
 
         post_data = {
             'price': 100,
