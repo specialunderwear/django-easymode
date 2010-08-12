@@ -126,6 +126,7 @@ class L10n(object):
             cls.list_display_links = lazy_localized_list(cls.list_display_links, self.model.localized_fields)
             cls.list_display = lazy_localized_list(cls.list_display, self.model.localized_fields)
             cls.list_editable = lazy_localized_list(cls.list_editable, self.model.localized_fields)
+            cls.search_fields = lazy_localized_list(cls.search_fields, self.model.localized_fields)
             
             def change_view(self, request, object_id, extra_context=None):
                 perm_name = "%s.can_edit_untranslated_fields_of_%s" % (
