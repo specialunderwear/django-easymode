@@ -1,3 +1,5 @@
+import copy
+
 from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
 from django.contrib.contenttypes.generic import generic_inlineformset_factory
@@ -8,7 +10,10 @@ from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
 from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
 
 __all__ = ('L10n', 'lazy_localized_list')
-        
+
+def compute_prohibited(fields, exclude, localized):
+    return set(fields) - set(exclude) - set(localized)
+
 class lazy_localized_list(list):
     """
     A descriptor that can get passed contrib.admin.validation.check_isseq
@@ -101,13 +106,33 @@ class L10n(object):
             self.model = cls.model
         elif not self.model:
             raise AttributeError(L10n.error_no_model % (cls.__name__) )
-            
-        fields = []
+
+        # gather names of fields added by I18n
+        added_fields = []
         for field in self.model.localized_fields:
             for language in get_all_language_codes():
-                fields.append("%s_%s" % (field, language))
-        cls.exclude = fields
-        cls.form = forms.make_localised_form(self.model, exclude=fields)
+                added_fields.append("%s_%s" % (field, language))
+
+        # hide added fields from form and admin
+        cls.exclude = added_fields
+        cls.form = forms.make_localised_form(self.model, exclude=added_fields)
+
+        # determine name of the permission to edit untranslated fields
+        permisson_name = "%s.can_edit_untranslated_fields_of_%s" % (
+            self.model._meta.app_label, self.model.__name__.lower()
+        )
+        
+        # make sure that fields become read_only when no permission is given.
+        def get_readonly_fields(self, request, obj=None):
+            if not request.user.has_perm(permisson_name):
+                fields = self.fields or map(lambda x: x.name, self.model._meta.fields)
+                prohibited_fields = compute_prohibited(fields, self.exclude, self.model.localized_fields)
+                
+                return set(self.readonly_fields).union(prohibited_fields)
+            
+            return self.readonly_fields
+        
+        cls.get_readonly_fields = get_readonly_fields
         
         # override some views to hide fields which are not localized
         if hasattr(cls, 'change_view'):
@@ -128,34 +153,19 @@ class L10n(object):
             cls.list_editable = lazy_localized_list(cls.list_editable, self.model.localized_fields)
             cls.search_fields = lazy_localized_list(cls.search_fields, self.model.localized_fields)
             
-            def change_view(self, request, object_id, extra_context=None):
-                perm_name = "%s.can_edit_untranslated_fields_of_%s" % (
-                    self.model._meta.app_label, self.model.__name__.lower()
-                )
-                if not request.user.has_perm(perm_name):
-                    # remember what fields are visible for admin users
-                    if not hasattr(self, 'admin_fields'):
-                        setattr(self, 'admin_fields', self.fields)
-                        
-                    # hide all fields that are not localized
-                    self.fields = self.model.localized_fields # this is same as above
-                    
-                elif hasattr(self, 'admin_fields'):
-                    # restore original fields
-                    self.fields = self.admin_fields
-                    
-                return super(cls, self).change_view(request, object_id, extra_context)
-
-            cls.change_view = change_view
-            
         else:
             def get_formset(self, request, obj=None, **kwargs):
-                fields = getattr(kwargs, 'fields', [])
-                
-                if not request.user.has_perm("%s.%s" % (self.model._meta.app_label, 'can_edit_global_fields')):
-                    fields = self.model.localized_fields
-                    kwargs['fields'] = fields
-                    
+                if self.declared_fieldsets:
+                    fields = flatten_fieldsets(self.declared_fieldsets)
+                else:
+                    fields = None
+                if self.exclude is None:
+                    exclude = []
+                else:
+                    exclude = list(self.exclude)
+                exclude.extend(self.get_readonly_fields(request, obj))
+                exclude = exclude or None
+
                 if not hasattr(self, 'ct_fk_field'):
                     return super(cls, self).get_formset(request, obj, **kwargs)
                 else:
@@ -169,13 +179,14 @@ class L10n(object):
                         "formfield_callback": self.formfield_for_dbfield,
                         "formset": self.formset,
                         "extra": self.extra,
-                        "can_delete": True,
+                        "can_delete": self.can_delete,
                         "can_order": False,
                         "fields": fields,
                         "max_num": self.max_num,
-                        "exclude": self.exclude
+                        "exclude": exclude
                     }
                     
+                    defaults.update(kwargs)
                     # the BaseGenericInlineFormSet does not work too well
                     # with modified models, so use LocalizableGenericInlineFormSet.
                     if self.formset is BaseGenericInlineFormSet \
@@ -188,10 +199,3 @@ class L10n(object):
         
             
         return cls
-
-# this is the same as fields = self.model.localized_fields
-# localized_fields = ["%s_%s" % (field, lang) for field in self.model.localized_fields for lang in dict(settings.LANGUAGES).keys()]
-# model_fields = [field.attname for field in self.opts.fields]
-# 
-# exclude = set(model_fields) - set(localized_fields)
-# self.exclude.extend(exclude)
