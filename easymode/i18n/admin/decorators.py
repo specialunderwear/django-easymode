@@ -61,7 +61,8 @@ class L10n(object):
     
     This is usefull if you are using the same admin class for multiple models.
     
-    If you have defined the model property on your admin class you can just leave it at:
+    If you have defined the model property on your admin class you can just
+    leave it at:
     
     >>> @L10n
     >>> class SomeModelAdminWithModelDefined(admin.ModelAdmin):

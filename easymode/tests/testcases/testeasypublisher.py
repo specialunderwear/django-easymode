@@ -145,8 +145,8 @@ class TestEasyPublisher(TestCase):
         self.failUnlessEqual(response.status_code, 200)
         
         # the body and price fields should be excluded for this user
-        self.assertNotContains(response, '<div class="form-row body">')
-        self.assertNotContains(response, '<div class="form-row price">')
+        self.assertNotContains(response, '<textarea rows="10" cols="40" name="body" id="id_body">hi i am an error</textarea>')
+        self.assertNotContains(response, '<input type="text" name="price" value="200.0" id="id_price" />')
         
         data = self.test_publication_workflow()
         self.failIfEqual(data.price, self.post_data['price'])
