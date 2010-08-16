@@ -21,7 +21,7 @@ from reversion.admin import VersionAdmin
 from reversion.revisions import Version, Revision
 import reversion
 
-from easymode.easypublisher.models import EasyPublisherMetaData
+from easymode.easypublisher.models import EasyPublisherMetaData, EasyPublisherModel
 from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin, InvisibleModelAdmin
 
 class EasyPublisher(VersionAdmin):
@@ -124,7 +124,14 @@ class EasyPublisher(VersionAdmin):
         else:
             reversion.revision.add_meta(EasyPublisherMetaData, status='draft', language=request.LANGUAGE_CODE)
             reversion.revision.comment = "Draft"
-            reversion.revision.post_save_receiver(obj, 0)            
+
+            if not change and isinstance(obj, EasyPublisherModel):
+                obj.published = False
+                obj.save()
+                obj.published = True
+            
+            reversion.revision.post_save_receiver(obj, 0)
+                
 
     def save_formset(self, request, form, formset, change):
         """
@@ -299,6 +306,7 @@ class EasyPublisher(VersionAdmin):
                                          for related_version in revision_versions
                                          if ContentType.objects.get_for_id(related_version.content_type_id).model_class() == FormSet.model
                                          and unicode(related_version.field_dict[fk_name]) == unicode(object_id)])
+                
                 initial = []
                 for related_obj in formset.queryset:
                     if unicode(related_obj.pk) in related_versions:
@@ -356,6 +364,7 @@ class EasyPublisher(VersionAdmin):
                         "change_url": reverse("admin:%s_%s_change" % (opts.app_label, opts.module_name), args=(obj.pk,)),
                         "history_url": reverse("admin:%s_%s_history" % (opts.app_label, opts.module_name), args=(obj.pk,)),
                         "recoverlist_url": reverse("admin:%s_%s_recoverlist" % (opts.app_label, opts.module_name))})
+        
         # Render the form.
         if revert:
             form_template = self.revision_form_template

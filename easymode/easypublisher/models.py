@@ -27,7 +27,7 @@ class EasyPublisherModel(models.Model):
     An abstract baseclass for your model which allows
     easypublisher to be sure that the model has a *published* property.
     """
-    # objects = EasyPublisherModelManager()
+    published_only = EasyPublisherModelManager()
     
     published = models.BooleanField(_('Published'), default=True)
     
