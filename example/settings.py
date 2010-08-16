@@ -7,8 +7,6 @@ ugettext = lambda s: s
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# some tests fail because they are not yet implemented!
-
 PROJECT_DIR = os.path.dirname(__file__)
 
 ADMINS = (

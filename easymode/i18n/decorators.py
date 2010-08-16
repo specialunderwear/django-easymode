@@ -37,7 +37,7 @@ class I18n(object):
         # add permission for editing the untranslated fields in this model
         cls._meta.permissions.append(
             ("can_edit_untranslated_fields_of_%s" % cls.__name__.lower(), 
-            "Can edit untranslated fields of %s" % cls.__name__.lower())
+            "Can edit untranslated fields")
         )
 
         return cls
