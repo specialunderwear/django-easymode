@@ -2,12 +2,38 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+
+__all__ = ('EasyPublisherModel',)
+
 PUBLICATION_STATUSSES = (
     ('published', _('Published')),
     ('draft', _('Draft')),
     ('needs_work', _('Needs work')),
     ('updated', _('Updated')),
 )
+
+class EasyPublisherModelManager(models.Manager):
+    """
+    A default manager that will only return published items
+    """
+    use_for_related_fields = True
+    
+    def get_query_set(self):
+        return super(EasyPublisherModelManager, self).get_query_set().filter(published=True)
+
+
+class EasyPublisherModel(models.Model):
+    """
+    An abstract baseclass for your model which allows
+    easypublisher to be sure that the model has a *published* property.
+    """
+    # objects = EasyPublisherModelManager()
+    
+    published = models.BooleanField(_('Published'), default=True)
+    
+    class Meta:
+        abstract = True
+    
 
 class EasyPublisherMetaData(models.Model):
     """
@@ -23,4 +49,3 @@ class EasyPublisherMetaData(models.Model):
     
     def __unicode__(self):
         return u"revision: %s status: %s language: %s" % (self.revision, self.status, self.language)
-    

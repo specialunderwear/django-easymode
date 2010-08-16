@@ -24,17 +24,24 @@ class LocalisedForm(forms.ModelForm):
         
         locale_data = initial or SortedDict()
 
-        # get all localized fields and their values
-        if instance is not None:
-            for localized_field in instance.localized_fields:
-                if initial: # get value from initial if it is defined
-                    local_name = get_real_fieldname(localized_field, self.language) 
-                    locale_data[localized_field] = initial.get(local_name, getattr(instance, localized_field))
-                else:
-                    locale_data[localized_field] = getattr(instance, localized_field)
+        # Set up the initial data for the form
+        for localized_field in self.localized_fields:
+            # determine localized name of the field, because it is called like
+            # that in the initial dict
+            local_name = get_real_fieldname(localized_field, self.language)
+
+            if initial: # get value from initial if it is defined
+                initial_value = initial.get(local_name)
+                if not initial_value and instance: # try model if defined
+                    initial_value = getattr(instance, localized_field)
+                locale_data[localized_field] = initial_value
+            elif instance is not None:
+                locale_data[localized_field] = getattr(instance, localized_field)
             
-        super(LocalisedForm, self).__init__(data, files, auto_id, prefix, locale_data,
-                                            error_class, label_suffix, empty_permitted, instance)
+        super(LocalisedForm, self).__init__(data, files, auto_id, prefix,
+                                            locale_data, error_class, 
+                                            label_suffix, empty_permitted, 
+                                            instance)
                                               
     def save(self, commit=True):
         """
@@ -144,5 +151,6 @@ def make_localised_form(model, exclude=None):
     
     newfields['Media'] = type('Media', tuple(), {'js':js_media})
     newfields['Meta'] = type('Meta', tuple(), {'model':model})
+    newfields['localized_fields'] = model.localized_fields
     
     return ModelFormMetaclass(model.__name__, (LocalisedForm, ), newfields)
