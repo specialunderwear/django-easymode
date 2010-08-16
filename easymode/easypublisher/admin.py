@@ -125,7 +125,7 @@ class EasyPublisher(VersionAdmin):
             reversion.revision.add_meta(EasyPublisherMetaData, status='draft', language=request.LANGUAGE_CODE)
             reversion.revision.comment = "Draft"
 
-            if not change and isinstance(obj, EasyPublisherModel):
+            if not change and hasattr(obj, 'published'):
                 obj.published = False
                 obj.save()
                 obj.published = True

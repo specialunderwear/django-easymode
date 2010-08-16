@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
@@ -21,13 +22,15 @@ class DraftListItems(template.Node):
         #select revisions
         revisions = Revision.objects.filter(
             easypublishermetadata__status='draft',
-            easypublishermetadata__language=request.LANGUAGE_CODE
+            easypublishermetadata__language=request.LANGUAGE_CODE,
         ).select_related().distinct()
     
         output = u''
         for revision in revisions:
             # select version and make list item
-            version = revision.version_set.all().order_by('revision')[0]
+            # since we are not saving related items, their object_id is set to u'None'
+            # we don't need those.
+            version = revision.version_set.filter(~Q(object_id='None'),).order_by('revision')[0]
             opts = version.content_type.model_class()._meta
             info = opts.app_label, opts.module_name
             name = 'admin:%s_%s_draft' % info
