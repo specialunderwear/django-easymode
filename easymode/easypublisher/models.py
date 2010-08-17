@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 
-__all__ = ('EasyPublisherModel',)
+__all__ = ('EasyPublisherModel', 'EasyPublisherModelManager')
 
 PUBLICATION_STATUSSES = (
     ('published', _('Published')),
@@ -14,7 +14,7 @@ PUBLICATION_STATUSSES = (
 
 class EasyPublisherModelManager(models.Manager):
     """
-    A default manager that will only return published items
+    A default manager that will only return published items.
     """
     use_for_related_fields = True
     
@@ -28,7 +28,7 @@ class EasyPublisherModel(models.Model):
     easypublisher to be sure that the model has a *published* property.
     """
     objects = models.Manager()
-    published_only = EasyPublisherModelManager()
+    xml_manager = EasyPublisherModelManager()
     
     published = models.BooleanField(_('Published'), default=True)
     
