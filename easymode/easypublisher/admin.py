@@ -50,8 +50,8 @@ class EasyPublisher(VersionAdmin):
         """Renders the drafts view, listing all drafts"""
         opts = self.model._meta
         action_list = [{"revision": version.revision,
-                        "url": reverse("admin:%s_%s_draft" % (opts.app_label, opts.module_name), args=(version.object_id, version.id))}
-                       for version in self.get_draft_versions(object_id).select_related("revision__user")]
+                        "url": reverse("admin:%s_%s_draft" % (opts.app_label, opts.module_name), args=(version.object_id, version.revision.id))}
+                       for version in self.get_draft_versions(object_id).select_related("revision")]
         context = {
             "action_list": action_list, 
             "title": _("Unpublished items"), 
@@ -88,7 +88,7 @@ class EasyPublisher(VersionAdmin):
         
     @transaction.commit_on_success
     @reversion.revision.create_on_success
-    def publish_view(self, request, object_id, version_id, extra_context=None):
+    def publish_view(self, request, object_id, revision_id, extra_context=None):
         """
         Displays a draft.
         If you have publishing right, the save button will publish the draft.
@@ -96,7 +96,7 @@ class EasyPublisher(VersionAdmin):
         """
         
         obj = get_object_or_404(self.model, pk=object_id)
-        version = get_object_or_404(Version, pk=version_id, object_id=force_unicode(obj.pk))
+        version = get_object_or_404(Version, revision=revision_id, object_id=force_unicode(obj.pk))
         
         if not version.revision.easypublishermetadata_set.filter(language=request.LANGUAGE_CODE):
             request.user.message_set.create(message=_("There is no draft available for language %s") % request.LANGUAGE_CODE)
@@ -193,13 +193,7 @@ class EasyPublisher(VersionAdmin):
         Retrieves the latest draft that belongs to object_id.
         """
         latest_revision = self.get_latest_draft_revision(object_id)
-        content_type = ContentType.objects.get_for_model(self.model)
-        if latest_revision:
-            latest_drafts = latest_revision.version_set.filter(content_type=content_type).distinct()
-            if len(latest_drafts):
-                return latest_drafts[0]
-            
-        return None
+        return latest_revision
     
     def update_draft(self, version, request):
         """Update the status of the draft belonging to this version"""
@@ -246,14 +240,10 @@ class EasyPublisher(VersionAdmin):
                 prefixes[prefix] = prefixes.get(prefix, 0) + 1
                 if prefixes[prefix] != 1:
                     prefix = "%s-%s" % (prefix, prefixes[prefix])
+                
                 formset = FormSet(request.POST, request.FILES,
                                   instance=new_object, prefix=prefix,
                                   queryset=inline.queryset(request))
-                # Strip extra empty forms from the formset.
-                num_forms = formset.total_form_count() - formset.extra
-                del formset.forms[num_forms:]
-                formset.total_form_count = lambda: num_forms
-                # Add this hacked formset to the form.
                 formsets.append(formset)
             if all_valid(formsets) and form_validated:
                 self.save_model(request, new_object, form, change=True)

@@ -1,6 +1,6 @@
 from django import template
 from django.db.models import Q
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.safestring import mark_safe
 
 from reversion.models import Revision
@@ -30,12 +30,21 @@ class DraftListItems(template.Node):
             # select version and make list item
             # since we are not saving related items, their object_id is set to u'None'
             # we don't need those.
-            version = revision.version_set.filter(~Q(object_id='None'),).order_by('revision')[0]
-            opts = version.content_type.model_class()._meta
-            info = opts.app_label, opts.module_name
-            name = 'admin:%s_%s_draft' % info
-            url = reverse(name, args=[version.object_id, version.id])
-            url = strip_language_code(url)
-            output += u"<li><a href=\"%s\">%s</a></li>" % (url, version.object_repr)
+            urls = {}
+            versions = revision.version_set.filter(~Q(object_id='None'),).order_by('revision')
+            for version in versions:
+                opts = version.content_type.model_class()._meta
+                info = opts.app_label, opts.module_name
+                name = 'admin:%s_%s_draft' % info
+                try:
+                    url = reverse(name, args=[version.object_id, revision.id])
+                except NoReverseMatch:
+                    pass
+                url = strip_language_code(url)
+                if not url in urls:
+                    urls[url] = version
+            
+            for (url, version) in urls.iteritems():
+                output += u"<li><a href=\"%s\">%s</a></li>" % (url, version.object_repr)
     
         return mark_safe(output)

@@ -10,6 +10,7 @@ PUBLICATION_STATUSSES = (
     ('draft', _('Draft')),
     ('needs_work', _('Needs work')),
     ('updated', _('Updated')),
+    ('declined', _('Declined')),
 )
 
 class EasyPublisherModelManager(models.Manager):
