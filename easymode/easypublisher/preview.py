@@ -4,7 +4,9 @@ Contains tools to enable preview of drafts.
 from lxml import etree
 from reversion.models import Revision
 
-from easymode.tree import xml
+from django.http import HttpResponse
+
+from easymode.tree import xml as to_xml
 from easymode.tree.serializers import RecursiveXmlSerializer
 from easymode.xslt.response import render_xml_to_string
 
@@ -37,6 +39,6 @@ def insert_draft(revision_id, xml):
         
     return etree.tostring(xml_doc)
 
-def render_to_response_with_revision(template, input, revision_id, params=None, mimetype='text/html'):
-    xml = insert_draft(revision_id, xml(object))
-    render_xml_to_string(template, xml, params)
+def render_to_response_with_revision(template, object, revision_id, params=None, mimetype='text/html'):
+    xml = insert_draft(revision_id, to_xml(object))
+    return HttpResponse(render_xml_to_string(template, xml, params), mimetype=mimetype)
