@@ -24,6 +24,22 @@ import reversion
 from easymode.easypublisher.models import EasyPublisherMetaData, EasyPublisherModel
 from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin, InvisibleModelAdmin
 
+def _eq(self, obj):
+    "Helper to have proper equality for models"
+    field_names = map(lambda x: x.name, self._meta.fields)
+    
+    if not field_names:
+        raise Exception("%s has no fields or hides them very well" % self)
+    
+    for name in field_names:
+        try:
+            if getattr(self, name) != getattr(obj, name):
+                return False
+        except AttributeError:
+            return False
+            
+    return True
+
 class EasyPublisher(VersionAdmin):
     """docstring for EasyPublisher"""
     
@@ -144,7 +160,16 @@ class EasyPublisher(VersionAdmin):
         else:
             reversion.revision.add_meta(EasyPublisherMetaData, status='draft', language=request.LANGUAGE_CODE)
             instances = formset.save(commit=False)
+            
             for instance in instances:
+                if instance.pk is None:
+                    # reversion puts these models in a set(). If we don't define
+                    # proper equality for them, they will all count as equal, since
+                    # their id's are all the same. This should not have to be done
+                    # for every object, but only once for every type of object.
+                    # however, it really doesn't matter that much for performance
+                    # so this is how it is.
+                    setattr(instance.__class__, '__eq__', _eq)
                 reversion.revision.post_save_receiver(instance, 0)
             
     def has_draft(self, object_id):
@@ -244,6 +269,7 @@ class EasyPublisher(VersionAdmin):
                 formset = FormSet(request.POST, request.FILES,
                                   instance=new_object, prefix=prefix,
                                   queryset=inline.queryset(request))
+                
                 formsets.append(formset)
             if all_valid(formsets) and form_validated:
                 self.save_model(request, new_object, form, change=True)
@@ -292,20 +318,22 @@ class EasyPublisher(VersionAdmin):
                 except AttributeError:
                     # This is a GenericInlineFormset, or similar.
                     fk_name = FormSet.ct_fk_field.name
-                related_versions = dict([(related_version.object_id, related_version)
+                
+                related_versions = [(related_version.object_id, related_version)
                                          for related_version in revision_versions
                                          if ContentType.objects.get_for_id(related_version.content_type_id).model_class() == FormSet.model
-                                         and unicode(related_version.field_dict[fk_name]) == unicode(object_id)])
-                
+                                         and unicode(related_version.field_dict[fk_name]) == unicode(object_id)]
+
                 initial = []
                 for related_obj in formset.queryset:
-                    if unicode(related_obj.pk) in related_versions:
-                        initial.append(related_versions.pop(unicode(related_obj.pk)).field_dict)
+                    related_versions_dict = dict(related_versions)
+                    if unicode(related_obj.pk) in related_versions_dict:
+                        initial.append(related_versions_dict.pop(unicode(related_obj.pk)).field_dict)
                     else:
                         initial_data = model_to_dict(related_obj)
                         initial_data["DELETE"] = True
                         initial.append(initial_data)
-                for related_version in related_versions.values():
+                for (key, related_version) in related_versions:
                     initial_row = related_version.field_dict
                     del initial_row["id"]
                     initial.append(initial_row)
