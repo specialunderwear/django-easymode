@@ -21,7 +21,7 @@ from django.conf import settings
 __all__ = (
     # members
     'recursion_depth', 'first_match', 'mutex',
-    'SemaphoreException','bases_walker', 'url_add_params'
+    'SemaphoreException','bases_walker', 'url_add_params',
 
     # packages
     'languagecode', 'polibext', 'standin', 'template', 'xmlutils',
