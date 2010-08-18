@@ -196,6 +196,8 @@ def bases_walker(cls):
 
 def url_add_params(url, **kwargs):
     """
+    Add parameters to an url
+    
     >>> url_add_params('http://example.com/', a=1, b=3)
     'http://example.com/?a=1&b=3'
     >>> url_add_params('http://example.com/?c=8', a=1, b=3)
@@ -208,7 +210,9 @@ def url_add_params(url, **kwargs):
     parsed_url = urlparse.urlsplit(url)
     params = urlparse.parse_qsl(parsed_url.query)
     parsed_url = list(parsed_url)
+    
     for pair in kwargs.iteritems():
         params.append(pair)
+        
     parsed_url[3] = urllib.urlencode(params)
     return urlparse.urlunsplit(parsed_url)

@@ -1,3 +1,11 @@
+"""
+These urls will be used when previewing a draft.
+An extra query parameter will be passed to the view:
+
+?preview=revision_id
+
+Also the shortcut is not named 'r' but 'p' for preview
+"""
 from django.conf.urls.defaults import *
 
 from easymode.utils.languagecode import get_language_codes_as_disjunction
