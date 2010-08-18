@@ -10,6 +10,8 @@ import errno
 import os
 import threading
 import time
+import urlparse
+import urllib
 from contextlib import contextmanager
 from hashlib import sha1
 
@@ -19,7 +21,7 @@ from django.conf import settings
 __all__ = (
     # members
     'recursion_depth', 'first_match', 'mutex',
-    'SemaphoreException','bases_walker',
+    'SemaphoreException','bases_walker', 'url_add_params'
 
     # packages
     'languagecode', 'polibext', 'standin', 'template', 'xmlutils',
@@ -191,3 +193,22 @@ def bases_walker(cls):
         yield base
         for more in bases_walker(base):
             yield more
+
+def url_add_params(url, **kwargs):
+    """
+    >>> url_add_params('http://example.com/', a=1, b=3)
+    'http://example.com/?a=1&b=3'
+    >>> url_add_params('http://example.com/?c=8', a=1, b=3)
+    'http://example.com/?c=8&a=1&b=3'
+    >>> url_add_params('http://example.com/#/irock', a=1, b=3)
+    'http://example.com/?a=1&b=3#/irock'
+    >>> url_add_params('http://example.com/?id=10#/irock', a=1, b=3)
+    'http://example.com/?id=10&a=1&b=3#/irock'
+    """
+    parsed_url = urlparse.urlsplit(url)
+    params = urlparse.parse_qsl(parsed_url.query)
+    parsed_url = list(parsed_url)
+    for pair in kwargs.iteritems():
+        params.append(pair)
+    parsed_url[3] = urllib.urlencode(params)
+    return urlparse.urlunsplit(parsed_url)

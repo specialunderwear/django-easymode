@@ -17,7 +17,7 @@ def render_to_response(template, object, params=None, mimetype='text/html'):
     The result will be a :class:`~django.http.HttpResponse` object,
     containing the transformed xml as the body.
     
-    :param template: an xslt template.
+    :param template: an xslt template name.
     :param object: an object that has an ``__xml__`` method. (See :func:`easymode.tree.decorators.toxml`).
     :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
         on strings you want to pass in.
@@ -36,7 +36,7 @@ def render_to_string(template, object, params=None):
     will be transformed using ``template``.
     The result is a unicode string containing the transformed xml.
     
-    :param template: an xslt template.
+    :param template: an xslt template name.
     :param object: an object that has an ``__xml__`` method. (See :func:`easymode.tree.decorators.toxml`).
     :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
         on strings you want to pass in.
@@ -52,7 +52,7 @@ def render_xml_to_string(template, input, params=None):
     """
     Transforms ``input`` using ``template``, which should be an xslt.
     
-    :param template: an xslt template
+    :param template: an xslt template name.
     :param input: an string that contains xml
     :param params: A dictionary containing xslt parameters. Use :func:`~easymode.xslt.prepare_string_param`\
         on strings you want to pass in.

@@ -124,7 +124,8 @@ class EasyPublisher(VersionAdmin):
             "publish":True,
             'has_draft':True,
             'link_current':True,
-            'extra':0
+            'extra':0,
+            'revision_id': revision_id,
         }
         context.update(extra_context or {})
         return self.render_revision_form(request, obj, version, context, revert=True)
@@ -371,7 +372,7 @@ class EasyPublisher(VersionAdmin):
                         "has_change_permission": self.has_change_permission(request, obj),
                         "has_delete_permission": self.has_delete_permission(request, obj),
                         "has_file_field": True,
-                        "has_absolute_url": False,
+                        "has_absolute_url": getattr(self.model, 'get_absolute_url', False),
                         "ordered_objects": opts.get_ordered_objects(),
                         "form_url": mark_safe(request.path),
                         "opts": opts,
