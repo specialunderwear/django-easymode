@@ -336,7 +336,14 @@ class EasyPublisher(VersionAdmin):
                         initial.append(initial_data)
                 for (key, related_version) in related_versions:
                     initial_row = related_version.field_dict
-                    del initial_row["id"]
+                    try:
+                        del initial_row["id"]
+                    except KeyError:
+                        # when multiple inlines with the same model but a different
+                        # querysets are on a page, it could happen that we allready
+                        # deleted the id.
+                        pass
+                    
                     initial.append(initial_row)
                 # Reconstruct the forms with the new revision data.
                 formset.initial = initial
