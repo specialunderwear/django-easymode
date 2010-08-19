@@ -7,7 +7,7 @@
     {% if link_current %}<li><a href="../../current/" class="historylink">{% trans "Current" %}</a></li>{% endif %}
     {% if has_draft %}<li><a href="../../drafts/" class="historylink">{% trans "Drafts" %}</a></li>{% endif %}
     <li><a href="../../history/" class="historylink">{% trans "History" %}</a></li>
-    {% if has_absolute_url %}<li><a href="{% url preview_draft content_type_id object_id revision_id %}" class="viewsitelink">{% trans "Preview on site" %}</a></li>{% endif%}
+    {% if has_absolute_url and revision_id %}<li><a href="{% url preview_draft content_type_id object_id revision_id %}" class="viewsitelink">{% trans "Preview on site" %}</a></li>{% endif%}
 </ul>
 {% endblock %}
 
