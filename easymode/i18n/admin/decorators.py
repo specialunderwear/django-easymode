@@ -96,7 +96,7 @@ class L10n(object):
         if cls:                    
             # first make a new class so the decorator does not mess up the
             # class passed. This new class is then modified by the decorator.
-            descendant = type(obj.model.__name__ + cls.__name__, (cls,), attrs or {})
+            descendant = type(obj.model.__name__ + cls.__name__, (cls,), attrs or {'model':obj.model})
             return obj.__call__(descendant)
             
         return obj
