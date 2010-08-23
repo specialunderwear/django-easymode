@@ -4,11 +4,10 @@ Contains tools to enable preview of drafts.
 from lxml import etree
 from reversion.models import Revision
 
-from django.http import HttpResponse
-
-from easymode.tree import xml as to_xml
 from easymode.tree.serializers import RecursiveXmlSerializer
-from easymode.xslt.response import render_xml_to_string
+
+
+__all__ = ('filter_unpublished', 'insert_draft')
 
 def insert_draft(revision_id, xml):
     rev = Revision.objects.get(pk=revision_id)
@@ -39,6 +38,26 @@ def insert_draft(revision_id, xml):
         
     return etree.tostring(xml_doc)
 
-def render_to_response_with_revision(template, object, revision_id, params=None, mimetype='text/html'):
-    xml = insert_draft(revision_id, to_xml(object))
-    return HttpResponse(render_xml_to_string(template, xml, params), mimetype=mimetype)
+
+def filter_unpublished(xml):
+    """
+    >>> a = '''<root>
+    ... <object><field name="published">False</field>hahaha</object>
+    ... <object><field name="published">True</field>hihih</object>
+    ... <object><field name="koe">False</field>lololol</object>
+    ... <object>
+    ...     <field name="published">False</field>
+    ...     hahaha
+    ...     <object><field name="koe">False</field>doe eens niet</object>
+    ... </object></root>'''
+    >>>
+    >>> filter_unpublished(a)
+    '<root>\\n<object><field name="published">True</field>hihih</object>\\n<object><field name="koe">False</field>lololol</object>\\n</root>'
+    """
+
+    xpath = "//object[field[@name='published' and text() = 'False']]"
+    xml_tree = etree.fromstring(xml)
+    for node in xml_tree.xpath(xpath):
+        node.getparent().remove(node)
+
+    return etree.tostring(xml_tree)
