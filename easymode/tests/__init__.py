@@ -16,7 +16,7 @@ from easymode.utils.languagecode import get_language_codes,\
     localize_fieldnames, get_real_fieldname, strip_language_code,\
     get_short_language_codes
 from easymode.utils.standin import standin_for
-from easymode.easypublisher.filter import filter_unpublished
+from easymode.easypublisher.utils import filter_unpublished
 
 
 # check if some required settings are fulfilled
