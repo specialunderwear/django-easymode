@@ -16,6 +16,7 @@ from easymode.utils.languagecode import get_language_codes,\
     localize_fieldnames, get_real_fieldname, strip_language_code,\
     get_short_language_codes
 from easymode.utils.standin import standin_for
+from easymode.easypublisher.filter import filter_unpublished
 
 
 # check if some required settings are fulfilled
@@ -61,4 +62,5 @@ __test__ = {
     "test_bases_walker" : bases_walker,
     "test_standin_for": standin_for,
     'test_url_add_params' : url_add_params,
+    'test_filter_unpublished': filter_unpublished,
 }
