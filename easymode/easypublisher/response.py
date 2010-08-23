@@ -30,6 +30,6 @@ def render_to_response_filtered(template, queryset, params=None, mimetype='text/
     :param params: xslt params, correctly escaped using :func:`~easymode.xslt.response.prepare_string_param`
     :param mimetype: The mimetype of the response.
     :result: A :class:`~django.http.HttpResponse` with xml, with only published models.
-    "
+    """
     xml = filter_unpublished(to_xml(queryset))
     return HttpResponse(render_xml_to_string(template, xml, params), mimetype=mimetype)
