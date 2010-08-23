@@ -135,7 +135,6 @@ class EasyPublisher(VersionAdmin):
         Saves the model if you have publishing right, but only makes
         a draft in reversion if you don't
         """
-        
         if request.user.has_perm("easypublisher.can_approve_for_publication"):
             obj.save()
         else:
@@ -457,7 +456,7 @@ def _add_invisible_model_admin_behaviour(method):
         if extra_context:
             defaults.update(extra_context)
     
-        return method(self, request, object_id, extra_context)
+        return method(self, request, object_id, defaults)
     
     return altered_view
 
