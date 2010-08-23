@@ -28,9 +28,6 @@ class EasyPublisherModel(models.Model):
     An abstract baseclass for your model which allows
     easypublisher to be sure that the model has a *published* property.
     """
-    objects = models.Manager()
-    xml_manager = EasyPublisherModelManager()
-    
     published = models.BooleanField(_('Published'), default=True)
     
     class Meta:
