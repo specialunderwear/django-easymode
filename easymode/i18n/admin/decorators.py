@@ -128,6 +128,8 @@ class L10n(object):
         def get_readonly_fields(self, request, obj=None):
             if not request.user.has_perm(permisson_name):
                 fields = self.fields or map(lambda x: x.name, self.model._meta.fields)
+                # remove primary key because we don't show that, not even uneditable
+                fields.pop(self.model._meta.pk_index())
                 prohibited_fields = compute_prohibited(fields, self.exclude, self.model.localized_fields)
                 
                 return set(self.readonly_fields).union(prohibited_fields)
