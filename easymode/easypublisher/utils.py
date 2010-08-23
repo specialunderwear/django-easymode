@@ -10,6 +10,13 @@ from easymode.tree.serializers import RecursiveXmlSerializer
 __all__ = ('filter_unpublished', 'insert_draft')
 
 def insert_draft(revision_id, xml):
+    """
+    Insert the data belonging to revision revision_id into the xml
+    
+    :param revision_id: The id of the :class:`~reversion.models.Revision` we want to include.
+    :param xml: A string that can be parsed as valid xml.
+    :result: An xml string with the revision data included.
+    """
     rev = Revision.objects.get(pk=revision_id)
     xml_doc = etree.fromstring(xml)    
     serializer = RecursiveXmlSerializer()    
@@ -38,6 +45,8 @@ def insert_draft(revision_id, xml):
 
 def filter_unpublished(xml):
     """
+    Filter all unpublished objects from the xml.
+    
     >>> a = '''<root>
     ... <object><field name="published">False</field>hahaha</object>
     ... <object><field name="published">True</field>hihih</object>
@@ -50,11 +59,14 @@ def filter_unpublished(xml):
     >>>
     >>> filter_unpublished(a)
     '<root>\\n<object><field name="published">True</field>hihih</object>\\n<object><field name="koe">False</field>lololol</object>\\n</root>'
+    
+    :param xml: A string that can be parsed as valid xml.
+    :result: An xml string with only published models.
     """
 
-    xpath = "//object[field[@name='published' and text() = 'False']]"
+    select_unpublished = r"//object[field[@name='published' and text() = 'False']]"
     xml_tree = etree.fromstring(xml)
-    for node in xml_tree.xpath(xpath):
+    for node in xml_tree.xpath(select_unpublished):
         node.getparent().remove(node)
 
     return etree.tostring(xml_tree)
