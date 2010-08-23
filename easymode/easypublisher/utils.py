@@ -15,9 +15,6 @@ def insert_draft(revision_id, xml):
     serializer = RecursiveXmlSerializer()    
 
     for ver in rev.version_set.all():
-        app_label = ver.content_type.app_label
-        model_name = ver.content_type.model
-
         model_instance = ver.get_object_version().object
         
         xpath_params = {
