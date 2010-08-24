@@ -22,13 +22,13 @@ Table of contents
     settings
     commands
     templatetags
-    Middlewares <middleware.md>
+    Middlewares <middleware.rst>
     xslt/helpers
     changes
 
 The best way to learn how easymode works, is to read the above topics in sequence
-and then look at the :ref:`example_app`.
-
+and then look at the :ref:`example_app`. If you have questions please send them
+to the mailing list at easymode@librelist.com.
 
 Getting easymode
 ================
