@@ -22,6 +22,12 @@ To build the documentation:
 - type: ``make html``
 - now your documentation is in: ``docs/_build/html/``
 
+Help
+----
+
+If you need help, please send your questions to the mailing list at
+easymode@librelist.com.
+
 License
 -------
 
