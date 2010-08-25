@@ -279,10 +279,14 @@ class EasyPublisher(VersionAdmin):
                 empty_forms = []
                 post_keys = request.POST.keys()
                 for f in formset.forms:
+                    # the forms that can be removed, are not in the request.POST
+                    # we can find them by their prefix
                     matches_prefix = lambda var: var.find(f.prefix) == 0 or None
                     if first_match(matches_prefix, post_keys) is None:
                         empty_forms.append(f)
                     else:
+                        # the form must be cleaned, which they aren't yet because
+                        # we just created them
                         f.full_clean()
                 
                 # modify form settings of formset.
