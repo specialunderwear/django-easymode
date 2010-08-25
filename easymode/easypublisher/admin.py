@@ -23,6 +23,7 @@ import reversion
 
 from easymode.easypublisher.models import EasyPublisherMetaData, EasyPublisherModel
 from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin, InvisibleModelAdmin
+from easymode.utils import first_match
 
 def _eq(self, obj):
     "Helper to have proper equality for models"
@@ -269,7 +270,28 @@ class EasyPublisher(VersionAdmin):
                 formset = FormSet(request.POST, request.FILES,
                                   instance=new_object, prefix=prefix,
                                   queryset=inline.queryset(request))
+
+                # _ _ _ ____ ___ ____ _  _    ____ _  _ ___ 
+                # | | | |__|  |  |    |__|    |  | |  |  |  
+                # |_|_| |  |  |  |___ |  |    |__| |__|  |
+                # this is not copy pasted:
+                # Strip extra empty forms from the formset.
+                empty_forms = []
+                post_keys = request.POST.keys()
+                for f in formset.forms:
+                    matches_prefix = lambda var: var.find(f.prefix) == 0 or None
+                    if first_match(matches_prefix, post_keys) is None:
+                        empty_forms.append(f)
+                    else:
+                        f.full_clean()
                 
+                # modify form settings of formset.
+                num_forms = formset.total_form_count() - len(empty_forms)
+                formset.forms = filter(lambda x: x not in empty_forms, formset.forms)
+                formset.total_form_count = lambda: num_forms
+                # end of non copy pasted piece
+                
+                # Add this hacked formset to the form.                
                 formsets.append(formset)
             if all_valid(formsets) and form_validated:
                 self.save_model(request, new_object, form, change=True)
@@ -319,6 +341,10 @@ class EasyPublisher(VersionAdmin):
                     # This is a GenericInlineFormset, or similar.
                     fk_name = FormSet.ct_fk_field.name
                 
+                # _ _ _ ____ ___ ____ _  _    ____ _  _ ___ 
+                # | | | |__|  |  |    |__|    |  | |  |  |  
+                # |_|_| |  |  |  |___ |  |    |__| |__|  |
+                # this is not copy pasted:
                 related_versions = [(related_version.object_id, related_version)
                                          for related_version in revision_versions
                                          if ContentType.objects.get_for_id(related_version.content_type_id).model_class() == FormSet.model
@@ -344,6 +370,9 @@ class EasyPublisher(VersionAdmin):
                         pass
                     
                     initial.append(initial_row)
+                
+                # end of non copy pasted piece
+                
                 # Reconstruct the forms with the new revision data.
                 formset.initial = initial
                 formset.forms = [formset._construct_form(n) for n in xrange(len(initial))]
