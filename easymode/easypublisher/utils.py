@@ -3,7 +3,7 @@ Contains tools to enable preview of drafts.
 """
 from lxml import etree
 from reversion.models import Revision
-
+from copy import deepcopy
 from easymode.tree.serializers import RecursiveXmlSerializer
 
 
@@ -97,17 +97,17 @@ def insert_draft(revision_id, xml):
     :param xml: A string that can be parsed as valid xml.
     :result: An xml string with the revision data included.
     """
-
+    
     revision_tree = RevisionTree(revision_id)
     xml_doc = etree.fromstring(xml)
-
+    
     # each separated versioned object should be replaced separately, because
     # for example list_editable view changes have many unrelated objects in 
     # a single revision
     for draft_node in revision_tree.nodelist:
         for matching_node in xml_doc.xpath(revision_tree.xpath_for_node(draft_node)):
-            matching_node.getparent().replace(matching_node, draft_node)
-
+            matching_node.getparent().replace(matching_node, deepcopy(draft_node))
+    
     # when the revision is normal and not from a list_editable view, there is one
     # top node and the rest are related items. Create a tree structure with all
     # the related items as a tree, like easymode's recursive xml serializer does
@@ -115,7 +115,7 @@ def insert_draft(revision_id, xml):
     top_node = revision_tree.topnode
     
     for matching_node in xml_doc.xpath(revision_tree.xpath_for_node(top_node)):
-        matching_node.getparent().replace(matching_node, top_node)
+        matching_node.getparent().replace(matching_node, deepcopy(top_node))
     
     return etree.tostring(xml_doc)
 
