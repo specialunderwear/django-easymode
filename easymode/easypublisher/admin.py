@@ -373,7 +373,10 @@ class EasyPublisher(VersionAdmin):
                         # deleted the id.
                         pass
                     
-                    initial.append(initial_row)
+                    # we didn't convert related_versions to a dict so there can be
+                    # duplicate keys in the thingy
+                    if not initial_row in initial:
+                        initial.append(initial_row)
                 
                 # end of non copy pasted piece
                 
