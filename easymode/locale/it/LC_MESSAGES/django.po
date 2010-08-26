@@ -1,0 +1,158 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# , 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-03 17:27+0100\n"
+"PO-Revision-Date: 2010-08-26 10:39+0200\n"
+"Last-Translator: \n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.4.4.svn\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin/fields.py:121
+msgid "Alleen valide urls of relative flash urls die beginnen met #/ zijn geoorloofd"
+msgstr "Sono permesse solo URL valide o url flash che iniziano con #/"
+
+#: easypublisher/admin.py:53
+msgid "Ongepubliceerde items"
+msgstr "Oggetti non pubblicati"
+
+#: easypublisher/admin.py:99
+#, python-format
+msgid "There is no draft available for language %s"
+msgstr "Non c'è nessuna bozza disponibile per la lingua %s"
+
+#: easypublisher/admin.py:104
+#, python-format
+msgid "Publish %(name)s"
+msgstr "Pubblica %(name)s"
+
+#: easypublisher/admin.py:253
+#, python-format
+msgid "Publisher message %(datetime)s"
+msgstr "Messaggio dell'autore %(datetime)s"
+
+#: easypublisher/admin.py:255
+#, python-format
+msgid "%(model)s \"%(name)s\" publisher message."
+msgstr "messaggio dell'autore di %(model)s \"%(name)s\""
+
+#: easypublisher/models.py:6
+msgid "Published"
+msgstr "Pubblicato"
+
+#: easypublisher/models.py:7
+msgid "Draft"
+msgstr "Bozza"
+
+#: easypublisher/models.py:8
+msgid "Needs work"
+msgstr "Necessita Modifiche"
+
+#: easypublisher/models.py:9
+msgid "Updated"
+msgstr "Aggiornato"
+
+#: easypublisher/models.py:21
+msgid "Publication Status"
+msgstr "Stato di pubblicazione"
+
+#: easypublisher/models.py:22
+msgid "Language"
+msgstr "Lingua"
+
+#: easypublisher/templates/easymode/easypublisher/change_form.html:9
+#: easypublisher/templates/easymode/easypublisher/object_history.html:26
+msgid "Latest Draft"
+msgstr "Ultima Bozza"
+
+#: easypublisher/templates/easymode/easypublisher/change_form.html:10
+#: easypublisher/templates/easymode/easypublisher/object_history.html:18
+#: easypublisher/templates/easymode/easypublisher/object_history.html:31
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:8
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:30
+msgid "Drafts"
+msgstr "Bozze"
+
+#: easypublisher/templates/easymode/easypublisher/change_form.html:12
+#: easypublisher/templates/easymode/easypublisher/object_history.html:29
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:9
+msgid "History"
+msgstr "Storia"
+
+#: easypublisher/templates/easymode/easypublisher/change_form.html:13
+#: easypublisher/templates/easymode/easypublisher/object_history.html:33
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:10
+msgid "View on site"
+msgstr "Guarda sul sito"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:9
+msgid "(items met status \"draft\")"
+msgstr "(oggetti marcati come \"bozza\")"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:14
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:22
+#: templates/tree/admin/change_form_with_parent_link.html:6
+msgid "Home"
+msgstr "Home"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:27
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:7
+msgid "Current"
+msgstr "Corrente"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:39
+msgid "Kies een draft uit de lijst om deze te kunnen publiceren."
+msgstr "Scegli una bozza dalla lista per poterla pubblicare"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:46
+msgid "Date/time"
+msgstr "Data/Orario"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:47
+msgid "User"
+msgstr "Utente"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:48
+msgid "Comment"
+msgstr "Commento"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:54
+msgid "DATETIME_FORMAT"
+msgstr "j N Y , P"
+
+#: easypublisher/templates/easymode/easypublisher/object_history.html:62
+msgid "This object doesn't have a change history. It probably wasn't added via this admin site."
+msgstr ""
+"Questo oggetto non ha una storia di cambiamenti. Probabilmente non è stato aggiunto tramite il "
+"sito admin."
+
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:18
+msgid "Press the save button below to make this draft the current version"
+msgstr "Premi il pulsante Salva sotto per fare in modo che questa versione sia quella corrente"
+
+#: easypublisher/templates/easymode/easypublisher/publish_form.html:31
+#, python-format
+msgid "Publish %(verbose_name)s"
+msgstr "Pubblica %(verbose_name)s"
+
+#: templates/tree/admin/change_form_with_parent_link.html:13
+msgid "Add"
+msgstr "Aggiungi"
+
+#: tests/testcases/testi18n.py:193
+msgid "test string"
+msgstr "stringa di test"
+
+#: tree/admin/formsets.py:29
+msgid "Navigate to:"
+msgstr "Apri:"
+
