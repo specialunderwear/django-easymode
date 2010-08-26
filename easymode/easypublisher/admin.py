@@ -226,6 +226,13 @@ class EasyPublisher(VersionAdmin):
         for metadata in version.revision.easypublishermetadata_set.all():
             if request.user.has_perm("easypublisher.can_approve_for_publication"):                
                 metadata.status = 'published'
+                # save all other drafts for this object as declined, because we
+                # chose to save a different one
+                for other in EasyPublisherMetaData.objects.filter(
+                    revision__version__object_id=version.object_id, 
+                    revision__version__content_type=version.content_type):
+                    other.status = 'declined'
+                    other.save()
             else:
                 metadata.status = 'updated'
             metadata.save()

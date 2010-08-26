@@ -24,7 +24,7 @@ class DraftListItems(template.Node):
             easypublishermetadata__status='draft',
             easypublishermetadata__language=request.LANGUAGE_CODE,
         ).select_related().distinct()
-    
+        
         output = u''
         for revision in revisions:
             # select version and make list item
@@ -38,11 +38,11 @@ class DraftListItems(template.Node):
                 name = 'admin:%s_%s_draft' % info
                 try:
                     url = reverse(name, args=[version.object_id, revision.id])
+                    url = strip_language_code(url)
+                    if not url in urls:
+                        urls[url] = version
                 except NoReverseMatch:
                     pass
-                url = strip_language_code(url)
-                if not url in urls:
-                    urls[url] = version
             
             for (url, version) in urls.iteritems():
                 output += u"<li><a href=\"%s\">%s</a></li>" % (url, version.object_repr)
