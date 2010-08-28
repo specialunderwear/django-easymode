@@ -363,7 +363,13 @@ class EasyPublisher(VersionAdmin):
                                          for related_version in revision_versions
                                          if ContentType.objects.get_for_id(related_version.content_type_id).model_class() == FormSet.model
                                          and unicode(related_version.field_dict[fk_name]) == unicode(object_id)]
-
+                
+                # all items that do not have their id filled in must stay.
+                # if they do in fact have an id, we only want the last one,
+                # no duplicates.
+                related_versions = [(key, value) for (key, value) in related_versions if key == 'None'] + \
+                    dict([(key, value) for (key, value) in related_versions if key != 'None']).items()
+                
                 initial = []
                 for related_obj in formset.queryset:
                     related_versions_dict = dict(related_versions)

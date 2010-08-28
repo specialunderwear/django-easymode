@@ -16,6 +16,7 @@
 		<field type="CharField" name="label">Editor created</field>
 		<field type="CharField" name="nogeenlabel">I am that editor</field>
 	</object>
+	
 	<!-- testeasypublisherrelatedmodel -->
 	<object pk="1" model="tests.testeasypublisherrelatedmodel">
 		<field to="tests.testeasypublishermodel" name="parent" rel="ManyToOneRel">1</field>
@@ -37,6 +38,7 @@
 		<field to="tests.testeasypublishermodel" name="parent" rel="ManyToOneRel">2</field>
 		<field type="CharField" name="extra">Admin rules!</field>
 	</object>
+	
 	<!-- version -->
 	<object pk="1" model="reversion.version">
 		<field to="reversion.revision" name="revision" rel="ManyToOneRel">1</field>
@@ -182,6 +184,7 @@
 		<field type="TextField" name="serialized_data">[{"pk": 5, "model": "tests.testeasypublisherrelatedmodel", "fields": {"parent": 2, "extra": "Admin rules!"}}]</field>
 		<field type="TextField" name="object_repr">Admin rules!</field>
 	</object>
+	
 	<!-- revision -->
 	<object pk="1" model="reversion.revision">
 		<field type="DateTimeField" name="date_created">2010-08-28 04:44:53</field>
@@ -208,6 +211,7 @@
 		<field to="auth.user" name="user" rel="ManyToOneRel">2</field>
 		<field type="TextField" name="comment">Added test easypublisher related model "Editor is not a prick". Changed extra for test easypublisher related model "Editor is the greatest".</field>
 	</object>
+	
 	<!-- easypublishermetadata -->
 	<object pk="1" model="easypublisher.easypublishermetadata">
 		<field to="reversion.revision" name="revision" rel="ManyToOneRel">3</field>
