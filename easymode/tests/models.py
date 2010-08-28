@@ -5,6 +5,7 @@ from django.db import models
 from easymode.admin.models.fields import DiocoreTextField, DiocoreHTMLField, FlashUrlField, DiocoreCharField
 from easymode.i18n.decorators import I18n
 from easymode.tree.decorators import toxml
+from easymode.easypublisher.models import EasyPublisherModel
 
 
 @toxml
@@ -60,13 +61,6 @@ class TagModel(models.Model):
 
 
 @toxml
-class UrlFieldTestModel(models.Model):
-    title    = models.CharField(max_length=256)
-    revision = models.PositiveIntegerField()
-    url      = FlashUrlField(max_length=256)
-
-
-@toxml
 @I18n('title', 'description')
 class TestL10nModel(models.Model):
 
@@ -101,3 +95,16 @@ class TestGenericFkModel(models.Model):
 
     def __unicode__(self):
         return u"%s%s" % (self.__class__.__name__, self.pk)
+
+class TestEasypublisherModel(EasyPublisherModel):
+    label = models.CharField(max_length=200)
+    nogeenlabel = models.CharField(max_length=200)
+    def __unicode__(self):
+        return "%s" % self.label
+    
+class TestEasypublisherRelatedModel(models.Model):
+    parent = models.ForeignKey(TestEasypublisherModel)
+    
+    extra = models.CharField(max_length=200)
+    def __unicode__(self):
+        return "%s" % self.extra

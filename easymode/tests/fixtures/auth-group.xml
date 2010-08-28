@@ -129,6 +129,26 @@
 				<natural>session</natural>
 			</object>
 			<object>
+				<natural>add_testeasypublishermodel</natural>
+				<natural>tests</natural>
+				<natural>testeasypublishermodel</natural>
+			</object>
+			<object>
+				<natural>change_testeasypublishermodel</natural>
+				<natural>tests</natural>
+				<natural>testeasypublishermodel</natural>
+			</object>
+			<object>
+				<natural>add_testeasypublisherrelatedmodel</natural>
+				<natural>tests</natural>
+				<natural>testeasypublisherrelatedmodel</natural>
+			</object>
+			<object>
+				<natural>change_testeasypublisherrelatedmodel</natural>
+				<natural>tests</natural>
+				<natural>testeasypublisherrelatedmodel</natural>
+			</object>
+			<object>
 				<natural>change_testl10nmodel</natural>
 				<natural>tests</natural>
 				<natural>testl10nmodel</natural>

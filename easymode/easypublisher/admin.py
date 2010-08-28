@@ -113,7 +113,10 @@ class EasyPublisher(VersionAdmin):
         """
         
         obj = get_object_or_404(self.model, pk=object_id)
-        version = get_object_or_404(Version, revision=revision_id, object_id=force_unicode(obj.pk))
+        version = get_object_or_404(Version,
+            revision=revision_id,
+            object_id=force_unicode(obj.pk),
+            content_type=ContentType.objects.get_for_model(obj))
         
         if not version.revision.easypublishermetadata_set.filter(language=request.LANGUAGE_CODE):
             request.user.message_set.create(message=_("There is no draft available for language %s") % request.LANGUAGE_CODE)

@@ -29,8 +29,14 @@ class SelfAwareTestModelAdmin(relation.ForeignKeyAwareModelAdmin):
 class TestL10nModelAdmin(EasyPublisher):
     pass
 
+class TestEasypublisherInline(admin.StackedInline):
+    model = test_models.TestEasypublisherRelatedModel
 
+class TestEasypublisherAdmin(EasyPublisher):
+    inlines = [TestEasypublisherInline]
+    
 admin.site.register(test_models.TestModel, TestModelAdmin)
 admin.site.register(test_models.TestSubModel)
 admin.site.register(test_models.TestSecondSubmodel)
 admin.site.register(test_models.TestL10nModel, TestL10nModelAdmin)
+admin.site.register(test_models.TestEasypublisherModel, TestEasypublisherAdmin)

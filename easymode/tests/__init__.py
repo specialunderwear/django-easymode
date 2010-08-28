@@ -16,8 +16,12 @@ from easymode.utils.languagecode import get_language_codes,\
     localize_fieldnames, get_real_fieldname, strip_language_code,\
     get_short_language_codes
 from easymode.utils.standin import standin_for
-from easymode.easypublisher.utils import filter_unpublished
 
+# hack to work around cyclic import in test suite I can't find (yet!)
+if 'easymode.tests' in settings.INSTALLED_APPS:
+    filter_unpublished = None
+else:
+    from easymode.easypublisher.utils import filter_unpublished
 
 # check if some required settings are fulfilled
 if 'de' not in get_language_codes():
