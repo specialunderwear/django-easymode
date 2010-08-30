@@ -24,6 +24,14 @@ To use the publisher you have to include ``easymode.easypublisher`` in your
     
     admin.site.register(Foo, FooAdmin)
 
+The models you register with :class:`~easymode.easypublisher.admin.EasyPublisher`
+should have a *published* property which must be a
+:class:`~django.db.models.BooleanField`::
+
+    class Foo(models.Model):
+        published = models.BooleanField(default=True)
+
+You can also use
 A new permission will be added ``easypublisher.can_approve_for_publication`` if some
 body does *NOT* have this permission, all their changes will only be saved as versions
 and never in the database. All people who *DO* have this permission can view the list
