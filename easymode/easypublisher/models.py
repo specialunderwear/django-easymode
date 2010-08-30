@@ -17,8 +17,6 @@ class EasyPublisherModelManager(models.Manager):
     """
     A default manager that will only return published items.
     """
-    use_for_related_fields = True
-    
     def get_query_set(self):
         return super(EasyPublisherModelManager, self).get_query_set().filter(published=True)
 
