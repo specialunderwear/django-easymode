@@ -34,56 +34,6 @@
 				<natural>easypublishermetadata</natural>
 			</object>
 			<object>
-				<natural>add_bar</natural>
-				<natural>foobar</natural>
-				<natural>bar</natural>
-			</object>
-			<object>
-				<natural>change_bar</natural>
-				<natural>foobar</natural>
-				<natural>bar</natural>
-			</object>
-			<object>
-				<natural>delete_bar</natural>
-				<natural>foobar</natural>
-				<natural>bar</natural>
-			</object>
-			<object>
-				<natural>add_baz</natural>
-				<natural>foobar</natural>
-				<natural>baz</natural>
-			</object>
-			<object>
-				<natural>change_baz</natural>
-				<natural>foobar</natural>
-				<natural>baz</natural>
-			</object>
-			<object>
-				<natural>delete_baz</natural>
-				<natural>foobar</natural>
-				<natural>baz</natural>
-			</object>
-			<object>
-				<natural>add_foo</natural>
-				<natural>foobar</natural>
-				<natural>foo</natural>
-			</object>
-			<object>
-				<natural>can_edit_untranslated_fields_of_foo</natural>
-				<natural>foobar</natural>
-				<natural>foo</natural>
-			</object>
-			<object>
-				<natural>change_foo</natural>
-				<natural>foobar</natural>
-				<natural>foo</natural>
-			</object>
-			<object>
-				<natural>delete_foo</natural>
-				<natural>foobar</natural>
-				<natural>foo</natural>
-			</object>
-			<object>
 				<natural>add_revision</natural>
 				<natural>reversion</natural>
 				<natural>revision</natural>
