@@ -19,7 +19,7 @@ if not 'easymode.easypublisher' in settings.INSTALLED_APPS:
 if not 'reversion' in settings.INSTALLED_APPS:
     raise Exception('''Can not run easypublisher tests without reversion in INSTALLED_APPS''')
 
-__all__ = ('TestEasyPublisher',)
+__all__ = ('TestEasyPublisher', 'TestEasyPublisherInline')
 
 @initdb
 class TestEasyPublisher(TestCase):
@@ -165,3 +165,10 @@ class TestEasyPublisher(TestCase):
         data = self.test_publication_workflow()
         self.failUnlessEqual(data.price, self.post_data['price'])
         self.failUnlessEqual(data.body, self.post_data['body'])
+
+@initdb
+class TestEasyPublisherInline(TestCase):
+    fixtures = ['auth-user', 'auth-group', 'tests-testeasypublisher']
+    
+    def test_admin_can_approve(self):
+        pass
