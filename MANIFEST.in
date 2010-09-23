@@ -4,7 +4,7 @@ include MANIFEST.in
 include TODO
 include docs/conf.py
 include docs/Makefile
-include docs/easypublisher.md
+include docs/api.md
 include docs/index.md
 include docs/settings.md
 include docs/commands.md
@@ -15,6 +15,7 @@ include docs/debug.md
 include docs/fields.md
 include docs/details.md
 recursive-include docs/i18n *.md *.png
+recursive-include docs/easypublisher *.md *.png
 recursive-include docs/tree *.md *.png
 recursive-include docs/xslt *.md *.png
 recursive-include docs/utils *.md
