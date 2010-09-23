@@ -90,6 +90,16 @@ Most these features are not supported because the ammount of work to have them
 was greater than the benefit of having them. However, it could also be that I
 just `didn't need it yet <http://c2.com/xp/YouArentGonnaNeedIt.html>`_.
 
+Actionscript bindings
+=====================
+
+If you are developing flex or flash sites with easymode, you are invited to try
+out the new actionscript bindings at
+
+http://github.com/specialunderwear/robotlegs-dungdungdung
+
+These integrate object creation and databinding for easymode's xml output.
+
 Api docs
 ========
 

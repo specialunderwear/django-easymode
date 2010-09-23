@@ -1,23 +1,23 @@
-include README.md
+include README.rst
 include LICENSE
 include MANIFEST.in
 include TODO
 include docs/conf.py
 include docs/Makefile
-include docs/api.md
-include docs/index.md
-include docs/settings.md
-include docs/commands.md
-include docs/middleware.md
-include docs/templatetags.md
-include docs/changes.md
-include docs/debug.md
-include docs/fields.md
-include docs/details.md
-recursive-include docs/i18n *.md *.png
-recursive-include docs/easypublisher *.md *.png
-recursive-include docs/tree *.md *.png
-recursive-include docs/xslt *.md *.png
-recursive-include docs/utils *.md
+include docs/api.rst
+include docs/index.rst
+include docs/settings.rst
+include docs/commands.rst
+include docs/middleware.rst
+include docs/templatetags.rst
+include docs/changes.rst
+include docs/debug.rst
+include docs/fields.rst
+include docs/details.rst
+recursive-include docs/i18n *.rst *.png
+recursive-include docs/easypublisher *.rst *.png
+recursive-include docs/tree *.rst *.png
+recursive-include docs/xslt *.rst *.png
+recursive-include docs/utils *.rst
 recursive-include example *.py *.txt *.html *.po *.xml *.xslt *.xsl *.js
 recursive-include easymode *.py *.txt *.html *.po *.xml *.xslt *.xsl *.js
