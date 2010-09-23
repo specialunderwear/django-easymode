@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+v0.13.3
+
+- register_all will nolonger try to register abstract models
+- search_fields is now supported for ModelAdmin classes that use L10n, however it
+  will not let you access related items.
+- You can now use fieldsets with the *Can edit untranslated fields* permission.
+- Added support for creating new objects to easypublisher.
+- Added tools to build preview functionality for drafts.
+- Added filter that removes unpublished items from the xml.
+- fixed error 'cannot import name introspection' caused by a circular import.
+
 v0.10.5
 -------
 
