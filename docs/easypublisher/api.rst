@@ -11,6 +11,8 @@
 
 .. autoclass:: easymode.easypublisher.admin.EasyPublisher
 
+.. autoclass:: easymode.easypublisher.admin.EasyPublisherFKAModelAdmin
+
 .. autoclass:: easymode.easypublisher.admin.EasyPublisherInvisibleModelAdmin
 
 :mod:`easymode.easypublisher.models`

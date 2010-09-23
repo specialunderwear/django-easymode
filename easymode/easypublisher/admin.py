@@ -25,7 +25,7 @@ from easymode.easypublisher.models import EasyPublisherMetaData, EasyPublisherMo
 from easymode.tree.admin.relation import ForeignKeyAwareModelAdmin, InvisibleModelAdmin
 from easymode.utils import first_match
 
-__all__ = ('EasyPublisher', 'EasyPublisherInvisibleModelAdmin')
+__all__ = ('EasyPublisher', 'EasyPublisherInvisibleModelAdmin', 'EasyPublisherFKAModelAdmin')
 
 def _eq(self, obj):
     "Helper to have proper equality for models"

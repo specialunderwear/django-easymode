@@ -57,9 +57,9 @@ Use easypublisher together with ForeignKeyAwareModelAdmin
 
 In case you want to use easypublisher together with :mod:`easymode.tree.admin.relation`
 you will find that multiple inheritance doesn't work due to conflicts. Instead,
-use :class:`easymode.easypublisher.admin.EasyPublisherFKAModelAdmin` where you would
+use :class:`~easymode.easypublisher.admin.EasyPublisherFKAModelAdmin` where you would
 use :class:`~easymode.tree.admin.relation.ForeignKeyAwareModelAdmin` and 
-:class:`easymode.easypublisher.admin.EasyPublisherInvisibleModelAdmin` where you would
+:class:`~easymode.easypublisher.admin.EasyPublisherInvisibleModelAdmin` where you would
 use :class:`~easymode.tree.admin.relation.InvisibleModelAdmin`. 
 
 More info about these admin classes is in :ref:`tree_explanation`.
@@ -72,7 +72,8 @@ to implement preview of drafted content for flash sites. The request views will 
 an extra querystring parameter called ``preview`` which contains the revision id.
 
 In your view function you can then use this to obtain and insert the drafted content
-in the xml that easymode produces.
+in the xml that easymode produces. Some convenience functions are defined in
+:mod:`easymode.easypublisher.response` and :mod:`easymode.easypublisher.utils`.
 
 Easypublisher templatetag :func:`~easymode.easypublisher.templatetags.easypublisher.draft_list_items`
 -----------------------------------------------------------------------------------------------------
