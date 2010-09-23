@@ -4,7 +4,12 @@ An extra query parameter will be passed to the view:
 
 ?preview=revision_id
 
-Also the shortcut is not named 'r' but 'p' for preview
+Also the shortcut is not named 'r' but 'p' for preview.
+
+include these urls in your urlconf like this::
+
+    (r'^', include('easymode.easypublisher.urls')),
+
 """
 from django.conf.urls.defaults import *
 

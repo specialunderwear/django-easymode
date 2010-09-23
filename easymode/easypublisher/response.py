@@ -1,3 +1,7 @@
+"""
+:func:`~django.shortcuts.render_to_response` like functions, that help you
+create views with filtered xml.
+"""
 from django.http import HttpResponse
 
 from easymode.easypublisher.utils import filter_unpublished, insert_draft

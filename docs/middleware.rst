@@ -14,5 +14,14 @@ request to the cache* if you use it.
 Internationalization related middleware
 ---------------------------------------
 
+When using the internationalization middlewares, you should include *easymode.urls*
+in your url conf::
+
+    (r'^', include('easymode.urls')),
+
+This will make sure that when you have defined *get_abolute_url* on your model,
+the *view on site* button will lead you to the page in the language you have currently
+selected.
+
 .. automodule:: easymode.middleware
     :members: LocaleFromUrlMiddleWare, LocaliseUrlsMiddleware, ShortLocaleFromUrlMiddleWare, ShortLocaleLocaliseUrlsMiddleware

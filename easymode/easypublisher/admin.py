@@ -44,7 +44,11 @@ def _eq(self, obj):
     return True
 
 class EasyPublisher(VersionAdmin):
-    """docstring for EasyPublisher"""
+    """
+    An admin class that adds approval functionality to the django admin.
+    
+    Drafts will be saved as revisions using reversion.
+    """
     
     object_history_template = "easymode/easypublisher/object_history.html"
     revision_form_template = "easymode/easypublisher/publish_form.html"
@@ -515,7 +519,11 @@ def _add_invisible_model_admin_behaviour(method):
     return altered_view
 
 class EasyPublisherInvisibleModelAdmin(EasyPublisher, InvisibleModelAdmin):
-    """fixes the collision between EasyPublisher and InvisibleModelAdmin"""
+    """
+    fixes the collision between EasyPublisher and InvisibleModelAdmin
+    
+    see :mod:`easymode.tree.admin.relation`
+    """
         
     def get_model_perms(self, request):
         perms = super(EasyPublisherInvisibleModelAdmin, self).get_model_perms(request)

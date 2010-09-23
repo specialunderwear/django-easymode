@@ -18,7 +18,7 @@ Table of contents
     i18n/translation
     xslt/index
     tree/index
-    easypublisher
+    easypublisher/index
     settings
     commands
     templatetags
@@ -96,9 +96,11 @@ Api docs
 .. toctree::
     :maxdepth: 2
 
+    api
     i18n/api
     tree/api
     xslt/api
+    easypublisher/api
     utils/api
     fields
     debug    
