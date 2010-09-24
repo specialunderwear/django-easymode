@@ -19,6 +19,8 @@ from weakref import WeakKeyDictionary
 
 from django.db.models.signals import post_save
 
+import easymode.i18n.gettext
+
 __all__ = ('register', 'unregister', 'admin', 'decorators', 'gettext', 'meta')
 
 _post_save_handlers = WeakKeyDictionary()
@@ -52,11 +54,8 @@ def register(cls, location=None):
         or a file name. If left unspecified, ``settings.LOCALE_DIR`` or\
         ``settings.PROJECT_DIR`` will be used.
     """
-    # fixes circular import in easymode.tree.admin.relation 
-    # for module introspection
-    from easymode.i18n.gettext import MakeModelMessages
     
-    create_po_for_model = MakeModelMessages(location, cls)
+    create_po_for_model = easymode.i18n.gettext.MakeModelMessages(location, cls)
     
     _post_save_handlers[cls] = create_po_for_model
     

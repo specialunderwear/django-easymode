@@ -18,7 +18,7 @@ from django.utils.translation import templatize, to_locale, get_language
 from django.utils import tzinfo
 from django.template.loader import render_to_string
 
-from easymode.tree import introspection
+import easymode.tree.introspection
 from easymode.utils import mutex
 from easymode.utils.languagecode import get_language_codes
 from easymode.utils import polibext
@@ -42,7 +42,8 @@ source_re = re.compile(r'#: .*?:(\d+)', re.UNICODE)
 
 # check if we have a crap version of xgettext
 XGETTEXT_REENCODES_UTF8 = False
-p = subprocess.Popen('xgettext --version', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = subprocess.Popen('xgettext --version', shell=True, stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 (msg, err) = p.communicate()
 match = re.search(r'(?P<major>\d+)\.(?P<minor>\d+)', msg)
 if match:
@@ -62,7 +63,8 @@ class MakeModelMessages(object):
     def __init__(self, location=None, sender=None):
 
         if location is None:
-            self.location = (hasattr(settings, 'LOCALE_DIR') and settings.LOCALE_DIR) or settings.PROJECT_DIR
+            self.location = (hasattr(settings, 'LOCALE_DIR') and \
+                settings.LOCALE_DIR) or settings.PROJECT_DIR
         elif os.path.isdir(location) is False and os.path.exists(location):
             self.location = os.path.dirname(location)
         else:
@@ -93,7 +95,8 @@ class MakeModelMessages(object):
             # for each language create a po file
             for language in get_language_codes():
                 
-                locale_dir = os.path.join( self.location , 'locale', to_locale(language), 'LC_MESSAGES')
+                locale_dir = os.path.join( self.location , 'locale',
+                    to_locale(language), 'LC_MESSAGES')
                 locale_file = os.path.join( locale_dir, 'django.po')
 
                 # create locale dir if not available
@@ -137,7 +140,7 @@ class MakeModelMessages(object):
         # create po stream with header
         po_stream = polibext.PoStream(StringIO.StringIO(self.po_header)).parse()
         
-        for (name, field) in introspection.get_default_field_descriptors(model):
+        for (name, field) in easymode.tree.introspection.get_default_field_descriptors(model):
             occurrence = u"%s.%s.%s" % (model._meta.app_label, model.__class__.__name__, name)
             value = field.value_to_string(model)
             
@@ -158,9 +161,12 @@ class MakeModelMessages(object):
     def xgettext(self, template):
         """Extracts to be translated strings from template and turns it into po format."""
         
-        cmd = 'xgettext -d django -L Python --keyword=gettext_noop --keyword=gettext_lazy --keyword=ngettext_lazy:1,2 --from-code=UTF-8 --output=- -'
+        cmd = 'xgettext -d django -L Python --keyword=gettext_noop \
+            --keyword=gettext_lazy --keyword=ngettext_lazy:1,2 --from-code=UTF-8 \
+            --output=- -'
 
-        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         (msg, err) = p.communicate(input=templatize(template))
         
         if err:
@@ -184,7 +190,8 @@ class MakeModelMessages(object):
         """
         
         cmd = "msgmerge -q %s -" % locale_file
-        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
+        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
         (msg, err) = p.communicate(input=po_string)
         
         if err:
@@ -201,7 +208,8 @@ class MakeModelMessages(object):
         
         # group related language strings together.
         # except if no real entries where written or the header will be removed.
-        p = subprocess.Popen('msguniq --to-code=utf-8 %s' % (locale_file,), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
+        p = subprocess.Popen('msguniq --to-code=utf-8 %s' % (locale_file,),
+            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE )
         (msg, err) = p.communicate()
     
         if err:
@@ -211,7 +219,10 @@ class MakeModelMessages(object):
                 err = unicodedata.normalize('NFKD', err.decode('utf-8')).encode('ascii','ignore')
             except UnicodeError:
                 err = "can not decode error message"
-            raise CommandError(u"error happened while running msguniq on: %s %s" % (locale_file, err))
+            raise CommandError(
+                u"error happened while running msguniq on: %s %s" % \
+                    (locale_file, err)
+            )
 
         return msg
         
