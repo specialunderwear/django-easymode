@@ -27,6 +27,15 @@ def standin_for(obj, **attrs):
     True
     >>> type(b)
     <class 'easymode.utils.standin.unicodeOriginAndPackageStandIn'>
+    >>> import pickle
+    >>> b_pickle = pickle.dumps(b, pickle.HIGHEST_PROTOCOL)
+    >>> c = pickle.loads(b_pickle)
+    >>> b == c
+    True
+    >>> c.origin
+    'outerspace'
+    >>> c.package
+    'easymode.utils.standin'
     
     Some types are not supported by standin_for. This is because these types are often used in statements like::
         
@@ -57,13 +66,6 @@ def standin_for(obj, **attrs):
     :rtype: A new object that can be used where the original was used. However it has extra attributes.
     """
     
-    # Contruct __reduce__ method, so the resulting class can be pickled
-    attrs_org = attrs.copy() # Create a copy to be used forx the recude method
-    def __reduce__(self, ignore=None):
-        return (dict_standin_for, (obj, attrs_org))
-    attrs['__reduce__'] = __reduce__
-    attrs['__reduce_ex__']= __reduce__
-        
     obj_class = obj.__class__
     if obj_class is bool or obj_class is NoneType:
         # we can not have a standing for bool or NoneType
@@ -75,6 +77,13 @@ def standin_for(obj, **attrs):
     
     attr_names  = attrs.keys()
     attr_names.sort()
+
+    # Contruct __reduce__ method, so the resulting class can be pickled
+    attrs_org = attrs.copy() # Create a copy to be used forx the recude method
+    def __reduce__(self, ignore=None):
+        return (dict_standin_for, (obj, attrs_org))
+    attrs['__reduce__'] = __reduce__
+    attrs['__reduce_ex__']= __reduce__
 
     # create a readable class name eg. unicodeAndTitleAndDescription
     additions = 'And'.join(map(capfirst, attr_names))
