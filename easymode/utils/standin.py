@@ -4,8 +4,7 @@ from django.utils.text import capfirst
 __all__ = ('standin_for',)
 
 _defined_standins = dict()
-
-
+    
 def standin_for(obj, **attrs):
     """
     Returns an object that can be used as a standin for the original object.
@@ -58,6 +57,13 @@ def standin_for(obj, **attrs):
     :rtype: A new object that can be used where the original was used. However it has extra attributes.
     """
     
+    # Contruct __reduce__ method, so the resulting class can be pickled
+    attrs_org = attrs.copy() # Create a copy to be used forx the recude method
+    def __reduce__(self, ignore=None):
+        return (dict_standin_for, (obj, attrs_org))
+    attrs['__reduce__'] = __reduce__
+    attrs['__reduce_ex__']= __reduce__
+        
     obj_class = obj.__class__
     if obj_class is bool or obj_class is NoneType:
         # we can not have a standing for bool or NoneType
@@ -90,7 +96,7 @@ def standin_for(obj, **attrs):
             stand_in.__dict__.update(obj.__dict__)
         except (AttributeError, TypeError):
             stand_in = obj
-    
+
     # add extra attrs
     try:
         for (key, value) in attrs.iteritems():
@@ -100,3 +106,6 @@ def standin_for(obj, **attrs):
         return obj
     
     return stand_in
+    
+def dict_standin_for(obj, attrs):
+    return standin_for(obj, **attrs)
