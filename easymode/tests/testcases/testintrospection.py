@@ -49,3 +49,12 @@ class TestIntrospection(TestCase):
             self.failUnlessEqual(type(value), DefaultFieldDescriptor)
         
         self.failUnlessEqual(len(descriptors), 2)
+
+        descriptors = introspection.get_default_field_descriptors(ManagerErrorModel.objects.get(pk=1))
+
+        for (key, value) in descriptors:
+            self.failUnlessEqual(type(value), DefaultFieldDescriptor)
+        
+        self.failUnlessEqual(len(descriptors), 2)
+        
+        
