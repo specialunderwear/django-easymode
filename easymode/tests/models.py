@@ -108,3 +108,12 @@ class TestEasypublisherRelatedModel(models.Model):
     extra = models.CharField(max_length=200)
     def __unicode__(self):
         return "%s" % self.extra
+
+@I18n('a', 'b')
+class ManagerErrorModel(models.Model):
+    a = models.CharField(max_length=255)
+    b = models.ImageField(upload_to='uploads')
+    c = models.TextField()
+
+    def __unicode__(self):
+        return u"%s %s %s %s" % (self.pk, self.a, self.b, self.c)

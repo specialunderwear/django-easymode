@@ -3,6 +3,7 @@ functionality for finding inverse foreign key relations in model classes
 """
 import inspect
 
+from django.conf import settings
 from django.contrib.contenttypes.generic import ReverseGenericRelatedObjectsDescriptor
 from django.db.models.fields.related import ForeignRelatedObjectsDescriptor, SingleRelatedObjectDescriptor
 from django.db.models.base import ModelBase
@@ -32,23 +33,23 @@ def _get_members_of_type(obj, member_type):
     :param member_type: The type of the menber we are trying to find.
     :rtype: A :class:`list` of ``member_type`` found in ``obj``
     """
-    try:
-        def filter_member_type(member):
+    
+    if not issubclass(type(obj), ModelBase):
+        obj = obj.__class__
+        
+    key_hash = []
+    for key in dir(obj):
+        try:
+            attr = getattr(obj, key)
+        except AttributeError as e:
             try:
-                return type(member) is member_type
-            except AttributeError:
-                return False
-                
-        # if the type of obj is the metaclass for all models, just search in the object
-        # because it is not a model instance but a type
-        if type(obj) is ModelBase:
-            key_hash = inspect.getmembers(obj, filter_member_type)
-        else:
-            key_hash = inspect.getmembers(obj.__class__, filter_member_type)
-            
-    except AttributeError as e:
-        raise AttributeError(SUBFIELDBASE_ERROR % (e, obj, member_type))
+                attr = obj.__dict__[key]
+            except KeyError:
+                raise AttributeError(SUBFIELDBASE_ERROR % (e, obj, member_type))
 
+        if type(attr) is member_type:
+            key_hash.append((key, attr))
+    
     return key_hash
 
 def get_foreign_key_desciptors(obj):
