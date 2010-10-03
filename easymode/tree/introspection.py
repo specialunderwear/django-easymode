@@ -1,14 +1,12 @@
 """
 functionality for finding inverse foreign key relations in model classes
 """
-import inspect
-
-from django.conf import settings
 from django.contrib.contenttypes.generic import ReverseGenericRelatedObjectsDescriptor
-from django.db.models.fields.related import ForeignRelatedObjectsDescriptor, SingleRelatedObjectDescriptor
 from django.db.models.base import ModelBase
+from django.db.models.fields.related import ForeignRelatedObjectsDescriptor, SingleRelatedObjectDescriptor
 
 from easymode.i18n.meta import DefaultFieldDescriptor
+
 
 INTROSPECTION_ERROR = """
 %s
