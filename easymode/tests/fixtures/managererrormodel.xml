@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="tests.managererrormodel">
+		<field type="CharField" name="a_en">english title a</field>
+		<field type="CharField" name="a_de">german titel a</field>
+		<field type="CharField" name="a_en-us">None</field>
+		<field type="FileField" name="b_en">uploads/11lekkerECHICKORIG.jpg</field>
+		<field type="FileField" name="b_de">uploads/111superlekkerechick.jpg</field>
+		<field type="FileField" name="b_en-us">None</field>		
+		<field type="TextField" name="c">title c</field>
+	</object>
+	<object pk="2" model="tests.managererrormodel">
+		<field type="CharField" name="a_en">english another title a</field>
+		<field type="CharField" name="a_de">German another title a</field>
+		<field type="CharField" name="a_en-us">US another title a</field>
+		<field type="FileField" name="b_en">uploads/111superlekkerechick.jpg</field>
+		<field type="FileField" name="b_de">None</field>
+		<field type="FileField" name="b_en-us">None</field>
+		<field type="TextField" name="c">another title c</field>
+	</object>
+</django-objects>
