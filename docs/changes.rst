@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+v0.13.5
+-------
+
+- Easymode nolonger patches SubFieldBase. Fields that throw Exceptions when their
+  descriptor is accessed can now also be internationalized using I18n. This
+  includes ImageField and FileField.
+
 v0.13.4
 -------
 
