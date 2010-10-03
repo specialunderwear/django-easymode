@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.13.4
+-------
+
+- :func:`~easymode.utils.standin.standin_for` now returns a standin that can be
+  pickled and unpickled.
+
 v0.13.3
 -------
 
