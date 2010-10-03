@@ -79,14 +79,14 @@ def _transform_lxml(xml, xslt_path, params=None):
 
 # determine which xslt engine to use,
 try:
+    from lxml import etree
+
+    transform = _transform_lxml
+except:
     import libxslt
     import libxml2
 
     transform = _transform_libxslt
-except:
-    from lxml import etree
-
-    transform = _transform_lxml
 
 
 def prepare_string_param(string):
