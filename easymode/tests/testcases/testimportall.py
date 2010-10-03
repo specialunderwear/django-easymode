@@ -10,16 +10,25 @@ try:
     from easymode.admin.models import *
     from easymode.debug import *
     from easymode.easypublisher import *
+    from easymode.easypublisher.admin import *
+    from easymode.easypublisher.models import *
+    from easymode.easypublisher.response import *
     from easymode.easypublisher.templatetags import *
+    from easymode.easypublisher.urls import *
+    from easymode.easypublisher.utils import *
+    from easymode.easypublisher.views import *
     from easymode.i18n import *
     from easymode.i18n.admin import *
     from easymode.management import *
+    from easymode.middleware import *
     from easymode.management.commands import *
     from easymode.templatetags import *
     from easymode.tree import *
     from easymode.tree.admin import *
     from easymode.tree.admin.widgets import *
+    from easymode.urls import *
     from easymode.utils import *
+    from easymode.views import *
     from easymode.xslt import *
 except Exception as e:
     error_while_importing = e
