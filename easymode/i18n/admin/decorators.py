@@ -117,7 +117,7 @@ class L10n(object):
 
         # hide added fields from form and admin
         cls.exclude = added_fields
-        cls.form = forms.make_localised_form(self.model, exclude=added_fields)
+        cls.form = forms.make_localised_form(self.model, cls.form, exclude=added_fields)
 
         # determine name of the permission to edit untranslated fields
         permisson_name = "%s.can_edit_untranslated_fields_of_%s" % (
