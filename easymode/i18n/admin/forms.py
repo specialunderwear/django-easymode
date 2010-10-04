@@ -142,7 +142,8 @@ def make_localised_form(model, form, exclude=None):
         else:
             form_field = default_field_descriptor.form_field
          
-        # modify formfield somewhat
+        # wrap the widget to show the origin of the value;
+        # either database, catalog or fallback.
         if type(form_field.widget) is not WidgetWrapper:
             form_field.widget = WidgetWrapper(form_field.widget)
          
@@ -152,8 +153,7 @@ def make_localised_form(model, form, exclude=None):
          setattr(form.Meta, 'model', model)
     else:
          newfields['Meta'] = type('Meta', tuple(), {'model':model})
+    
     newfields['localized_fields'] = model.localized_fields
 
-    frm = ModelFormMetaclass(model.__name__, (LocalisedForm, form), newfields)
-           
-    return frm
+    return ModelFormMetaclass(model.__name__, (LocalisedForm, form), newfields)
