@@ -3,6 +3,7 @@ from django.contrib import admin
 from easymode.easypublisher.admin import EasyPublisher
 from easymode.i18n.admin.decorators import L10n
 from easymode.tests import models as test_models
+from easymode.tests import forms as test_forms
 from easymode.tree.admin import relation
 
 
@@ -34,10 +35,16 @@ class TestEasypublisherInline(admin.StackedInline):
 
 class TestEasypublisherAdmin(EasyPublisher):
     inlines = [TestEasypublisherInline]
-    
+
+@L10n
+class FormTestAdmin(admin.ModelAdmin):
+    form = test_forms.OverrideForm
+    model = test_models.FormTestModel
+
 admin.site.register(test_models.TestModel, TestModelAdmin)
 admin.site.register(test_models.TestSubModel)
 admin.site.register(test_models.TestSecondSubmodel)
 admin.site.register(test_models.TestL10nModel, TestL10nModelAdmin)
 admin.site.register(test_models.TestEasypublisherModel, TestEasypublisherAdmin)
 admin.site.register(test_models.ManagerErrorModel)
+admin.site.register(test_models.FormTestModel, FormTestAdmin)

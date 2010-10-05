@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object pk="1" model="tests.formtestmodel">
+		<field type="IntegerField" name="number_en-us">
+			<None/>
+		</field>
+		<field type="IntegerField" name="number_de">
+			<None/>
+		</field>
+		<field type="IntegerField" name="number_en">100</field>
+		<field type="CharField" name="another_en-us">
+			<None/>
+		</field>
+		<field type="CharField" name="another_de">
+			<None/>
+		</field>
+		<field type="CharField" name="another_en">again</field>
+		<field type="CharField" name="other">hello</field>
+	</object>
+</django-objects>

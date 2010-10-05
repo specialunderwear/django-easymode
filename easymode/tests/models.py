@@ -117,3 +117,10 @@ class ManagerErrorModel(models.Model):
 
     def __unicode__(self):
         return u"%s %s %s %s" % (self.pk, self.a, self.b, self.c)
+
+@I18n('number', 'another')
+class FormTestModel(models.Model):
+    number = models.IntegerField()
+    other = models.CharField(max_length=255)
+    another = models.CharField(max_length=255)
+    

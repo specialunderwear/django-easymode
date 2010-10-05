@@ -135,10 +135,13 @@ def make_localised_form(model, form, exclude=None):
     newfields = {}  
     
     for localized_field in model.localized_fields:
-        # use the original formfield for all DefaultFieldDescriptors or the overridden one
+        # get the descriptor, which contains the form field
         default_field_descriptor = getattr(model, localized_field)
-        if hasattr(form, localized_field):
-            form_field = getattr(form, localized_field)
+        
+        # See if we've got overridden fields in a custom form.
+        if hasattr(form, 'declared_fields'):
+            form_field = form.declared_fields.get(
+                localized_field, default_field_descriptor.form_field)
         else:
             form_field = default_field_descriptor.form_field
          
