@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.13.6
+-------
+
+- You can now override the model form of an admin class decorated with L10n, just
+  like normal admin classes.
+
 v0.13.5
 -------
 
