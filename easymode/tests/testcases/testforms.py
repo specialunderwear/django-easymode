@@ -1,15 +1,8 @@
-import inspect
-
-from django.conf import settings
-from django.test import TestCase
-from django.utils.translation import activate
-from django.db.models.query_utils import CollectedObjects
 from django.core.urlresolvers import reverse
+from django.test import TestCase
 
-from easymode.tests.models import ManagerErrorModel
 from easymode.tests.testcases import initdb
-from easymode.tree import introspection
-from easymode.i18n.meta import DefaultFieldDescriptor
+
 
 __all__ = ('TestL10nForm',)
 
