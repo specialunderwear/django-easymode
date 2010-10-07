@@ -9,7 +9,7 @@ AUTO_CATALOG
 Easymode can manage a gettext catalog with your database content for you.
 If ``AUTO_CATALOG`` is ``True``, easymode will add every new object of a
 model decorated with :class:`~easymode.i18n.decorators.I18n` to the gettext
-catalog. 
+catalog. The default is ``False``.
 
 How does gettext work
 ~~~~~~~~~~~~~~~~~~~~~
