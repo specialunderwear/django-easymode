@@ -54,7 +54,9 @@ def get_localized_property(context, field=None, language=None):
             settings.LANGUAGE_CODE, 
         ]
         
-    predicate = lambda x: getattr(context, get_real_fieldname(field, x), None)
+    def predicate(x):
+        value = getattr(context, get_real_fieldname(field, x), None)
+        return value if valid_for_gettext(value) else None
 
     return first_match(predicate, attrs)
 
@@ -157,10 +159,14 @@ class DefaultFieldDescriptor(property):
             return vo.stored_value
         else:
             # we can not use the msgid for gettext lookups, so there is no
-            # point in trying. Also if we are sure we don't have any old
-            # translations in the catalog, we do not need to return a
-            # standin either
-            return vo.msgid
+            # point in trying. Check for fallback languages in database.
+            vo.fallback = get_localized_property(obj, self.name)
+            
+            if not valid_for_gettext(vo.fallback):
+                # Also if we are sure we don't have any old
+                # translations in the catalog or something for the fallback
+                # languages in the database, we do not need to return a standin either
+                return vo.msgid
         
         # we got here so we've got a valid messageid. Now collect data from the catalog(s)
         

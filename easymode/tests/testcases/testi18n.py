@@ -59,7 +59,7 @@ class Testi18n(TestCase):
             f.subsubmodels.create(subsubcharfield="Hoi ik ben de third level sub node")
             s.subsubmodels.create(subsubcharfield="Hoi ik ben de third level sub node")
             s.subsubmodels.create(subsubcharfield="Hoi ik ben de third level sub node")        
-            t.save()            
+            t.save()          
         except OSError as e:
             if e.errno == 24:
                 print "hai er zit een bug in de mutex"
@@ -238,6 +238,42 @@ class Testi18n(TestCase):
         assert(i.title_de is not None)
         assert(not (i.title == u'Ik ben een zwerver'))
         assert(i.title == u'Ik ben een konijntje')
+        
+    def test_fallback_translation(self):
+        """Fallback test"""
+        translation.activate(settings.LANGUAGE_CODE)
+        value = 'Hoi Ik ben de root node'
+        t = models.TestModel.objects.get(**{'charfield_en': value})
+        
+        translation.activate('de')
+        self.assertEqual(t.charfield, 'Hoi Ik ben de root node')
+        translation.activate('en-us')
+        self.assertEqual(t.charfield, 'Hoi Ik ben de root node')      
+          
+        translation.activate(settings.LANGUAGE_CODE)
+        
+    def test_translation_nomsgid(self):
+        """Tests if the fallback languages settings is used when there is no msgid(default language)"""
+        
+        # Extra setup
+        self.settingsManager.set(
+            LANGUAGE_CODE='en',
+            MSGID_LANUAGE='en',
+            FALLBACK_LANGUAGES={'de': ['en-us']}
+        )
+        translation.activate('en-us')
+        i = models.TestModel(charfield='Woot, not failed!')
+        i.save()
+        self.assertTrue(i.charfield == getattr(i, 'charfield_en-us') == 'Woot, not failed!')
+        translation.activate('de')
+
+        # Test
+        self.assertEqual(i.charfield, 'Woot, not failed!')
+
+        # Extra teardown
+        translation.activate(settings.LANGUAGE_CODE)
+        self.settingsManager.revert()
+         
         
     def test_translated_fields_handle_correctly_under_to_xml(self):
         """A field that is translated should show the correct value when converted to xml"""
