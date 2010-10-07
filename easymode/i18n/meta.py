@@ -53,7 +53,7 @@ def get_localized_property(context, field=None, language=None):
             translation.get_language()[:2],
             settings.LANGUAGE_CODE, 
         ]
-        
+    
     def predicate(x):
         value = getattr(context, get_real_fieldname(field, x), None)
         return value if valid_for_gettext(value) else None
@@ -177,7 +177,7 @@ class DefaultFieldDescriptor(property):
                 # first check if the database has the localized data in
                 # any of the fallback languages.
                 vo.fallback = get_localized_property(obj, self.name)
-
+                
                 # if the fallback is the same as the msgid, go and look in the catalog
                 if vo.fallback == vo.msgid:
                     # there might be a translation in any
@@ -188,6 +188,10 @@ class DefaultFieldDescriptor(property):
                         if self.to_python(msg) != vo.msgid:
                             vo.fallback = self.to_python(msg)
                             break
+                elif vo.fallback:
+                    # if a valid fallback is found, then, since the msg is equal
+                    # to the msgid, the fallback is the winner.
+                    vo.msg = vo.fallback
 
         # if we came here we collected data from the catalog and we should return
         # a standin. A standin is the return value, with some extra properties.
