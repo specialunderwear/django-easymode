@@ -5,7 +5,7 @@ the queryset used in the model.
 """
 
 from easymode.tree.serializers import RecursiveXmlSerializer
-from query import QuerySetManager, XmlSerializableQuerySet
+from easymode.tree.query import QuerySetManager, XmlSerializableQuerySet
 
 def toxml(cls):
     """
@@ -33,9 +33,9 @@ def toxml(cls):
         raise Exception("You can not use toxml on abstract classes")
         
     def __xml__(self):
-            """turn model object into xml recursively"""
-            ser = RecursiveXmlSerializer()
-            return ser.serialize([self])
+        """turn model object into xml recursively"""
+        ser = RecursiveXmlSerializer()
+        return ser.serialize([self])
     
     cls.add_to_class('objects', QuerySetManager(XmlSerializableQuerySet))
     cls.__xml__ = __xml__
