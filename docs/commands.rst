@@ -6,47 +6,22 @@ Management Commands
 easy_locale
 -----------
 
-Easy locale will update the gettext catalogs with content from the database.
-This can be specific to a single app or model.
+.. note::
 
-Help output::
+    Easy locale will update the gettext catalogs with content from the database.
+    This can be specific to a single app or model.
 
-    Usage: manage.py easy_locale [options] 
-
-
-            easy_locale <targetdir> <applabel>
-
-            Will create a folder locale in targetdir with locales parsed
-            from the models in applabel.
-
-            example:
-            ./manage.py easy_locale myapp myapp
-
-            will create myapp/locale/ with po files in it.
-
+.. automodule:: easymode.management.commands.easy_locale
 
 ..  _easy_reset_language:
 
 easy_reset_language
 -------------------
 
-This command will clear the database fields in one language for a specific app
-or model, so the translation will once again come from the catalog, instead of
-the database.
+.. note::
 
-Help output::
+    This command will clear the database fields in one language for a specific app
+    or model, so the translation will once again come from the catalog, instead of
+    the database.
 
-    Usage: manage.py easy_reset_language [options] 
-
-
-            easy_reset_language <target locale> <app>
-
-            will clear all fields for the locale in question so the values will be read from
-            the locale again.
-
-            example:
-            ./manage.py easy_reset_language en myapp.mymodel
-
-            This will clear myapp.mymodel in the en locale so all values
-            will be fetched by gettext instead of being overridden.
-    
+.. automodule:: easymode.management.commands.easy_reset_language

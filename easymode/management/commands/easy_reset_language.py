@@ -1,3 +1,16 @@
+"""
+    easy_reset_language <target locale> <app>
+    
+    will clear all fields for the locale in question so the values will be read from
+    the locale again.
+    
+    example:
+    ./manage.py easy_reset_language en myapp.mymodel
+    
+    This will clear myapp.mymodel in the en locale so all values
+    will be fetched by gettext instead of being overridden.
+"""
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import get_models, get_app, get_model
@@ -7,18 +20,7 @@ from django.utils import translation
 from easymode import i18n
 
 class Command(BaseCommand):
-    help = """
-        easy_reset_language <target locale> <app>
-        
-        will clear all fields for the locale in question so the values will be read from
-        the locale again.
-        
-        example:
-        ./manage.py easy_reset_language en myapp.mymodel
-        
-        This will clear myapp.mymodel in the en locale so all values
-        will be fetched by gettext instead of being overridden.
-    """
+    help = __doc__
     
     def handle(self, locale, app=None, **options):
         """ command execution """

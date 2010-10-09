@@ -1,3 +1,20 @@
+"""
+    easy_locale <targetdir> <applabel>
+    
+    Will create a folder locale in targetdir with locales who's
+    data comes from the models in applabel.
+    
+    example:
+    ./manage.py easy_locale myapp myapp
+    
+    will create myapp/locale/ with po files in it.
+    
+    Or:
+    ./manage.py easy_locale myapp myapp.mymodel
+    
+    which will only dump the MyModel objects to the database.
+"""
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import get_models, get_app, get_model
@@ -6,17 +23,8 @@ from django.utils import translation
 from easymode.i18n.gettext import MakeModelMessages
 
 class Command(BaseCommand):
-    help = """
-        easy_locale <targetdir> <applabel>
-        
-        Will create a folder locale in targetdir with locales parsed
-        from the models in applabel.
-        
-        example:
-        ./manage.py easy_locale myapp myapp
-        
-        will create myapp/locale/ with po files in it.
-    """
+    
+    help = __doc__
     
     def handle(self, targetdir, app=None, **options):
         """ command execution """
