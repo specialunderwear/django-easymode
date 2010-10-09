@@ -5,6 +5,7 @@
     data comes from the models in applabel.
     
     example:
+    
     ./manage.py easy_locale myapp myapp
     
     will create myapp/locale/ with po files in it.

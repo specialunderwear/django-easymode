@@ -1,3 +1,15 @@
+"""
+    easy_copy_language <source locale> <target locale> <app>
+    
+    will copy all internationalised fields from source to target for the app in question.
+    
+    example:
+    
+    ./manage.py easy_copy_language en de myapp.mymodel
+    
+    will copy the en fields into the de locale for myapp.mymodel
+"""
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import get_models, get_app, get_model
@@ -5,16 +17,7 @@ from django.utils.encoding import force_unicode
 from django.utils import translation
 
 class Command(BaseCommand):
-    help = """
-        easy_copy_language <source locale> <target locale> <app>
-        
-        will copy all internationalised fields from source to target for the app in question.
-        
-        example:
-        ./manage.py easy_copy_language en de myapp.mymodel
-        
-        will copy the en fields into the de locale for myapp.mymodel
-    """
+    help = __doc__
     
     def handle(self, source, target, app=None, **options):
         """ command execution """

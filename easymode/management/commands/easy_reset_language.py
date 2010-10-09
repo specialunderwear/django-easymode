@@ -5,6 +5,7 @@
     the locale again.
     
     example:
+    
     ./manage.py easy_reset_language en myapp.mymodel
     
     This will clear myapp.mymodel in the en locale so all values
