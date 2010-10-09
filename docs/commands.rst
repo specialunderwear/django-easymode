@@ -30,7 +30,7 @@ Help output::
 easy_reset_language
 -------------------
 
-This command will clear the database fields in one langugage for a specific app
+This command will clear the database fields in one language for a specific app
 or model, so the translation will once again come from the catalog, instead of
 the database.
 
