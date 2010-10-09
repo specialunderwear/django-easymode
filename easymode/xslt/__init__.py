@@ -16,7 +16,6 @@ def _transform_libxslt(xml, xslt, params=None):
 
     - `lxml <http://codespeak.net/lxml/>`_
     - `libxml <http://xmlsoft.org/python.html>`_
-    - `libxsltmod <http://www.rexx.com/~dkuhlman/libxsltmod.html>`_
 
     :param xml: The xml to be transformed.
     :param xslt: The xslt to be used when transforming the ``xml``.
