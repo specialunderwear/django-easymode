@@ -3,6 +3,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.models import save_instance
 
 
+__all__ = ('LocalizableGenericInlineFormSet',)
+
+
 class LocalizableGenericInlineFormSet(BaseGenericInlineFormSet):
     """
     Generic inline formset that is a bit less dumb about

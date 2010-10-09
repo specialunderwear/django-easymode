@@ -7,6 +7,8 @@ from easymode import i18n
 from easymode.i18n import meta
 
 
+__all__ = ('I18n',)
+
 class I18n(object):
     """
     Internationalise a model class.

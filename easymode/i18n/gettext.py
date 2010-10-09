@@ -38,6 +38,9 @@ else:
             otherwise easymode.i18n.gettext won't work"""
         )
 
+__all__ = ('MakeModelMessages', 'XGETTEXT_REENCODES_UTF8')
+
+
 source_re = re.compile(r'#: .*?:(\d+)', re.UNICODE)
 
 # check if we have a crap version of xgettext
