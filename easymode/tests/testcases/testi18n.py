@@ -45,7 +45,11 @@ class Testi18n(TestCase):
 
     fixtures = ['auth-user', 'auth-group']
     
-    def setUp(self):        
+    def setUp(self):
+        self.settingsManager.set(
+            MSGID_LANUAGE='en',
+            FALLBACK_LANGUAGES={'de': ['en-us']}
+        )
         gc.collect()
         translation.activate(settings.LANGUAGE_CODE)
         
@@ -248,7 +252,8 @@ class Testi18n(TestCase):
         # test gettext fallback
         translation.activate('de')
         self.assertEqual(t.charfield, 'Hoi Ik ben de root node')
-        
+
+        # change the translation in the fallback language of 'de'
         translation.activate('en-us')
         t.charfield = 'Hoi I am An american'
         t.save()
@@ -257,12 +262,13 @@ class Testi18n(TestCase):
         # test database fallback
         translation.activate('de')
         self.assertEqual(t.charfield, 'Hoi I am An american')
-        # translation.activate('en-us')
-          
-        translation.activate(settings.LANGUAGE_CODE)
-        
+
+
     def test_translation_nomsgid(self):
-        """Tests if the fallback languages settings is used when there is no msgid(default language)"""
+        """
+        When the msgid is None or empty, the value from the fallback language
+        should be used.
+        """
         
         # Extra setup
         translation.activate('en-us')
@@ -274,10 +280,7 @@ class Testi18n(TestCase):
         # Test
         self.assertEqual(i.charfield, 'Woot, not failed!')
 
-        # Extra teardown
-        translation.activate(settings.LANGUAGE_CODE)
-         
-        
+
     def test_translated_fields_handle_correctly_under_to_xml(self):
         """A field that is translated should show the correct value when converted to xml"""
 

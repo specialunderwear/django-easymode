@@ -50,7 +50,7 @@ LOCALE_DIR = '/tmp/'
 
 FALLBACK_LANGUAGES = {
     'en':[],
-    'de':['en-us'],
+    'de':['en'],
 }
 
 MSGID_LANGUAGE = 'en'
