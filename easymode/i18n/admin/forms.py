@@ -1,4 +1,3 @@
-from django import forms
 from django.forms.models import ModelFormMetaclass
 from django.forms.util import ErrorList, ValidationError
 from django.utils.datastructures import SortedDict
@@ -6,6 +5,9 @@ from django.utils.translation import get_language
 
 from easymode.i18n.admin.widgets import WidgetWrapper
 from easymode.utils.languagecode import get_real_fieldname
+
+
+__all__ = ('make_localised_form',)
 
 
 class LocalisedForm(object):

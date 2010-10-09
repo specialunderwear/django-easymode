@@ -1,6 +1,6 @@
-from django.forms.models import save_instance
 from django.contrib.contenttypes.generic import BaseGenericInlineFormSet
 from django.contrib.contenttypes.models import ContentType
+from django.forms.models import save_instance
 
 
 class LocalizableGenericInlineFormSet(BaseGenericInlineFormSet):
