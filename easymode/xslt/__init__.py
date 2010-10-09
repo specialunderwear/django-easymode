@@ -8,14 +8,6 @@ __all__ = ('XsltError', 'transform', 'prepare_string_param', 'response')
 class XsltError(Exception):
     """The xslt transformation resulted in an error"""
     pass
-    
-class MessageHandler:
-    def __init__(self):
-        self.content = ''
-    def write(self, msg):
-        self.content = self.content + msg
-    def getContent(self):
-        return self.content
 
 
 def _transform_libxslt(xml, xslt, params=None):
