@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.13.7
+-------
+
+- Fallbacks for translatable fields now also work when the first fallback is not
+  the MSGID_LANGUAGE.
+
 v0.13.6
 -------
 
