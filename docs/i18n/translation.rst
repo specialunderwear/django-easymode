@@ -148,7 +148,7 @@ Example::
 What you'll notice is that ``m.bar`` is allready available in the language 'yx'
 even though we did't specify it's value yet. This is because the normal behaviour
 of gettext is to return the ``msgid`` if the ``msgstr`` is not yet available. 
-This is because the value for ``m.bar`` in langugae 'yx' was resolved as follows:
+This is because the value for ``m.bar`` in language 'yx' was resolved as follows:
 
 * see if the database value bar_yx is not null, if so return bar_yx
 * see if the ``msgstr`` for 'hello' (The value of ``m.bar`` in the 
