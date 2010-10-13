@@ -120,7 +120,7 @@ Other helpers can be found in the :mod:`easymode.xslt.response` module.
 
 ----
 
-.. [#f1] Xslt requires a python xslt package. Easymode can work with 
+.. [#f1] Xslt requires a python xslt package to be installed. Easymode can work with 
      `lxml <http://codespeak.net/lxml/>`_ , 
      `libxslt <http://xmlsoft.org/XSLT/python.html>`_
 

@@ -8,12 +8,13 @@ it using xslt templates, which easymode integrates.
 
 For more info, look at :ref:`solipsism`
 
-Table of contents
-=================
+Manual
+======
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
    
+    changes
     i18n/index
     i18n/translation
     xslt/index
@@ -24,14 +25,13 @@ Table of contents
     templatetags
     Middlewares <middleware.rst>
     xslt/helpers
-    changes
 
 The best way to learn how easymode works, is to read the above topics in sequence
 and then look at the :ref:`example_app`. If you have questions please send them
 to the mailing list at easymode@librelist.com.
 
-Getting easymode
-================
+Installation
+============
 
 You can download easymode from:
 
@@ -52,6 +52,13 @@ Note the version number in the top left corner and use:
 Which, if the version was v0.1.0 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
 
 .. _example_app:
+
+If you want to use easymode's xslt fascilities, make sure to install either
+`lxml <http://codespeak.net/lxml/>`_ or 
+`libxslt <http://xmlsoft.org/XSLT/python.html>`_.
+
+If you want to make use of :ref:`easypublisher`, make sure you've got
+`django-reversion <http://code.google.com/p/django-reversion/>`_ installed.
 
 Example
 =======

@@ -1,3 +1,5 @@
+.. _easypublisher:
+
 Basic approval support for models
 =================================
 
@@ -5,6 +7,7 @@ Easymode comes with :mod:`~easymode.easypublisher`, a very simple approval
 application. It uses
 `django-reversion <http://code.google.com/p/django-reversion/>`_ to store drafted
 content. This has the very nice side effect that all drafts are in your history.
+You should make sure reversion is installed before using easypublisher.
 
 There is only one layer of approval, either you've got publishing rights or you
 don't. Anyone with publisher rights can move content from draft to published, 
