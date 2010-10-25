@@ -70,7 +70,9 @@ class RecursiveXmlSerializer(xml_serializer.Serializer):
 
             # recursively serialize all foreign key relations
             for (foreign_key_descriptor_name, foreign_key_descriptor ) in get_foreign_key_desciptors(obj):
-                if foreign_key_descriptor.related.field.serialize:
+                # don't follow foreign keys that have a 'nofollow' attribute
+                if foreign_key_descriptor.related.field.serialize \
+                    and not hasattr(foreign_key_descriptor.related.field, 'nofollow'):
                     bound_foreign_key_descriptor = foreign_key_descriptor.__get__(obj)
                     s = RecursiveXmlSerializer()                
                     s.serialize( bound_foreign_key_descriptor.all(), xml=self.xml, stream=self.stream)
