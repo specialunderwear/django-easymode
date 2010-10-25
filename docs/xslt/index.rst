@@ -116,7 +116,38 @@ Additionally you can pass it a :class:`dict` containing xslt parameters. You hav
 make sure to use :func:`~easymode.xslt.prepare_string_param` on any xslt parameter that 
 should be passed to the xslt processor as a string.
 
-Other helpers can be found in the :mod:`easymode.xslt.response` module. 
+Other helpers can be found in the :mod:`easymode.xslt.response` module.
+
+Exclude certain relations from being followed by the serializer
+---------------------------------------------------------------
+
+Sometimes you want to have a simple foreign key relation, but you
+don't need the data of the related object in your xml. As a matter of fact,
+it would degrade the performance of your view. You could mark the
+:class:`~django.db.models.ForeignKey` as ``serialize=False`` but that would make
+the field simply disappear from the xml. You might only want to exclude it from
+being rendered as a child of the parent object, but on the object itself you want
+the foreign key rendered as usual.
+
+You can mark any foreign key with a ``nofollow`` attribute and it will not be
+followed, when the parent is serialized::
+
+    class Bar(models.ModelAdmin):
+        foo = models.ForeignKey(Foo, related_name=bars)
+        foo.nofollow = True
+        
+        label = models.CharField(233)
+
+The foreign key will still be serialized as it always would, but the related
+object will not be expanded on the parent. This means if I query ``Foo``::
+
+    xml(Foo.objects.all())
+
+I will not see any ``Bar`` objects as children of foo. But when querying ``Bar``::
+
+    xml(Bar.objects.all())
+
+You will still see that the foreign key is included in the xml.
 
 ----
 
