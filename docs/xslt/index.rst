@@ -118,6 +118,8 @@ should be passed to the xslt processor as a string.
 
 Other helpers can be found in the :mod:`easymode.xslt.response` module.
 
+.. _nofollow:
+
 Exclude certain relations from being followed by the serializer
 ---------------------------------------------------------------
 

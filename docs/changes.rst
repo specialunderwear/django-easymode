@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+v0.14.0
+-------
+
+Added nofollow option to mark foreign keys that shouldn't be followed by the
+serializer. Nofollow can be used to optimize easymodes queries when generating
+xml, see :ref:`nofollow`. 
+
 v0.13.7
 -------
 
