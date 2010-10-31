@@ -1,17 +1,21 @@
 Internationalization and localization of django models, with admin support
 ==========================================================================
 
+At times it becomes a requirement to translate models. Django supports 
+internationalization of static text in templates and code by means of gettext.
+For translation of models - dynamic data - easymode offers simple decorators to
+enable internationalized model fields and localized admin classes.
+
 .. _internationalization_of_models:
 
 Internationalization of models
 ------------------------------
 
-Django supports internationalization of text in templates and code by means of
-gettext. For internationalization of dynamic model data, easymode offers simple
-decorators to enable internationalized fields.
+.. note::
 
-The only requirement fields have to satisfy to be able to be internationalised
-by easymode, is that their :func:`~django.db.models.to_python` method may not access ``self``.
+    There is one requirement models fields have to satisfy to be able to be
+    internationalised by easymode. Their 
+    :func:`~django.db.models.to_python` method may not access ``self``.
 
 suppose we have the following model.
 
@@ -30,7 +34,7 @@ suppose we have the following model.
 In different languages the city could have a different name, so we would like to 
 make it translatable (eg. internationalize the city field). This can be done using
 the :class:`~easymode.i18n.decorators.I18n` decorator. Decorating the model as 
-follows makes the field translatable::
+follows makes the city field translatable::
 
     from django.db import models
     from easymode.i18n.decorators import I18n
