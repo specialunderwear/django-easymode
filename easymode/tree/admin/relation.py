@@ -36,7 +36,7 @@ class _CanFindParentLink(object):
             parent_name = parent
             parent_id = str(parent_link.field.value_from_object(instance))
 
-            info = (self.admin_site.name, self.model._meta.app_label, parent_type_name)
+            info = (self.admin_site.name, parent._meta.app_label, parent_type_name)
             
             parent_link_data['parent_model'] = strip_language_code(urlresolvers.reverse("%s:%s_%s_change" % info, args=[parent_id]))
             parent_link_data['parent_name'] = "%s %s" % (force_unicode(parent._meta.verbose_name), parent_name)
