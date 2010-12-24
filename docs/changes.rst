@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v0.14.1
+
+ForeignKeyAwareModelAdmin now properly handles parent_link that points to a model
+in a different app.
+
 v0.14.0
 -------
 
