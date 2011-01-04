@@ -40,9 +40,9 @@ __all__ = ('FlashUrlField', 'DiocoreCharField', 'DiocoreHTMLField', 'DiocoreText
     'RelativeFilePathField', 'IncludeFileField', 'RemoteIncludeField', 'XmlField', 'SafeTextField', 'SafeHTMLField'
 )
 
-DEFAULT_MCE_CONFIG = getattr(settings, 'TINYMCE_DEFAULT_CONFIG')
-if DEFAULT_MCE_CONFIG:
-    DEFAULT_MCE_CONFIG = DEFAULT_CONFIG.get('theme_advanced_buttons1')
+DEFAULT_MCE_CONFIG = None
+if hasattr(settings, 'TINYMCE_DEFAULT_CONFIG'):
+    DEFAULT_MCE_CONFIG = settings.TINYMCE_DEFAULT_CONFIG.get('theme_advanced_buttons1')
 
 class FlashUrlField(CharField):
     """
@@ -180,8 +180,7 @@ class SafeHTMLField(TextField):
 
         defaults.update(kwargs)
         defaults['widget'] = TinyMCE(mce_attrs=mce_default_attrs)
-        print defaults
-        print defaults['widget']
+        
         return super(SafeHTMLField, self).formfield(**defaults)
 
 class DiocoreCharField(CharField):
