@@ -10,6 +10,7 @@ from time import time
 from urllib import urlopen
 from xml import sax
 
+from django.conf import settings
 from django.contrib.admin.widgets import AdminTextInputWidget, AdminTextareaWidget
 from django.db import connection, models
 from django.db.models import CharField, TextField
@@ -38,6 +39,10 @@ except ImportError:
 __all__ = ('FlashUrlField', 'DiocoreCharField', 'DiocoreHTMLField', 'DiocoreTextField', 'CSSField',
     'RelativeFilePathField', 'IncludeFileField', 'RemoteIncludeField', 'XmlField', 'SafeTextField', 'SafeHTMLField'
 )
+
+DEFAULT_MCE_CONFIG = getattr(settings, 'TINYMCE_DEFAULT_CONFIG')
+if DEFAULT_MCE_CONFIG:
+    DEFAULT_MCE_CONFIG = DEFAULT_CONFIG.get('theme_advanced_buttons1')
 
 class FlashUrlField(CharField):
     """
@@ -129,16 +134,19 @@ class SafeHTMLField(TextField):
     :param width: The width of the html editor in the admin
     :param height: The height of the html editor in the admin
     :param buttons: Configuration for the 
-        `theme_html_buttons1 <http://wiki.moxiecode.com/index.php/TinyMCE:Configuration/theme_advanced_buttons_1_n>`_. 
+        `theme_advanced_buttons1 <http://wiki.moxiecode.com/index.php/TinyMCE:Configuration/theme_advanced_buttons_1_n>`_. 
         The default is "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat".
     """
     _south_introspects = True
 
     def __init__(self, *args, **kwargs):
+        mce_config = DEFAULT_MCE_CONFIG or \
+            "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat"
+        
         self.mce_width = kwargs.pop('width', 340)
         self.mce_height = kwargs.pop('height', 160)
-        self.buttons = kwargs.pop('buttons', "bullist,numlist,|,undo,redo,|,link,unlink,|,code,|,cleanup,removeformat")
-
+        self.buttons = kwargs.pop('buttons', mce_config)
+        
         super(SafeHTMLField, self).__init__(*args, **kwargs)
 
     def custom_value_serializer(self, obj, xml):
@@ -154,7 +162,7 @@ class SafeHTMLField(TextField):
 
     def formfield(self, **kwargs):
         mce_default_attrs = {
-            'theme_html_buttons1' : self.buttons,
+            'theme_advanced_buttons1' : self.buttons,
             'theme_advanced_resizing' : True,
             'width': self.mce_width,
             'height': self. mce_height,
@@ -172,7 +180,8 @@ class SafeHTMLField(TextField):
 
         defaults.update(kwargs)
         defaults['widget'] = TinyMCE(mce_attrs=mce_default_attrs)
-
+        print defaults
+        print defaults['widget']
         return super(SafeHTMLField, self).formfield(**defaults)
 
 class DiocoreCharField(CharField):
