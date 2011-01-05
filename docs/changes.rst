@@ -1,7 +1,13 @@
 Release Notes
 =============
 
+v0.14.2
+-------
+
+Fixes :class:`~easymode.admin.models.fields.SafeHTMLField`'s ``buttons`` property, which can be used to override the tinymce buttons per field.
+
 v0.14.1
+-------
 
 ForeignKeyAwareModelAdmin now properly handles parent_link that points to a model
 in a different app.
