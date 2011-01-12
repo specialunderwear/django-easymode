@@ -21,12 +21,13 @@ def preview(request, content_type_id, object_id):
     except ObjectDoesNotExist:
         raise http.Http404("Content type %s object %s doesn't exist" % (content_type_id, object_id))
     try:
-        absolute_url = obj.get_absolute_url(format='flash')
+        absolute_url = obj.get_absolute_url()
     except AttributeError:
         raise http.Http404("%s objects don't have get_absolute_url() methods" % content_type.name)
         
     if absolute_url.startswith('http://') or absolute_url.startswith('https://'):        
         http.HttpResponseRedirect(absolute_url)        
     else:
-        absolute_url = fix_language_code("/%s" % absolute_url, request.LANGUAGE_CODE)                
+        print absolute_url
+        absolute_url = fix_language_code(absolute_url, request.LANGUAGE_CODE)                
         return http.HttpResponseRedirect(absolute_url)
