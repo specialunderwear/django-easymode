@@ -1,9 +1,7 @@
 from django.contrib import admin
-
 from easymode.easypublisher.admin import EasyPublisher
 from easymode.i18n.admin.decorators import L10n
-from easymode.tests import models as test_models
-from easymode.tests import forms as test_forms
+from easymode.tests import models as test_models, forms as test_forms
 from easymode.tree.admin import relation
 
 
@@ -41,10 +39,18 @@ class FormTestAdmin(admin.ModelAdmin):
     form = test_forms.OverrideForm
     model = test_models.FormTestModel
 
+@L10n
+class ManagerErrorModelAdmin(admin.ModelAdmin):
+    model = test_models.ManagerErrorModel
+    
+    def delete_view(self, request, object_id, extra_context=None):
+        # return admin.ModelAdmin.delete_view(self,request, object_id, extra_context)
+        return super(ManagerErrorModelAdmin, self).delete_view(request, object_id, extra_context)
+        
 admin.site.register(test_models.TestModel, TestModelAdmin)
 admin.site.register(test_models.TestSubModel)
 admin.site.register(test_models.TestSecondSubmodel)
 admin.site.register(test_models.TestL10nModel, TestL10nModelAdmin)
 admin.site.register(test_models.TestEasypublisherModel, TestEasypublisherAdmin)
-admin.site.register(test_models.ManagerErrorModel)
+admin.site.register(test_models.ManagerErrorModel, ManagerErrorModelAdmin)
 admin.site.register(test_models.FormTestModel, FormTestAdmin)
