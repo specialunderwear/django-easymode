@@ -72,7 +72,7 @@ class L10n(object):
     
     error_no_model = "L10n: %s does not have model defined, but no model was passed to L10n either"
     
-    def __new__(typ, model_or_admin=None, cls=None, attrs=None):
+    def __new__(typ, model_or_admin=None, cls=None):
         """
         Construct object and if cls is passed as well apply the object to that 
         immediately. This makes this decorator a factory as well.
@@ -92,13 +92,14 @@ class L10n(object):
                 raise(AttributeError(L10n.error_no_model % model_or_admin.__name__))
         else:
             raise TypeError("L10n can not accept paramters of type %s" % model_or_admin.__name__)
-            
+        
         # if cls is defined call __call__
-        if cls:                    
-            # first make a new class so the decorator does not mess up the
-            # class passed. This new class is then modified by the decorator.
-            descendant = type(obj.model.__name__ + cls.__name__, (cls,), attrs or {'model':obj.model})
-            return obj.__call__(descendant)
+        if cls:
+            if not hasattr(cls, 'model'):
+                # rest assured obj always has a 'model'
+                setattr(cls, 'model', obj.model)
+            
+            return obj.__call__(cls)
             
         return obj
     
