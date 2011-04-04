@@ -160,5 +160,5 @@ def make_localised_form(model, form, exclude=None):
          newfields['Meta'] = type('Meta', tuple(), {'model':model})
     
     newfields['localized_fields'] = model.localized_fields
-
+    
     return ModelFormMetaclass(model.__name__, (LocalisedForm, form), newfields)

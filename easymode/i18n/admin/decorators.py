@@ -77,6 +77,8 @@ class L10n(object):
         Construct object and if cls is passed as well apply the object to that 
         immediately. This makes this decorator a factory as well.
         """
+        inline_syntax = True if cls is not None else False
+        
         obj = object.__new__(typ)
         
         if isinstance(model_or_admin, ModelBase):
@@ -91,12 +93,17 @@ class L10n(object):
             else:
                 raise(AttributeError(L10n.error_no_model % model_or_admin.__name__))
         else:
-            raise TypeError("L10n can not accept paramters of type %s" % model_or_admin.__name__)
+            raise TypeError("L10n can not accept parameters of type %s" % model_or_admin.__name__)
         
-        # if cls is defined call __call__
-        if cls:
+        # when using inline syntax we need a new type, otherwise we could modify django's ModelAdmin!
+        # inline_syntax is using L10n as: L10n(ModelAdmin, Model)
+        if inline_syntax:
+            descendant = type(obj.model.__name__ + cls.__name__, (cls,), {'model':obj.model})
+            return obj.__call__(descendant)
+        elif cls: # if cls is defined call __call__ to localize admin class.
             if not hasattr(cls, 'model'):
-                # rest assured obj always has a 'model'
+                # obj 'always' has a model
+                assert(hasattr(obj, 'model'))
                 setattr(cls, 'model', obj.model)
             
             return obj.__call__(cls)
