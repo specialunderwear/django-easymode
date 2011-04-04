@@ -102,8 +102,7 @@ class L10n(object):
             return obj.__call__(descendant)
         elif cls: # if cls is defined call __call__ to localize admin class.
             if not hasattr(cls, 'model'):
-                # obj 'always' has a model
-                assert(hasattr(obj, 'model'))
+                assert hasattr(obj, 'model'), "obj 'always' has a model because it was assigned 10 lines ago."
                 setattr(cls, 'model', obj.model)
             
             return obj.__call__(cls)
