@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.14.4
+-------
+
+Easymode nolonger installs any packages automatically during installation, these
+should now be installed by hand.
+
 v0.14.3
 -------
 

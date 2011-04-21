@@ -15,7 +15,7 @@ documentation at http://packages.python.org/django-easymode/
 
 release notes at http://packages.python.org/django-easymode/changes.html"""
 
-version = '0.14.3'
+version = '0.14.4'
 packages = []
 data_files = []
 
@@ -62,9 +62,6 @@ setup(name='django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
-    install_requires=[
-        'Django>=1.2.1', 'lxml>=2.2.2', 'polib>=0.5.1','django-reversion>=1.3.1'
-    ],
     license='GPL',
     classifiers=[
         'Development Status :: 4 - Beta',
