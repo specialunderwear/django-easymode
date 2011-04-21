@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.14.3
+-------
+
+Using ``super`` in an admin class decorated with L10n, will nolonger result in
+infinite recursion.
+
 v0.14.2
 -------
 
