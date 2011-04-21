@@ -28,6 +28,5 @@ def preview(request, content_type_id, object_id):
     if absolute_url.startswith('http://') or absolute_url.startswith('https://'):        
         http.HttpResponseRedirect(absolute_url)        
     else:
-        print absolute_url
         absolute_url = fix_language_code(absolute_url, request.LANGUAGE_CODE)                
         return http.HttpResponseRedirect(absolute_url)

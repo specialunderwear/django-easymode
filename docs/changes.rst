@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+v0.14.4
+-------
+
+Easymode nolonger installs any packages automatically during installation, these
+should now be installed by hand.
+
+v0.14.3
+-------
+
+Using ``super`` in an admin class decorated with L10n, will nolonger result in
+infinite recursion.
+
 v0.14.2
 -------
 

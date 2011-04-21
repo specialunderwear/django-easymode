@@ -60,6 +60,21 @@ If you want to use easymode's xslt fascilities, make sure to install either
 If you want to make use of :ref:`easypublisher`, make sure you've got
 `django-reversion <http://code.google.com/p/django-reversion/>`_ installed.
 
+Requirements
+============
+
+Easymode requires python 2.6, furthermore the following packages must be installed:
+
+- Django
+
+The following packages might also be required, depending on what features you
+are using.
+
+- lxml
+- polib
+- django-reversion
+
+
 Example
 =======
 
