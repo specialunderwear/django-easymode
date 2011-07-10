@@ -31,7 +31,8 @@ class Foo(models.Model):
         return (self.bar,)
         
 class Bar(models.Model):
-    foo = models.ForeignKey(Foo, related_name='bars')
+    # use lazy foreign keys!
+    foo = models.ForeignKey('Foo', related_name='bars')
     
     label = models.CharField(max_length=255)
     date = models.DateField()

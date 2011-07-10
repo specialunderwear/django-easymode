@@ -158,7 +158,7 @@ Don't internationalize relations
 
     @I18n('available', 'text')
     class SomeModel(models.Model):
-        parent = models.ForeignKey(ParentModel, related_name='children')
+        parent = models.ForeignKey('myapp.ParentModel', related_name='children')
         available = models.BooleanField(_('Available in this language'), default=True)
         text = models.TextField(_('The main issue'))
 
@@ -177,3 +177,61 @@ for other languages in that way.
 
 When you've got different urls or domains for different languages, you should use
 the :mod:`django.contrib.sites` framework instead.
+
+Use lazy foreign keys
+---------------------
+
+You should always use lazy foreign keys in combination with the 
+the :class:`~easymode.i18n.decorators.I18n` decorator. If you don't you might find
+that cascading delete will not work one day. Also using lazy foreign keys helps
+to avoid cyclic imports, to which class decorators are extra sensitive.
+
+If for example you've got your models in a package instead of a module, you
+need to import them all in the ``__init__.py`` module::
+
+    from bar.models.foo import *
+    from bar.models.baz import *
+
+This way django will find them when it is collecting and verifying all models
+at boot time.
+
+**BUT!**
+
+Now you've got 2 ways to import the model Foo::
+
+    from bar.models import Foo
+
+or::
+
+    from bar.models.foo import Foo
+
+Django imports all models using the first syntax. If you would use the second to
+import the model somewhere else, in rare cases, the module get's initialized **twice**.
+This means the class decorator will get applied **twice**. And that gives you a very
+very strange error.
+
+To avoid all this, just use lazy foreign keys everywhere. That way you never have to
+import models in other ``models`` module avoiding the problem entirely.
+
+It is safe to import models in your ``views`` and ``admin`` modules ofcourse, but
+use only the canonical import, directly from models and not some sub package::
+
+    from bar.models import Foo
+
+Haystack
+--------
+
+As a general rule, never import models into modules that are collected by django's
+:mod:`~django.utils.importlib`. This includes other ``models`` modules but also
+some third party extensions like *django-haystack* use it (or something like it).
+Haystack automatically collects all ``search_indexes`` modules.
+
+When you absolutely have to import a model in an automatically collected file, do
+it like this::
+
+    from django.db import get_model
+    Foo = get_model('bar.Foo')
+
+Yes, that uses django's lazy model loading mechasism as well. It is much easier though
+to register you models for haystack inside the ``models.py`` module and not in the
+``search_indexes`` module.

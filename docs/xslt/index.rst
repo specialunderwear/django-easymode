@@ -52,7 +52,9 @@ The first is by decorating a model with the :func:`~easymode.tree.decorators.tox
         content = TextField()
         
     class Bar(models.ModelAdmin):
-        foo = models.ForeignKey(Foo, related_name=bars)
+        # use lazy foreign keys!
+        # Even in the same models module!
+        foo = models.ForeignKey('Foo', related_name=bars)
         
         label = models.CharField(233)
 
@@ -135,7 +137,7 @@ You can mark any foreign key with a ``nofollow`` attribute and it will not be
 followed, when the parent is serialized::
 
     class Bar(models.ModelAdmin):
-        foo = models.ForeignKey(Foo, related_name=bars)
+        foo = models.ForeignKey('Foo', related_name=bars)
         foo.nofollow = True
         
         label = models.CharField(233)
