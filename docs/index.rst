@@ -35,7 +35,7 @@ Installation
 
 You can download easymode from:
 
-http://github.com/LUKKIEN/django-easymode/downloads/
+http://github.com/specialunderwear/django-easymode/downloads/
 
 Or you can do:
 
@@ -43,13 +43,13 @@ Or you can do:
 
 Or:
 
-- ``pip install -e git://github.com/LUKKIEN/django-easymode.git#egg=easymode``
+- ``pip install -e git://github.com/specialunderwear/django-easymode.git#egg=easymode``
 
 Note the version number in the top left corner and use:
 
-- ``easy_install http://github.com/LUKKIEN/django-easymode/tarball/[VERSION]``
+- ``easy_install http://github.com/specialunderwear/django-easymode/tarball/[VERSION]``
 
-Which, if the version was v0.1.0 would become http://github.com/LUKKIEN/django-easymode/tarball/v0.1.0.
+Which, if the version was v0.1.0 would become http://github.com/specialunderwear/django-easymode/tarball/v0.1.0.
 
 .. _example_app:
 
@@ -80,12 +80,12 @@ Example
 
 Easymode comes with an example app which is available from github:
 
-http://github.com/LUKKIEN/django-easymode/
+http://github.com/specialunderwear/django-easymode/
 
 To run the example app, you must clone the repository, install the dependencies
 and initialize the database::
 
-    git clone http://github.com/LUKKIEN/django-easymode.git
+    git clone http://github.com/specialunderwear/django-easymode.git
     cd django-easymode
     pip install -r requirements.txt
     cd example
