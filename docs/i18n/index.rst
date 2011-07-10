@@ -230,7 +230,7 @@ When you absolutely have to import a model in an automatically collected file, d
 it like this::
 
     from django.db import get_model
-    Foo = get_model('bar.Foo')
+    Foo = get_model('bar', 'Foo')
 
 Yes, that uses django's lazy model loading mechasism as well. It is much easier though
 to register you models for haystack inside the ``models.py`` module and not in the
