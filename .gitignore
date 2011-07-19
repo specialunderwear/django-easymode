@@ -3,6 +3,7 @@ locale
 *.pyc
 *.pyo
 example/example.sqlite
+example/example_test_data.sqlite
 .svn/
 .ropeproject
 polib.py
@@ -11,3 +12,6 @@ tinymce
 pip-log.txt
 MANIFEST
 dist
+example/foobar/migrations
+example/media/uploads
+example/auth.user.xml
