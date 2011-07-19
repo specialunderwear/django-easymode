@@ -28,7 +28,7 @@ else:
 
 from easymode.utils import first_match, mutex, SemaphoreException
 from easymode.utils.languagecode import get_language_codes
-from easymode.i18n import meta
+from easymode.i18n.meta import utils as meta_utils
 from easymode.tests.testcases import initdb
 from easymode.tests import models
 from easymode.i18n.gettext import MakeModelMessages
@@ -175,15 +175,15 @@ class Testi18n(TestCase):
 
     def test_meta_field_finder(self):
         """The correct localised version of the title property should be found"""
-        field = meta.get_localized_property(self, 'title')
+        field = meta_utils.get_localized_property(self, 'title')
         assert(field == self.title_en)
         translation.activate('de')
-        field = meta.get_localized_property(self, 'title')
+        field = meta_utils.get_localized_property(self, 'title')
         assert(field == self.title_de)
 
     def test_meta_get_localized_field_name(self):
         """get_localized_field_name should return the correct localized property name"""
-        field = meta.get_localized_field_name(self, 'title')
+        field = meta_utils.get_localized_field_name(self, 'title')
         assert(field == 'title_en')
             
     def test_meta_now_selects_correct_field_on_propert_write(self):
