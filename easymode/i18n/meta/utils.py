@@ -7,6 +7,7 @@ from django.utils import translation
 
 from easymode.utils import first_match
 from easymode.utils.languagecode import get_real_fieldname
+from easymode.utils import first_match
 
 
 def valid_for_gettext(value):
@@ -64,3 +65,9 @@ def get_localized_field_name(context, field):
         return None
 
     return first_match(predicate, attrs)
+
+def get_field_from_model_by_name(model_class, field_name):
+    """
+    Get a field by name from a model class without messing with the app cache.
+    """
+    return first_match(lambda x: x if x.name == field_name else None, model_class._meta.fields)

@@ -21,10 +21,6 @@ class FooAdmin(ForeignKeyAwareModelAdmin):
         }),
     )
 
-# @L10n
-class ImaAdmin(admin.ModelAdmin):
-    model = Ima
-
 class BarAdmin(InvisibleModelAdmin):
     model = Bar
     parent_link = 'foo'
@@ -35,4 +31,3 @@ class BazAdmin(EasyPublisher):
 admin.site.register(Foo, FooAdmin)
 admin.site.register(Bar, BarAdmin)
 admin.site.register(Baz, BazAdmin)
-admin.site.register(Ima, ImaAdmin)

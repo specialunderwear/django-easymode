@@ -15,6 +15,7 @@ from django.utils import translation
 
 from easymode.utils.languagecode import get_all_language_codes, get_real_fieldname
 from easymode.i18n.meta.fields import DefaultFieldDescriptor
+from easymode.i18n.meta.utils import get_field_from_model_by_name
 
 
 __all__ = ('localize_fields',)
@@ -44,7 +45,7 @@ def localize_fields(cls, localized_fields):
     cls.localized_fields = localized_fields
     
     for field in localized_fields:
-        original_attr = cls._meta.get_field_by_name(field)[0]
+        original_attr = get_field_from_model_by_name(cls, field)
         
         for cnt, language_code in enumerate(get_all_language_codes()):
             i18n_attr = copy.copy(original_attr)

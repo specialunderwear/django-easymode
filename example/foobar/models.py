@@ -29,11 +29,6 @@ class Foo(models.Model):
     
     def natural_key(self):
         return (self.bar,)
-
-# @I18n('fena')
-class Ima(models.Model):
-    fena = models.CharField(max_length=255)
-    foo = models.ForeignKey('Foo', related_name='imas')
         
 class Bar(models.Model):
     # use lazy foreign keys!
@@ -59,3 +54,4 @@ class Baz(models.Model):
     
     class Meta:
         ordering = ('id',)
+    
