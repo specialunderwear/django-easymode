@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.14.5
+-------
+
+Models decorated with :class:`~easymode.i18n.decorators.I18n` nolonger have problems deleting related models in
+cascade mode.
+
 v0.14.4
 -------
 

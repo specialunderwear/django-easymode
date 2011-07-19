@@ -182,8 +182,7 @@ Use lazy foreign keys
 ---------------------
 
 You should always use lazy foreign keys in combination with the 
-the :class:`~easymode.i18n.decorators.I18n` decorator. If you don't you might find
-that cascading delete will not work one day. Also using lazy foreign keys helps
+the :class:`~easymode.i18n.decorators.I18n` decorator. Lazy foreign keys helps
 to avoid cyclic imports, to which class decorators are extra sensitive.
 
 If for example you've got your models in a package instead of a module, you
