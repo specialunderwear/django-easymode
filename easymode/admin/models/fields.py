@@ -417,7 +417,7 @@ class RemoteIncludeField(models.URLField):
         """return the type of this field"""
         return self.__class__.__name__
 
-    def db_type(self):
+    def db_type(self, connection):
         data = DictWrapper(self.__dict__, connection.ops.quote_name, "qn_")
         try:
             return connection.creation.data_types["CharField"] % data
