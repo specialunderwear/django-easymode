@@ -10,6 +10,16 @@ class DragAndDropAdmin(admin.ModelAdmin):
     """
     Admin class that allows dragging and dropping of items
     in the admin listing.
+    
+    Go to http://jqueryui.com/download, deselect all and then select sortable.
+    Download the js and include it in the Media of your derived class::
+        
+        class Media:
+            js = (
+                'js/jquery-ui-1.8.14.custom.js',
+            )
+    
+    Also make sure jquery itself is loaded.
     """
     ordering = ('order',)
     list_display = ('id', 'order')
@@ -17,9 +27,6 @@ class DragAndDropAdmin(admin.ModelAdmin):
     
     class Media:
         js = (
-            'js/lib/jquery.js',
-            'js/lib/ui.core.js',
-            'js/lib/ui.sortable.js',
             'easymode/js/menu-sort.js',            
         )
         
