@@ -58,6 +58,10 @@ class TagModel(models.Model):
     
     value = models.CharField(max_length=23)
 
+    def __serialize__(self, stream):
+        stream.startElement('taggy', {})
+        stream.characters(self.value)
+        stream.endElement('taggy')
 
 @toxml
 @I18n('title', 'description')
@@ -110,4 +114,3 @@ class FormTestModel(models.Model):
     number = models.IntegerField()
     other = models.CharField(max_length=255)
     another = models.CharField(max_length=255)
-    

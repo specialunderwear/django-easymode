@@ -148,7 +148,7 @@ class SafeHTMLField(TextField):
         
         super(SafeHTMLField, self).__init__(*args, **kwargs)
 
-    def custom_value_serializer(self, obj, xml):
+    def __serialize__(self, obj, xml):
         richtext = self.value_to_string(obj)
         value = u"<richtext>%s</richtext>"  % richtext
 
@@ -246,7 +246,7 @@ class XmlField(models.TextField):
     def __init__(self, *args, **kwargs):
         super(XmlField, self).__init__(*args, **kwargs)
     
-    def custom_value_serializer(self, obj, xml):                
+    def __serialize__(self, obj, xml):                
         """Parse the value of this field as xml and add nodes to the serializer tree"""
         value = self.value_to_string(obj).encode('utf-8')
         parser = sax.make_parser(["easymode.utils.xmlutils"])

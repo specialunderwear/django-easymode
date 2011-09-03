@@ -85,9 +85,9 @@ def localize_fields(cls, localized_fields):
             'to_python': original_attr.to_python,
         }
             
-        # copy custom_value_serializer if it was defined on the original attr
-        if hasattr(original_attr, 'custom_value_serializer'):
-            kwargs['custom_value_serializer'] = original_attr.custom_value_serializer
+        # copy __serialize__ if it was defined on the original attr
+        if hasattr(original_attr, '__serialize__'):
+            kwargs['__serialize__'] = original_attr.__serialize__
 
         # add the DefaultFieldDescriptor where the original_attr was.
         cls.add_to_class(field, DefaultFieldDescriptor(field, **kwargs))

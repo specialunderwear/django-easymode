@@ -10,8 +10,7 @@ from easymode.tree.xml.serializers import RecursiveXmlSerializer
 
 __all__ = ('RecursiveSerializerTest',)
 
-CONFIRMED_XML_DIGEST = '2caeeae817ed103f8c92020717460a9d'
-
+CONFIRMED_XML_DIGEST = 'ed0fcf77a8dab1f708874cb77aaf1666'
 
 @initdb
 class RecursiveSerializerTest(TestCase):
@@ -68,16 +67,22 @@ class RecursiveSerializerTest(TestCase):
         xml_with_natural_keys = tree.xml(TestModel.objects.all())
         assert(xml_with_natural_keys.find('<natural>In lectus est, viverra a, ultricies ut, pulvinar vitae, tellus.</natural>') != -1)
     
+    def test___serialize__(self):
+        "A model with a __serialize__ method should serialize it self"
+        tags = TagModel.objects.all().order_by('id')
+        ser = RecursiveXmlSerializer()
+        self.assertEqual(ser.serialize(tags), '<django-objects version="1.0"><taggy>good</taggy><taggy>bad</taggy><taggy>ugly</taggy></django-objects>')
+
     def test_many_to_many_field(self):
         "ManyToManyField should be followed in one direction, like foreign keys"
         
         data = tree.xml(TestModel.objects.all())
-        assert(data.index('<field type="CharField" name="value">good</field>')!= -1)
-        assert(data.index('<field type="CharField" name="value">ugly</field>')!= -1)
+        assert(data.index('<taggy>good</taggy>')!= -1)
+        assert(data.index('<taggy>ugly</taggy>')!= -1)
         
         bad_tag = TagModel.objects.get(value_en='bad')
         first_item = TestModel.objects.get(pk=1)
         first_item.tags.add(bad_tag)
         first_item.save()
         data = tree.xml(TestModel.objects.all())
-        assert(data.index('<field type="CharField" name="value">bad</field>')!= -1)
+        assert(data.index('<taggy>bad</taggy>')!= -1)
