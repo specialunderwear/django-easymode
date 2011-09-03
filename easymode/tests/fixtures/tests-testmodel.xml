@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <django-objects version="1.0">
 	<object pk="1" model="tests.testmodel">
-		<field type="CharField" name="charfield_en-us">
+		<field type="CharField" name="charfield_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="charfield_de">
@@ -44,7 +44,7 @@
 		<field type="CharField" name="subsubcharfield">Ut felis.</field>
 	</object>
 	<object pk="1" model="tests.tagmodel">
-		<field type="CharField" name="value_en-us">
+		<field type="CharField" name="value_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="value_de">
@@ -53,7 +53,7 @@
 		<field type="CharField" name="value_en">good</field>
 	</object>
 	<object pk="2" model="tests.tagmodel">
-		<field type="CharField" name="value_en-us">
+		<field type="CharField" name="value_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="value_de">
@@ -62,7 +62,7 @@
 		<field type="CharField" name="value_en">bad</field>
 	</object>
 	<object pk="3" model="tests.tagmodel">
-		<field type="CharField" name="value_en-us">
+		<field type="CharField" name="value_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="value_de">

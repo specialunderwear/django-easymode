@@ -5,7 +5,7 @@ implementing a multi lingual django app.
 import re
 
 from django.conf import settings
-from django.utils.translation import get_language
+from django.utils.translation import get_language, to_locale
 
 
 USE_SHORT_LANGUAGE_CODES = getattr(settings, 'USE_SHORT_LANGUAGE_CODES', False)
@@ -159,7 +159,7 @@ def get_real_fieldname(field, lang):
     to use the name this function returns, not the default name.
     
     >>> get_real_fieldname('name', 'en-us')
-    'name_en-us'
+    'name_en_us'
     
     Usage::
     
@@ -173,7 +173,7 @@ def get_real_fieldname(field, lang):
     :param lang: The language for which you want to know the real name.
     :rtype: The actual name of the ``field`` in the ``lang``.
     """
-    return str('%s_%s' % (field, lang))
+    return str('%s_%s' % (field, to_locale(lang).lower()))
 
 def localize_fieldnames(fields, internationalized_fields):
     """
@@ -184,7 +184,7 @@ def localize_fieldnames(fields, internationalized_fields):
     >>> from django.utils.translation import activate
     >>> activate('en-us')
     >>> localize_fieldnames(['name', 'title', 'url'], ['title'])
-    ['name', 'title_en-us', 'url']
+    ['name', 'title_en_us', 'url']
     
     :param fields: A :class:`list` af field names.
     :param internationalized_fields: A list of fields names, these fields are internationalized.

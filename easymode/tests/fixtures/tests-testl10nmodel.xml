@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <django-objects version="1.0">
 	<object pk="1" model="tests.testl10nmodel">
-		<field type="CharField" name="title_en-us">
+		<field type="CharField" name="title_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="title_de">
 			<None/>
 		</field>
 		<field type="CharField" name="title_en">Grand cherokee</field>
-		<field type="TextField" name="description_en-us">
+		<field type="TextField" name="description_en_us">
 			<None/>
 		</field>
 		<field type="TextField" name="description_de">
@@ -19,14 +19,14 @@
 		<field type="FloatField" name="price">1000.0</field>
 	</object>
 	<object pk="2" model="tests.testl10nmodel">
-		<field type="CharField" name="title_en-us">
+		<field type="CharField" name="title_en_us">
 			<None/>
 		</field>
 		<field type="CharField" name="title_de">
 			<None/>
 		</field>
 		<field type="CharField" name="title_en">The moeftie is not amused</field>
-		<field type="TextField" name="description_en-us">
+		<field type="TextField" name="description_en_us">
 			<None/>
 		</field>
 		<field type="TextField" name="description_de">

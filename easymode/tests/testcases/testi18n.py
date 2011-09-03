@@ -269,7 +269,7 @@ class Testi18n(TestCase):
         translation.activate('en-us')
         i = models.TestModel(charfield='Woot, not failed!')
         i.save()
-        self.assertTrue(i.charfield == getattr(i, 'charfield_en-us') == 'Woot, not failed!')
+        self.assertTrue(i.charfield == getattr(i, 'charfield_en_us') == 'Woot, not failed!')
         translation.activate('de')
 
         # Test
