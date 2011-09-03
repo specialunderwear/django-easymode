@@ -14,5 +14,5 @@ documentation at http://packages.python.org/django-easymode/
 release notes at http://packages.python.org/django-easymode/changes.html
 """
 
-__all__ = ('admin', 'debug', 'easypublisher', 'i18n', 'management',
+__all__ = ('admin', 'debug', 'i18n', 'management',
     'templatetags', 'tree', 'utils', 'xslt')

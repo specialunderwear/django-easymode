@@ -19,7 +19,6 @@ Manual
     i18n/translation
     xslt/index
     tree/index
-    easypublisher/index
     settings
     commands
     templatetags
@@ -57,8 +56,6 @@ If you want to use easymode's xslt fascilities, make sure to install either
 `lxml <http://codespeak.net/lxml/>`_ or 
 `libxslt <http://xmlsoft.org/XSLT/python.html>`_.
 
-If you want to make use of :ref:`easypublisher`, make sure you've got
-`django-reversion <http://code.google.com/p/django-reversion/>`_ installed.
 
 Requirements
 ============
@@ -132,7 +129,6 @@ Api docs
     i18n/api
     tree/api
     xslt/api
-    easypublisher/api
     utils/api
     fields
     debug    

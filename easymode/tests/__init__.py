@@ -10,7 +10,6 @@ import sys
 
 from django.conf import settings
 
-from easymode.easypublisher.utils import filter_unpublished
 from easymode.utils import first_match, bases_walker, url_add_params
 from easymode.utils.languagecode import get_language_codes,\
     get_language_codes_as_disjunction, get_language_code_from_shorthand,\
@@ -61,5 +60,4 @@ __test__ = {
     "test_bases_walker" : bases_walker,
     "test_standin_for": standin_for,
     'test_url_add_params' : url_add_params,
-    'test_filter_unpublished': filter_unpublished,
 }

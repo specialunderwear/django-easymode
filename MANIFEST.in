@@ -15,7 +15,6 @@ include docs/debug.rst
 include docs/fields.rst
 include docs/details.rst
 recursive-include docs/i18n *.rst *.png
-recursive-include docs/easypublisher *.rst *.png
 recursive-include docs/tree *.rst *.png
 recursive-include docs/xslt *.rst *.png
 recursive-include docs/utils *.rst

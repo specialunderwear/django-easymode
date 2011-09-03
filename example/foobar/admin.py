@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from easymode.i18n.admin.decorators import L10n
 from easymode.tree.admin.relation import *
-from easymode.easypublisher.admin import EasyPublisher
 
 from foobar.models import *
 
@@ -25,7 +24,7 @@ class BarAdmin(InvisibleModelAdmin):
     model = Bar
     parent_link = 'foo'
 
-class BazAdmin(EasyPublisher):
+class BazAdmin(admin.ModelAdmin):
     model = Baz
     
 admin.site.register(Foo, FooAdmin)

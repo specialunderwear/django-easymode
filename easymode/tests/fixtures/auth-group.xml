@@ -19,21 +19,6 @@
 				<natural>logentry</natural>
 			</object>
 			<object>
-				<natural>add_easypublishermetadata</natural>
-				<natural>easypublisher</natural>
-				<natural>easypublishermetadata</natural>
-			</object>
-			<object>
-				<natural>change_easypublishermetadata</natural>
-				<natural>easypublisher</natural>
-				<natural>easypublishermetadata</natural>
-			</object>
-			<object>
-				<natural>delete_easypublishermetadata</natural>
-				<natural>easypublisher</natural>
-				<natural>easypublishermetadata</natural>
-			</object>
-			<object>
 				<natural>add_revision</natural>
 				<natural>reversion</natural>
 				<natural>revision</natural>
@@ -77,26 +62,6 @@
 				<natural>delete_session</natural>
 				<natural>sessions</natural>
 				<natural>session</natural>
-			</object>
-			<object>
-				<natural>add_testeasypublishermodel</natural>
-				<natural>tests</natural>
-				<natural>testeasypublishermodel</natural>
-			</object>
-			<object>
-				<natural>change_testeasypublishermodel</natural>
-				<natural>tests</natural>
-				<natural>testeasypublishermodel</natural>
-			</object>
-			<object>
-				<natural>add_testeasypublisherrelatedmodel</natural>
-				<natural>tests</natural>
-				<natural>testeasypublisherrelatedmodel</natural>
-			</object>
-			<object>
-				<natural>change_testeasypublisherrelatedmodel</natural>
-				<natural>tests</natural>
-				<natural>testeasypublisherrelatedmodel</natural>
 			</object>
 			<object>
 				<natural>change_testl10nmodel</natural>

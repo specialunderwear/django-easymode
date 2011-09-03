@@ -9,14 +9,6 @@ try:
     from easymode.admin.forms import *
     from easymode.admin.models import *
     from easymode.debug import *
-    from easymode.easypublisher import *
-    from easymode.easypublisher.admin import *
-    from easymode.easypublisher.models import *
-    from easymode.easypublisher.response import *
-    from easymode.easypublisher.templatetags import *
-    from easymode.easypublisher.urls import *
-    from easymode.easypublisher.utils import *
-    from easymode.easypublisher.views import *
     from easymode.i18n import *
     from easymode.i18n.admin import *
     from easymode.management import *
