@@ -120,6 +120,38 @@ should be passed to the xslt processor as a string.
 
 Other helpers can be found in the :mod:`easymode.xslt.response` module.
 
+When the standard serializer is not enough
+------------------------------------------
+
+It could be that the raw values are not what you want from your model. For
+example, it could be you wanted a :class:`datetime.datetime` nicely formatted or
+maybe you want to have the output of ``get_absolute_url`` in your xml.
+
+Fortunately you can do that by implementing your own serialization function in
+your model::
+
+    @I18n('value')
+    class TagModel(models.Model):
+
+        value = models.CharField(max_length=23)
+
+        def __serialize__(self, stream):
+            stream.startElement('taggy', {})
+            stream.characters(self.value)
+            stream.endElement('taggy')
+
+The ``__serialize__`` method will be called by the serializer instead of the
+regular handler. You get the xml stream as an argument and you've got to write
+to it by calling the methods on it. see :class:`xml.sax.saxutils.XMLGenerator`
+for the correct api.
+
+The same is ``True`` when you've got custom fields that should do something with
+their values before you can use it (like storing data pickled). Implementing a
+``__serialize__`` method in you custom field will make the serializer use your
+implementation (for example :class:`~easymode.admin.models.fields.SafeHTMLField`
+implements it's own ``__serialize__`` method to validate the xml before writing it
+to the serializer stream).
+    
 .. _nofollow:
 
 Exclude certain relations from being followed by the serializer
