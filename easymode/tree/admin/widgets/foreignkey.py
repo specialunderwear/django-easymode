@@ -3,11 +3,15 @@ Contains widgets that can be used for admin models
 with related items.
 """
 from django import forms
-from django.template.loader import render_to_string
 from django.core import urlresolvers
+from django.forms import widgets
+from django.template.loader import render_to_string
 from django.utils.encoding import force_unicode
+from django.utils.html import mark_safe
 
 from easymode.utils.languagecode import strip_language_code
+
+__all__ = ('RenderLink', 'EmptyWidgetThatDoesNothing', 'LinkWidget')
 
 class RenderLink(forms.Widget):
     """
@@ -41,3 +45,40 @@ class EmptyWidgetThatDoesNothing(forms.Widget):
     """does nothing"""
     def render(self, name, value, attrs=None):
         return render_to_string('tree/admin/widgets/foreignkeylink.html', locals())
+
+
+class LinkWidget(widgets.TextInput):
+    """
+    A widget that renders only a link the change view or edit view of an object.
+    """
+    def _has_changed(self, initial, data):
+        return False
+
+    def render(self, name, value, attrs=None):
+        # dress up the widget as a field, so it can be rendered by 'admin/includes/fieldset.html'
+        fieldset = [[self]]
+
+        if value is None:
+            value = ''
+        if value != '':
+            value = force_unicode(self._format_value(value))
+
+        # store values, they will be needed in self.field later on
+        self.value = value
+        self.name = name
+
+        return render_to_string('admin/includes/fieldset.html', {'fieldset':[[self,]]})
+
+    def field(self):
+
+        context = {
+            'name':self.name,
+            'value':self.value,
+            'description': 'Open by clicking here'
+        }
+        context.update(self.attrs)
+        return render_to_string('tree/admin/widgets/link_widget.html', context)
+
+    def label_tag(self):
+        return mark_safe(u'<label class="required">%s</label>' % self.attrs['label'] )
+
