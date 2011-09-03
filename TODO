@@ -1,10 +1,3 @@
 Make command to import all translations into the database.
 
-Make origin of the translation apparent in the admin.
-
-Make testsuite complete
-
-Complete documentation
-
-See if it is possible to refactor the DefaultFieldDescriptor so it is an actual modelfield.
-Code should modify the original field so it updates the correct localized field.
+Finish new tree documentation.
