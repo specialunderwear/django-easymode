@@ -2,10 +2,10 @@ from hashlib import md5
 
 from django.test import TestCase
 
-from easymode import tree
+from easymode.tree import xml as tree
 from easymode.tests.models import TestModel, TestGenericFkModel, TagModel
 from easymode.tests.testcases import initdb
-from easymode.tree.serializers import RecursiveXmlSerializer
+from easymode.tree.xml.serializers import RecursiveXmlSerializer
 
 
 __all__ = ('RecursiveSerializerTest',)

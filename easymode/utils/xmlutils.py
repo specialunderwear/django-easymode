@@ -2,7 +2,7 @@
 Contains classes and functions for dealing with html entities.
 
 You need this as soon as you are doing anything with rich
-text fields and want to use :func:`easymode.tree.decorators.toxml`.
+text fields and want to use :func:`easymode.tree.xml.decorators.toxml`.
 """
 import re
 import StringIO

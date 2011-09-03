@@ -4,16 +4,16 @@
 .. automodule:: easymode.tree
     :members:
     
-:mod:`easymode.tree.decorators`
+:mod:`easymode.tree.xml.decorators`
 ===============================
 
-.. automodule:: easymode.tree.decorators
+.. automodule:: easymode.tree.xml.decorators
     :members:
     
-:mod:`easymode.tree.query`
+:mod:`easymode.tree.xml.query`
 ==========================
 
-.. automodule:: easymode.tree.query
+.. automodule:: easymode.tree.xml.query
     :members: XmlQuerySetChain
     
 :mod:`easymode.tree.admin.relation`

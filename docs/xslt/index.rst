@@ -42,9 +42,9 @@ Getting xml from a model
 ------------------------
 
 There are several ways to obtain such a hierarchical xml tree from a django model.
-The first is by decorating a model with the :func:`~easymode.tree.decorators.toxml` decorator::
+The first is by decorating a model with the :func:`~easymode.tree.xml.decorators.toxml` decorator::
 
-    from easymode.tree.decorators import toxml
+    from easymode.tree.xml.decorators import toxml
     
     @toxml
     class Foo(models.ModelAdmin):
@@ -65,7 +65,7 @@ managers on a related model).
 
 The preferred method for calling the ``__xml__`` method is by it's function::
 
-    from easymode.tree import xml
+    from easymode.tree.xml import xml
     
     foos = Foo.objects.all()
     rawxml = xml(foos)
@@ -74,21 +74,21 @@ Getting xml from several queries
 --------------------------------
 
 The next option, which can also be used with multiple queries, is use the
-:class:`~easymode.tree.query.XmlQuerySetChain` ::
+:class:`~easymode.tree.xml.query.XmlQuerySetChain` ::
 
-    from easymode.tree import xml
-    from easymode.tree.query import XmlQuerySetChain
+    from easymode.tree.xml import xml
+    from easymode.tree.xml.query import XmlQuerySetChain
     
     foos = Foo.objects.all()
     qsc = XmlQuerySetChain(foos)
     rawxml = xml(qsc)
 
-Normally you would use the :class:`~easymode.tree.query.XmlQuerySetChain` to 
+Normally you would use the :class:`~easymode.tree.xml.query.XmlQuerySetChain` to 
 group some :class:`~django.db.models.QuerySet` objects together into a single
 xml::
 
-    from easymode.tree import xml
-    from easymode.tree.query import XmlQuerySetChain
+    from easymode.tree.xml import xml
+    from easymode.tree.xml.query import XmlQuerySetChain
 
     foos = Foo.objects.all()
     hads = Had.objects.all()
@@ -112,8 +112,8 @@ depending on your needs::
     return render_to_response('xslt/model-to-xml.xsl', foos)
 
 The :func:`~easymode.xslt.response.render_to_response` helper function will take an xslt as a template and a
-:class:`~easymode.tree.query.XmlQuerySetChain` or a model/queryset decorated with 
-:func:`~easymode.tree.decorators.toxml` to produce it's output.
+:class:`~easymode.tree.xml.query.XmlQuerySetChain` or a model/queryset decorated with 
+:func:`~easymode.tree.xml.decorators.toxml` to produce it's output.
 Additionally you can pass it a :class:`dict` containing xslt parameters. You have to
 make sure to use :func:`~easymode.xslt.prepare_string_param` on any xslt parameter that 
 should be passed to the xslt processor as a string.

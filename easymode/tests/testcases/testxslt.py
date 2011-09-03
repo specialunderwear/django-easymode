@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template.loader import find_template_source
 from django.test import TestCase
 
-from easymode import tree
+from easymode.tree import xml as tree
 from easymode.tests.models import TestModel
 from easymode.tests.testcases import initdb
 from easymode.utils.languagecode import get_language_codes

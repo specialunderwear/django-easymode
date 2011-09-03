@@ -4,8 +4,8 @@ models as a method. In effect it adds an ``__xml__`` method to both the model an
 the queryset used in the model.
 """
 
-from easymode.tree.serializers import RecursiveXmlSerializer
-from easymode.tree.query import QuerySetManager, XmlSerializableQuerySet
+from easymode.tree.xml.serializers import RecursiveXmlSerializer
+from easymode.tree.xml.query import QuerySetManager, XmlSerializableQuerySet
 
 def toxml(cls):
     """
@@ -13,7 +13,7 @@ def toxml(cls):
     
     usage::
     
-        from easymode.tree.decorators import toxml
+        from easymode.tree.xml.decorators import toxml
 
         @toxml
         class Foo(models.ModelAdmin):

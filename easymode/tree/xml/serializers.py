@@ -16,7 +16,7 @@ from easymode.utils.xmlutils import XmlPrinter
 
 
 MANY_TO_MANY_RECURSION_LIMIT_ERROR = """
-Deep recursion in easymode.tree.serializers.RecursiveXmlSerializer:
+Deep recursion in easymode.tree.xml.serializers.RecursiveXmlSerializer:
 Serializer found ManyToManyField named: %s from %s to %s.
 
 You probably built a cycle in your model tree using many to many relations.

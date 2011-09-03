@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from easymode.i18n.decorators import I18n
-from easymode.tree.decorators import toxml
+from easymode.tree.xml.decorators import toxml
 
 # Create your models here.
 

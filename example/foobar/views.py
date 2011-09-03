@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from easymode import tree
-from easymode.tree.query import XmlQuerySetChain
+from easymode.tree import xml as tree
+from easymode.tree.xml.query import XmlQuerySetChain
 from easymode.xslt.response import render_to_response as render_xslt_to_response
 from foobar import models as foobar_models
 

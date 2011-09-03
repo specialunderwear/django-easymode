@@ -15,7 +15,7 @@ from django.test import TestCase
 from django.utils import translation
 from django.utils.translation import trans_real
 
-from easymode import tree
+from easymode.tree import xml as tree
 from easymode.i18n import gettext
 from easymode.i18n.gettext import MakeModelMessages
 from easymode.i18n.meta import utils as meta_utils

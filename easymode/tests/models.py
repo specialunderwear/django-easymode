@@ -4,7 +4,7 @@ from django.db import models
 
 from easymode.admin.models.fields import SafeTextField, SafeHTMLField
 from easymode.i18n.decorators import I18n
-from easymode.tree.decorators import toxml
+from easymode.tree.xml.decorators import toxml
 
 
 @toxml
