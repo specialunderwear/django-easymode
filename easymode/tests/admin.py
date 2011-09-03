@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from easymode.i18n.admin.decorators import L10n
 from easymode.tests import models as test_models, forms as test_forms
 from easymode.tree.admin import relation

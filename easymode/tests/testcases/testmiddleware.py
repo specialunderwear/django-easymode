@@ -1,13 +1,12 @@
-import warnings
-from django.utils.decorators import decorator_from_middleware
-from django.test import TestCase
-from django.http import HttpResponse
 from django.conf import settings
+from django.http import HttpResponse
+from django.test import TestCase
+from django.utils.decorators import decorator_from_middleware
 
 from easymode import middleware
-from easymode.utils import languagecode
 from easymode.tests.testcases import initdb
-from easymode.tests.testutils import TestSettingsManager
+from easymode.utils import languagecode
+
 
 __all__ = ('TestLocaliseUrlsMiddleware', 'TestLocaleFromUrlMiddleWare')
 

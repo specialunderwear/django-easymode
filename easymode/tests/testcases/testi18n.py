@@ -1,40 +1,35 @@
 # -*- coding: utf-8 -*-
-import warnings
+import gc
+import gettext as gettext_module
+import os
 import re
 import shutil
-import os
-import errno
-import gc
-import time
-
-import gettext as gettext_module
-from hashlib import sha1
-
+import warnings
 from os.path import join, isdir
 
-
-from django.test import TestCase
-from django.db import IntegrityError
-from django.db.models.signals import post_save
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
+from django.db.models.signals import post_save
+from django.test import TestCase
 from django.utils import translation
 from django.utils.translation import trans_real
+
+from easymode import tree
+from easymode.i18n import gettext
+from easymode.i18n.gettext import MakeModelMessages
+from easymode.i18n.meta import utils as meta_utils
+from easymode.tests import models
+from easymode.tests.testcases import initdb
+from easymode.tests.testutils.scriptutil import ffindgrep
+from easymode.utils import first_match
+
 
 if 'rosetta' in settings.INSTALLED_APPS:
     from rosetta import polib
 else:
     import polib
 
-from easymode.utils import first_match, mutex, SemaphoreException
-from easymode.utils.languagecode import get_language_codes
-from easymode.i18n.meta import utils as meta_utils
-from easymode.tests.testcases import initdb
-from easymode.tests import models
-from easymode.i18n.gettext import MakeModelMessages
-from easymode.i18n import gettext
-from easymode.tests.testutils.scriptutil import ffindgrep
-from easymode import tree
 
 
 __all__ = ('Testi18n',)

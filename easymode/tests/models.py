@@ -2,7 +2,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from easymode.admin.models.fields import FlashUrlField, SafeTextField, SafeHTMLField
+from easymode.admin.models.fields import SafeTextField, SafeHTMLField
 from easymode.i18n.decorators import I18n
 from easymode.tree.decorators import toxml
 

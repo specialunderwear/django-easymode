@@ -3,7 +3,6 @@ from hashlib import md5
 from django.test import TestCase
 
 from easymode import tree
-from easymode.utils.languagecode import get_real_fieldname
 from easymode.tests.models import TestModel, TestGenericFkModel, TagModel
 from easymode.tests.testcases import initdb
 from easymode.tree.serializers import RecursiveXmlSerializer

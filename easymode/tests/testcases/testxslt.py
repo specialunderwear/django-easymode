@@ -1,15 +1,13 @@
-from hashlib import md5
-
-from django.test import TestCase
-from django.template.loader import find_template_source
 from django.http import HttpResponse
+from django.template.loader import find_template_source
+from django.test import TestCase
 
-from easymode.tests.models import *
-from easymode.tests.testcases import initdb
 from easymode import tree
-from easymode import xslt
-from easymode.xslt import response
+from easymode.tests.models import TestModel
+from easymode.tests.testcases import initdb
 from easymode.utils.languagecode import get_language_codes
+from easymode.xslt import response
+
 
 if 'en-us' not in get_language_codes():
     raise Exception('the language "en-us" must be in your LANGUAGES to run the test suite')

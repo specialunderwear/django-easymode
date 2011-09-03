@@ -1,10 +1,8 @@
-import warnings
-from django.test import TestCase
-from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.test import TestCase
+
 from easymode.tests.testcases import initdb
 
-from easymode.utils import recursion_depth
 
 __all__ = ('TestSuperRecusionLoop',)
 
