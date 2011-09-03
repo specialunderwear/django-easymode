@@ -2,7 +2,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from easymode.admin.models.fields import DiocoreTextField, DiocoreHTMLField, FlashUrlField, DiocoreCharField
+from easymode.admin.models.fields import FlashUrlField, SafeTextField, SafeHTMLField
 from easymode.i18n.decorators import I18n
 from easymode.tree.decorators import toxml
 
@@ -63,9 +63,9 @@ class TagModel(models.Model):
 @I18n('title', 'description')
 class TestL10nModel(models.Model):
 
-    title = DiocoreCharField(max_length=200, font="arial")
-    description = DiocoreTextField(font="arial")
-    body = DiocoreHTMLField(default='hi i am an error', font="arial")
+    title = models.CharField(max_length=200)
+    description = SafeTextField()
+    body = SafeHTMLField(default='hi i am an error')
     price = models.FloatField()
 
     def __unicode__(self):
