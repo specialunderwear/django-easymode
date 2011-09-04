@@ -1,14 +1,12 @@
-import copy
-
-from django.db.models.base import ModelBase
 from django.contrib.admin.options import BaseModelAdmin
-from django.contrib.contenttypes.generic import generic_inlineformset_factory
-from django.contrib.contenttypes.generic import BaseGenericInlineFormSet
 from django.contrib.admin.util import flatten_fieldsets
+from django.contrib.contenttypes.generic import generic_inlineformset_factory, BaseGenericInlineFormSet
+from django.db.models.base import ModelBase
 
 from easymode.i18n.admin import forms
 from easymode.i18n.admin.generic import LocalizableGenericInlineFormSet
-from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames
+from easymode.utils.languagecode import get_all_language_codes, localize_fieldnames, get_real_fieldname
+
 
 __all__ = ('L10n', 'lazy_localized_list')
 
@@ -120,7 +118,7 @@ class L10n(object):
         added_fields = []
         for field in self.model.localized_fields:
             for language in get_all_language_codes():
-                added_fields.append("%s_%s" % (field, language))
+                added_fields.append(get_real_fieldname(field, language))
 
         # hide added fields from form and admin
         cls.exclude = added_fields
