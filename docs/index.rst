@@ -104,7 +104,15 @@ The following features, which django supports, are not supported by easymode:
   This is a direct result of the fact that :class:`~django.db.models.OneToOneField` are *not* supported by
   the serializer.
 - :attr:`django.contrib.admin.ModelAdmin.prepopulated_fields` is not supported.
-
+- You can not use fields marked for translation with
+  :class:`~easymode.i18n.decorators.I18n` in the ``ordering`` attribute of a model's
+  Meta options.
+- Unfortunately, the new template loaders are not supported with xslt templates. Please use the
+  old, deprecated ones like
+  
+  - :func:`django.template.loaders.app_directories.load_template_source`
+  - :func:`django.template.loaders.filesystem.load_template_source`
+ 
 Most these features are not supported because the ammount of work to have them
 was greater than the benefit of having them. However, it could also be that I
 just `didn't need it yet <http://c2.com/xp/YouArentGonnaNeedIt.html>`_.
