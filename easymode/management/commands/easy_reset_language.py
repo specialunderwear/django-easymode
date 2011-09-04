@@ -11,14 +11,15 @@
     This will clear myapp.mymodel in the en locale so all values
     will be fetched by gettext instead of being overridden.
 """
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import get_models, get_app, get_model
-from django.utils.encoding import force_unicode
 from django.utils import translation
+from django.utils.encoding import force_unicode
 
 from easymode import i18n
+from easymode.utils.languagecode import get_real_fieldname
+
 
 class Command(BaseCommand):
     help = __doc__
@@ -45,7 +46,7 @@ class Command(BaseCommand):
                 
                 for instance in model.objects.all():
                     for field in model.localized_fields:
-                        local_field_name = "%s_%s" % (field, locale)
+                        local_field_name = get_real_fieldname(field, locale)
                         
                         if  hasattr(instance, local_field_name):
                                 local_field_value = getattr(instance, local_field_name)

@@ -9,12 +9,14 @@
     
     will copy the en fields into the de locale for myapp.mymodel
 """
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.models import get_models, get_app, get_model
-from django.utils.encoding import force_unicode
 from django.utils import translation
+from django.utils.encoding import force_unicode
+
+from easymode.utils.languagecode import get_real_fieldname
+
 
 class Command(BaseCommand):
     help = __doc__
@@ -41,8 +43,8 @@ class Command(BaseCommand):
                 
                 for instance in model.objects.all():
                     for field in model.localized_fields:
-                        source_field = "%s_%s" % (field, source)
-                        target_field = "%s_%s" % (field, target)
+                        source_field = get_real_fieldname(field, source)
+                        target_field = get_real_fieldname(field, target)
                         
                         if  hasattr(instance, source_field) and hasattr(instance, target_field):
                             source_field_value = getattr(instance, source_field)
