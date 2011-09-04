@@ -1,3 +1,3 @@
-{% if url %}<input type="hidden" name="{{name}}"{%if value %}value="{{ value }}"{% endif %}/>
-<a href="{{ url }}" class="required"{% if popup %}onclick="return showAddAnotherPopup(this);"{% endif %}>{{ description }}</a>
+{% if url %}<input type="hidden" name="{{ name }}"{%if value %}value="{{ value }}"{% endif %}/>
+<a href="{{ url }}" class="required changelink"{% if popup %}onclick="return showAddAnotherPopup(this);"{% endif %}>{{ description }}</a>
 {% endif %}

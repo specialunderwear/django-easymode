@@ -67,11 +67,13 @@ class LinkWidget(widgets.TextInput):
         return render_to_string('admin/includes/fieldset.html', {'fieldset':[[self,]]})
 
     def field(self):
-
+        # the whole widget is based entirely on the fact that *render* gets called
+        # BEFORE *field*. And that is true because field is called by the rendering
+        # done in *render*.
         context = {
             'name':self.name,
             'value':self.value,
-            'description': ugettext('Open by clicking here'),
+            'description': ugettext('Change'),
             'ADMIN_MEDIA_PREFIX':settings.ADMIN_MEDIA_PREFIX,
         }
         
