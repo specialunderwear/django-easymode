@@ -3,6 +3,11 @@
 Admin support for model trees with more than 2 levels of related items (deprecated)
 ===================================================================================
 
+.. note::
+    
+    This is the documentation for the **OLD** tree, which is deprecated. for the
+    docs on the new tree, see :ref:`tree_explanation`.
+
 Easymode has full admin support. Since content easymode was designed to handle
 is heavy hierarchic, easymode can also support this in the admin.
 

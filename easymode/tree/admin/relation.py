@@ -48,6 +48,9 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     """
     An admin class that display links to related items.
     
+    This class is deprecated, please use :class:`easymode.tree.admin.abstract.LinkInline`,
+    :class:`easymode.tree.admin.abstract.LinkedItemAdmin` instead.
+    
     This can be used for hierarchies of object deeper then 3
     levels, where :class:`InlineModelAdmin` can not be used anymore, but
     the parent/child relation is still there.
