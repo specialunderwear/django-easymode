@@ -120,6 +120,8 @@ should be passed to the xslt processor as a string.
 
 Other helpers can be found in the :mod:`easymode.xslt.response` module.
 
+.. _serialize_hook:
+
 When the standard serializer is not enough
 ------------------------------------------
 

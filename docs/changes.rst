@@ -1,6 +1,35 @@
 Release Notes
 =============
 
+v1.0b1
+------
+
+Easymode is now moving towards the 1.0 release. I took the liberty of removing
+code that whose usefulness was dubious and also refactor mercilessly. You will
+also find some very nice new features in this release!
+
+That being said, you can not simply update and run an existing application on
+this release!
+
+Backward incompatible changes:
+
+- The names of localized table columns are constructed differently now. Upgrading means migrating all your column names!
+- Easypublisher was removed, because it was too hard to maintain.
+- All xml related code moved to the package easmode.tree.xml.
+- ``DiocoreCharField``, ``DiocoreHTMLField``, ``DiocoreTextField``, ``CSSField``,
+  ``IncludeFileField``, ``RemoteIncludeField`` where removed.
+
+New features:
+
+- New tree module, which uses *real* inlines See :ref:`tree_explanation`.
+- You can now hook into xml serialization and have custom serialization for both
+  your models as your custom model fields See :ref:`serialize_hook`.
+
+Bugs fixed:
+
+- Fields marked for translation with :class:`~easymode.i18n.decorators.I18n` can
+  now be sorted on in the admin when they are included in ``list_display``.
+
 v0.14.5
 -------
 
