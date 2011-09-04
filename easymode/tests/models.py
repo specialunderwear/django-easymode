@@ -124,8 +124,15 @@ class FormTestModel(models.Model):
 class TopModel(models.Model):
     title = models.CharField('The title', max_length=255)
     subtitle = SafeTextField('The subtitle')
-
+    
+    def __unicode__(self):
+        return self.title
+    
 class BottomModel(models.Model):
     top = models.ForeignKey(TopModel)
     
     comment = SafeTextField('Some comment')
+    
+    def __unicode__(self):
+        return self.comment
+    
