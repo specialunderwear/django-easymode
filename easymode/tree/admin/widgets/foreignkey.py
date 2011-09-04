@@ -11,7 +11,7 @@ from django.utils.html import mark_safe
 
 from easymode.utils.languagecode import strip_language_code
 
-__all__ = ('RenderLink', 'EmptyWidgetThatDoesNothing', 'LinkWidget')
+__all__ = ('RenderLink', 'LinkWidget')
 
 class RenderLink(forms.Widget):
     """
@@ -39,11 +39,6 @@ class RenderLink(forms.Widget):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(value)
-        return render_to_string('tree/admin/widgets/foreignkeylink.html', locals())
-
-class EmptyWidgetThatDoesNothing(forms.Widget):
-    """does nothing"""
-    def render(self, name, value, attrs=None):
         return render_to_string('tree/admin/widgets/foreignkeylink.html', locals())
 
 

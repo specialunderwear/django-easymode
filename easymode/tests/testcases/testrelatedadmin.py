@@ -30,12 +30,8 @@ class TestRelatedAdmin(TestCase):
         s.subsubmodels.create(subsubcharfield="Hoi ik ben de third level sub node")
         s.subsubmodels.create(subsubcharfield="Hoi ik ben de third level sub node")        
         t.save()
-            
-    def test_empty_widget(self):
-        dummy = foreignkey.EmptyWidgetThatDoesNothing()
-        output = dummy.render("fieldname", "field value")
-        assert(output == OUTPUT)
-        
+    
+    
     def test_related_admin(self):
         rel = TestModelAdmin(TestModel, admin.site)
         formset_array = rel.extra_forms(1)
