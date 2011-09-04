@@ -21,18 +21,24 @@ class RecursiveInlineFormSet(BaseInlineFormSet):
         hidden_pk_field = form.fields[self._pk_field.name]
         options =  hidden_pk_field.queryset.model._meta
         
+        # the only fields that must show is the primary key
         form._meta.fields = [self._pk_field.name]
         
         widget_attrs = {}
         
-        if hidden_pk_field.initial is not None:
+        # show the link widget if the item allready exists
+        if hidden_pk_field.initial is not None: 
             widget_attrs['url'] = reverse('admin:%s_%s_change' % (options.app_label, options.object_name.lower()), args=[hidden_pk_field.initial])
             widget_attrs['label'] = 'Edit %s' % force_unicode(options.verbose_name)
+            
+        # if the parent model exists but the item doesn't show the add button
         elif self.instance.pk is not None:
             url = reverse('admin:%s_%s_add' % (options.app_label, options.object_name.lower()))
             widget_attrs['url'] = '%s?%s=%s' % (url, self.fk.name, self.instance.pk)
             widget_attrs['label'] = 'Add %s' % force_unicode(options.verbose_name)
             widget_attrs['popup'] = True
+            
+        # if the parent model does not exist use an empty link widget.
         else:
             widget_attrs['url'] = None
             widget_attrs['label'] = ''
