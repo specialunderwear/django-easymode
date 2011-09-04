@@ -8,10 +8,10 @@ from easymode.tests.testcases import initdb
 from easymode.tree.admin.widgets import foreignkey
 
 
-__all__ = ('TestRelatedAdmin',)
+__all__ = ('TestOldRelatedAdmin',)
 
 @initdb
-class TestRelatedAdmin(TestCase):
+class TestOldRelatedAdmin(TestCase):
     
     fixtures = ['auth-user']
     
