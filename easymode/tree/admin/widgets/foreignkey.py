@@ -3,11 +3,13 @@ Contains widgets that can be used for admin models
 with related items.
 """
 from django import forms
+from django.conf import settings
 from django.core import urlresolvers
 from django.forms import widgets
 from django.template.loader import render_to_string
 from django.utils.encoding import force_unicode
 from django.utils.html import mark_safe
+from django.utils.translation import ugettext
 
 from easymode.utils.languagecode import strip_language_code
 
@@ -61,7 +63,7 @@ class LinkWidget(widgets.TextInput):
         # store values, they will be needed in self.field later on
         self.value = value
         self.name = name
-
+        
         return render_to_string('admin/includes/fieldset.html', {'fieldset':[[self,]]})
 
     def field(self):
@@ -69,9 +71,14 @@ class LinkWidget(widgets.TextInput):
         context = {
             'name':self.name,
             'value':self.value,
-            'description': 'Open by clicking here'
+            'description': ugettext('Open by clicking here'),
+            'ADMIN_MEDIA_PREFIX':settings.ADMIN_MEDIA_PREFIX,
         }
+        
         context.update(self.attrs)
+        if self.attrs.get('popup', False):
+            return render_to_string('tree/admin/widgets/add_widget.html', context)
+        
         return render_to_string('tree/admin/widgets/link_widget.html', context)
 
     def label_tag(self):

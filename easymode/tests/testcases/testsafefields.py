@@ -5,11 +5,11 @@ from easymode.tests.models import TestL10nModel
 from easymode.tests.testcases import initdb
 
 
-__all__ = ('TestDiocoreFields',)
+__all__ = ('TestSafeFields',)
 
 @initdb
-class TestDiocoreFields(TestCase):
-    """docstring for TestDiocoreFields"""
+class TestSafeFields(TestCase):
+    "Test for fields that strip cariage returns."
     
     fixtures = ['auth-user', 'tests-testl10nmodel']
     

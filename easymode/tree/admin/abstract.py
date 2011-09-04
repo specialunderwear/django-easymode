@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from easymode.tree.admin.forms import RecursiveInlineFormSet
 from easymode.tree.admin.relation import _CanFindParentLink
 
+__all__ = ('LinkInline', 'LinkedItemAdmin')
 
 class LinkInline(admin.StackedInline):
     formset = RecursiveInlineFormSet

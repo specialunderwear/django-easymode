@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object pk="1" model="tests.topmodel">
+    <field type="CharField" name="title">Rising to the top</field>
+    <field type="TextField" name="subtitle">By agallah and Sean Price</field>
+  </object>
+  <object pk="2" model="tests.topmodel">
+    <field type="CharField" name="title">Dropping in a pit</field>
+    <field type="TextField" name="subtitle">By the pit master</field>
+  </object>
+  <object pk="1" model="tests.bottommodel">
+    <field to="tests.topmodel" name="top" rel="ManyToOneRel">1</field>
+    <field type="TextField" name="comment">Very nice bombastic record</field>
+  </object>
+  <object pk="2" model="tests.bottommodel">
+    <field to="tests.topmodel" name="top" rel="ManyToOneRel">1</field>
+    <field type="TextField" name="comment">Agallah drops the boombastic</field>
+  </object>
+  <object pk="3" model="tests.bottommodel">
+    <field to="tests.topmodel" name="top" rel="ManyToOneRel">2</field>
+    <field type="TextField" name="comment">The pitmasters have done lots of stuff like making very deep trenches.</field>
+  </object>
+</django-objects>
