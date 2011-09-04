@@ -76,4 +76,13 @@ class TestRelatedAdmin(TestCase):
         else:
             self.fail('Can not log in with admin:admin')
 
-        
+    def test_add_button_is_not_shown_in_add_view(self):
+        "The add button must be hidden in the add view because you can't add nothing to an object that does not exist yet"
+        if self.client.login(username='admin', password='admin'):
+            top_url = reverse('admin:tests_topmodel_add')
+            response = self.client.get(top_url)
+            
+            add_url = "%s?top=None" % reverse('admin:tests_bottommodel_add')
+            localized_add_url = fix_language_code(add_url, get_language())
+            
+            self.assertNotContains(response, ADD_BUTTON % localized_add_url)

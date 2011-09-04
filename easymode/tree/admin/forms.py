@@ -28,11 +28,14 @@ class RecursiveInlineFormSet(BaseInlineFormSet):
         if hidden_pk_field.initial is not None:
             widget_attrs['url'] = reverse('admin:%s_%s_change' % (options.app_label, options.object_name.lower()), args=[hidden_pk_field.initial])
             widget_attrs['label'] = 'Edit %s' % force_unicode(options.verbose_name)
-        else:
+        elif self.instance.pk is not None:
             url = reverse('admin:%s_%s_add' % (options.app_label, options.object_name.lower()))
             widget_attrs['url'] = '%s?%s=%s' % (url, self.fk.name, self.instance.pk)
             widget_attrs['label'] = 'Add %s' % force_unicode(options.verbose_name)
             widget_attrs['popup'] = True
+        else:
+            widget_attrs['url'] = None
+            widget_attrs['label'] = ''
         
         # turn the primary key into a field that displays a fieldset with a link
         form.fields[self._pk_field.name] = IntegerField(hidden_pk_field.queryset, 
