@@ -5,7 +5,7 @@ v1.0b1
 ------
 
 Easymode is now moving towards the 1.0 release. I took the liberty of removing
-code that whose usefulness was dubious and also refactor mercilessly. You will
+code whose usefulness was dubious and also refactor mercilessly. You will
 also find some very nice new features in this release!
 
 That being said, you can not simply update and run an existing application on

@@ -41,7 +41,7 @@ project = u'django-easymode'
 copyright = u'2009, Lars van de Kerkhof'
 
 f = open('../setup.py').read()
-version = re.search(r"version = '(\d+\.\d+\.\d+)'", f).group(1)
+version = re.search(r"version = '(\d+\.\w+)'", f).group(1)
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
