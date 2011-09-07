@@ -29,6 +29,12 @@ Bugs fixed:
 
 - Fields marked for translation with :class:`~easymode.i18n.decorators.I18n` can
   now be sorted on in the admin when they are included in ``list_display``.
+- Order_by now works on translated fields with 5 letter locales::
+
+    from django.utils.languagecode import get_real_fieldname
+    
+    # this now works:
+    MyModel.objects.order_by(get_real_fieldname('somefield', 'en-us'))
 
 v0.14.5
 -------
