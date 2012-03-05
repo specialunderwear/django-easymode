@@ -54,6 +54,7 @@ def localize_fields(cls, localized_fields):
             i18n_attr.original_fieldname = field
             i18n_attr.include_in_xml = False
             lang_attr_name = get_real_fieldname(field, language_code)
+            i18n_attr.name = lang_attr_name
             i18n_attr.creation_counter = i18n_attr.creation_counter + .01 * cnt
             # null must be allowed for the message id language because this language
             # might not be available at all in the backend
