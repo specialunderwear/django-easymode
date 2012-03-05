@@ -348,12 +348,12 @@
         <field type="TextField" name="barstool">Pellentesque nibh felis, eleifend id, commodo in, interdum vitae, leo. Praesent eu elit. Ut eu ligula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Maecenas elementum augue nec nisl. Proin auctor lorem at nibh. Curabitur nulla purus, feugiat id, elementum in, lobortis quis, pede. Vivamus sodales adipiscing sapien. Vestibulum posuere nulla eget wisi. Integer volutpat ligula eget enim. Suspendisse vitae arcu. Quisque pellentesque. Nullam consequat, sem vitae rhoncus tristique, mauris nulla fermentum est, bibendum ullamcorper sapien magna et quam. Sed dapibus vehicula odio. Proin bibendum gravida nisl. Fusce lorem. Phasellus sagittis, nulla in hendrerit laoreet, libero lacus feugiat urna, eget hendrerit pede magna vitae lorem. Praesent mauris.</field>
         <field type="CharField" name="website">http://example.com/</field>
         <field type="CharField" name="address">examplestreet 20</field>
-        <field type="CharField" name="city_en-us">
+        <field type="CharField" name="city_en_us">
             <None/>
         </field>
         <field type="CharField" name="city_de">Bonn</field>
         <field type="CharField" name="city_en">example</field>
-        <field type="DateField" name="date_en-us">
+        <field type="DateField" name="date_en_us">
             <None/>
         </field>
         <field type="DateField" name="date_de">2010-04-20</field>
@@ -364,12 +364,12 @@
         <field type="TextField" name="barstool">Proin at eros non eros adipiscing mollis. Donec semper turpis sed diam. Sed consequat ligula nec tortor. Integer eget sem. Ut vitae enim eu est vehicula gravida. Morbi ipsum ipsum, porta nec, tempor id, auctor vitae, purus. Pellentesque neque. Nulla luctus erat vitae libero. Integer nec enim. Phasellus aliquam enim et tortor. Quisque aliquet, quam elementum condimentum feugiat, tellus odio consectetuer wisi, vel nonummy sem neque in elit. Curabitur eleifend wisi iaculis ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non velit non ligula laoreet ultrices. Praesent ultricies facilisis nisl. Vivamus luctus elit sit amet mi. Phasellus pellentesque, erat eget elementum volutpat, dolor nisl porta neque, vitae sodales ipsum nibh in ligula. Maecenas mattis pulvinar diam. Curabitur sed leo.</field>
         <field type="CharField" name="website">http://mayonaise.com/</field>
         <field type="CharField" name="address">Depictor 330</field>
-        <field type="CharField" name="city_en-us">
+        <field type="CharField" name="city_en_us">
             <None/>
         </field>
         <field type="CharField" name="city_de">Karlruhe</field>
         <field type="CharField" name="city_en">Dawson</field>
-        <field type="DateField" name="date_en-us">
+        <field type="DateField" name="date_en_us">
             <None/>
         </field>
         <field type="DateField" name="date_de">2010-04-30</field>
