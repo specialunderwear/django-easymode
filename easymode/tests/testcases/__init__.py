@@ -24,10 +24,10 @@ def initdb(cls):
     @wraps(orig_pre_setup)
     def _pre_setup(self):
         self.settingsManager = TestSettingsManager()
-        self.settingsManager.set(INSTALLED_APPS=settings.INSTALLED_APPS+[
+        self.settingsManager.set(INSTALLED_APPS=settings.INSTALLED_APPS+(
             'easymode',
             'easymode.tests',
-            ],
+            ),
         )
                 
         for skipped_test in getattr(settings , 'SKIPPED_TESTS', []):
