@@ -1,6 +1,6 @@
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.utils.safestring import mark_safe
-
+from django.utils.html import conditional_escape
 
 __all__ = ('WidgetWrapper',)
 
@@ -40,7 +40,7 @@ class WidgetWrapper(RelatedFieldWidgetWrapper):
         widget_html = self.widget.render(name, value, *args, **kwargs)
         
         if extra and value_is_from_database:
-            return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">\u2234\u207A</a></small></div>' % (widget_html, extra))
+            return mark_safe(u'<div class="localized catalog-has-different-data">%s <small><a class="extra-catalog-data" title="%s">\u2234\u207A</a></small></div>' % (widget_html, conditional_escape(extra)))
         elif not value_is_from_database:
             return mark_safe(u'<div class="localized">%s <small>\u2234\u00B0</small></div>' % widget_html)
         
