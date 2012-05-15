@@ -104,27 +104,34 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
     
     invisible_in_admin = True
     auto_aware = True
-    children = []
+    _children = None
     
-    _descriptor_cache = {}
+    _real_descriptor_cache = None
+
+    @property
+    def _descriptor_cache(self):
+        if self._real_descriptor_cache is None:
+            self._real_descriptor_cache = dict([(x[1].related.model, x[0]) for x in get_foreign_key_desciptors(self.model)])
+        return self._real_descriptor_cache 
+
+    @property
+    def children(self):
+        if self._children is None:
+            if self.auto_aware:
+                self.children = self._descriptor_cache.keys()
+            else:
+                self.children = []
+        return self._children
+
+    @children.setter
+    def children(self, value):
+        self._children = value
 
     class Media:
         js = (
             'easymode/js/adminoverride.js',
         )
-    
-    def __init__(self, model, admin_site):
-        super(ForeignKeyAwareModelAdmin, self).__init__(model, admin_site)
 
-        # look up all foreign key descriptors
-        descriptors = get_foreign_key_desciptors(self.model)
-        self._descriptor_cache = dict([(x[1].related.model, x[0]) for x in descriptors])
-        
-        # if no children are set and autoaware is true, 
-        # set the children
-        if not self.children and self.auto_aware:
-            self.children = [x[1].related.model for x in descriptors]
-        
     def get_model_perms(self, request):
         perms = super(ForeignKeyAwareModelAdmin, self).get_model_perms(request)
         perms['invisible_in_admin'] = self.invisible_in_admin
