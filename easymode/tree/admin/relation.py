@@ -146,7 +146,7 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
         if extra_context:
             inline_links.update(extra_context)
             
-        return super(ForeignKeyAwareModelAdmin, self).change_view(request, object_id, inline_links)
+        return super(ForeignKeyAwareModelAdmin, self).change_view(request, object_id, extra_context=inline_links)
 
     def extra_forms(self, object_id):
 
