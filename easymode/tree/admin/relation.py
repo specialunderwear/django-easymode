@@ -137,7 +137,7 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
         perms['invisible_in_admin'] = self.invisible_in_admin
         return perms
         
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         inline_links = {}
         inline_links['extra_forms'] = self.extra_forms(object_id)
 
@@ -146,7 +146,7 @@ class ForeignKeyAwareModelAdmin(AdminBase, _CanFindParentLink):
         if extra_context:
             inline_links.update(extra_context)
             
-        return super(ForeignKeyAwareModelAdmin, self).change_view(request, object_id, inline_links)
+        return super(ForeignKeyAwareModelAdmin, self).change_view(request, object_id, form_url, inline_links)
 
     def extra_forms(self, object_id):
 
