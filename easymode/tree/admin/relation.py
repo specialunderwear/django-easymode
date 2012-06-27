@@ -226,7 +226,7 @@ class InvisibleModelAdmin(AdminBase, _CanFindParentLink):
         perms['invisible_in_admin'] = self.invisible_in_admin
         return perms
         
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
 
         # retrieve link to parent for breadcrumb path
         defaults = self._get_parent_link(object_id)
@@ -234,7 +234,7 @@ class InvisibleModelAdmin(AdminBase, _CanFindParentLink):
         if extra_context:
             defaults.update(extra_context)
         
-        response = super(InvisibleModelAdmin, self).change_view(request, object_id, defaults)
+        response = super(InvisibleModelAdmin, self).change_view(request, object_id, form_url, defaults)
         if response.get('Location', False) == '../':
             return HttpResponseRedirect(defaults.get('parent_model', '../'))
             
