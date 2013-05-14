@@ -15,7 +15,7 @@ documentation at http://packages.python.org/django-easymode/
 
 release notes at http://packages.python.org/django-easymode/changes.html"""
 
-version = '1.0b1'
+version = '1.4b1'
 packages = []
 data_files = []
 
@@ -56,9 +56,13 @@ setup(name='django-easymode',
     author_email='easymode@librelist.com',
     maintainer='L. van de Kerkhof',
     maintainer_email='easymode@librelist.com',
-    keywords='adobe flex flash xml xslt i18n internationalization translate',
+    keywords='adobe flex flash xml xslt i18n internationalization translate django',
     long_description=description,
-    url='http://github.com/LUKKIEN/django-easymode',
+    install_requires=[
+        'django>=1.4',
+        'polib',
+    ],
+    url='http://github.com/specialunderwear/django-easymode',
     packages=packages,
     data_files=data_files,
     platforms = "any",
