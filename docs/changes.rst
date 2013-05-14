@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+v1.4b1
+------
+
+This release fixes most incompatibilities of easymode with django 1.4.
+Most importantly, it fixes i18n. This release is therefor meant to be
+used with django 1.4.
+
 v1.0b1
 ------
 
