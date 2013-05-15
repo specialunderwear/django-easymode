@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.forms import IntegerField
 from django.forms.models import BaseInlineFormSet
-from django.utils.translation import force_unicode
+from django.utils.encoding import force_unicode
 
 from easymode.tree.admin.widgets.foreignkey import LinkWidget
 
