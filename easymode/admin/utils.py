@@ -6,7 +6,7 @@ from easymode.i18n.admin.decorators import L10n
 
 __all__ = ('register_all',)
 
-def register_all(module, exclude=[]):
+def register_all(module, exclude=[], AdminClass=admin.ModelAdmin):
     """
     Register all models in *module* with the admin
     
@@ -22,8 +22,8 @@ def register_all(module, exclude=[]):
             and not obj._meta.abstract:
             try:
                 if hasattr(obj, 'localized_fields'):
-                    admin.site.register(obj, L10n(obj, admin.ModelAdmin))
+                    admin.site.register(obj, L10n(obj, AdminClass))
                 else:
-                    admin.site.register(obj)
+                    admin.site.register(obj, AdminClass)
             except AlreadyRegistered:
                 pass
