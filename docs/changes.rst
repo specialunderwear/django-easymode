@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+v1.4b2
+------
+
+Fixes I18n for models with tuple permissions.
+Allow custom admin class for register_all.
+fixes wrong import in easymode.tree.admin.forms.
+
 v1.4b1
 ------
 
