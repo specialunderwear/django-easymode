@@ -1,5 +1,5 @@
 {% extends "tree/admin/change_form_with_parent_link.html" %}
-{% load i18n admin_modify adminmedia %}
+{% load i18n admin_modify admin_static %}
 
 
 {% block after_related_objects %}
@@ -15,7 +15,7 @@
         </div>
         {% endfor %}
         {% if has_add_permission %}
-        &nbsp;&nbsp;<a href="{{ formset.addurl }}" onclick="return showAddAnotherPopup(this);"><img src="{% admin_media_prefix %}img/admin/icon_addlink.gif" width="10" height="10" alt="add another"/></a>
+        &nbsp;&nbsp;<a href="{{ formset.addurl }}" onclick="return showAddAnotherPopup(this);"><img src="{{ STATIC_URL }}admin/img/icon_addlink.gif" width="10" height="10" alt="add another"/></a>
         {% endif %}
     {% endfor %}
     
