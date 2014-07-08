@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v1.4b3
+------
+
+Fixed Django 1.5 template requirements for admin media.
+
 v1.4b2
 ------
 
