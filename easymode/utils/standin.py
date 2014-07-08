@@ -95,7 +95,7 @@ def standin_for(obj, **attrs):
     cached_type = _defined_standins.get(id, None)
     if not cached_type:
         cls_attrs = dict([(attr_name, None) for attr_name in attr_names])
-        cached_type = type(id, (obj_class,), cls_attrs)
+        cached_type = type(id, (obj_class, object), cls_attrs)
         _defined_standins[id] = cached_type
     
     # create new object based on original and copy all properties
