@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+v1.4b4
+------
+
+Fixes Exception in :func:`~easymode.utils.standin.standin_for`: a new-style class can't have only classic bases.
+
 v1.4b3
 ------
 
