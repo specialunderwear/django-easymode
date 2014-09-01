@@ -1,7 +1,11 @@
 """
 functionality for finding inverse foreign key relations in model classes
 """
-from django.contrib.contenttypes.generic import ReverseGenericRelatedObjectsDescriptor
+try:
+    from django.contrib.contenttypes.generic import ReverseGenericRelatedObjectsDescriptor
+except ImportError:
+    from django.contrib.contenttypes.fields import ReverseGenericRelatedObjectsDescriptor
+
 from django.db.models.base import ModelBase
 from django.db.models.fields.related import ForeignRelatedObjectsDescriptor, SingleRelatedObjectDescriptor
 
