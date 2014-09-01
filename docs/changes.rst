@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v1.4b5
+------
+
+Fixes compatibity with django 1.7.
+Use setuptools instead of distutils.
+
 v1.4b4
 ------
 
