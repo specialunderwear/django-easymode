@@ -15,7 +15,12 @@ include the urls in your urlconf like this::
     (r'^', include('easymode.urls')),
 
 """
-from django.conf.urls.defaults import *
+try:
+    # before 1.6
+    from django.conf.urls.defaults import *
+except:
+    # 1.6 and later
+    from django.conf.urls import *
 
 from easymode.utils.languagecode import get_language_codes_as_disjunction
 
