@@ -55,7 +55,7 @@ class LinkedItemAdmin(admin.ModelAdmin, _CanFindParentLink):
     """
     change_form_template = 'tree/admin/change_form_with_parent_link.html'
     
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         
         # retrieve link to parent for breadcrumb path
         defaults = self._get_parent_link(object_id)
@@ -63,7 +63,7 @@ class LinkedItemAdmin(admin.ModelAdmin, _CanFindParentLink):
         if extra_context:
             defaults.update(extra_context)
         
-        response = super(LinkedItemAdmin, self).change_view(request, object_id, defaults)
+        response = super(LinkedItemAdmin, self).change_view(request, object_id, form_url, defaults)
         
         if response.get('Location', False) == '../':
             return HttpResponseRedirect(defaults.get('parent_model', '../'))
