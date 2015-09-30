@@ -23,20 +23,17 @@ from easymode.utils import mutex
 from easymode.utils.languagecode import get_language_codes
 from easymode.utils import polibext
 
-if 'rosetta' in settings.INSTALLED_APPS:
-    from rosetta import polib
-else:
-    try:
-        import polib
-    except ImportError:
-        raise ImproperlyConfigured(
-            """
-            Please install either django-rosetta: 
-            http://code.google.com/p/django-rosetta/
-            or polib:
-            http://bitbucket.org/izi/polib/src/
-            otherwise easymode.i18n.gettext won't work"""
-        )
+try:
+    import polib
+except ImportError:
+    raise ImproperlyConfigured(
+        """
+        Please install either django-rosetta: 
+        http://code.google.com/p/django-rosetta/
+        or polib:
+        http://bitbucket.org/izi/polib/src/
+        otherwise easymode.i18n.gettext won't work"""
+    )
 
 __all__ = ('MakeModelMessages', 'XGETTEXT_REENCODES_UTF8')
 
