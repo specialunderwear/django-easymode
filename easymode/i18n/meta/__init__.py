@@ -100,7 +100,12 @@ def localize_fields(cls, localized_fields):
         cls.add_to_class(field, DefaultFieldDescriptor(field, **kwargs))
 
         # update fields cache
-        cls._meta._fill_fields_cache()
+        try:
+            cls._meta._fill_fields_cache()
+        except AttributeError:
+            # Django 1.8 removed _fill_fields_cache
+            cls._meta._expire_cache()
+            cls._meta._get_fields(reverse=False)
 
     # return the finished product
     return cls

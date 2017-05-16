@@ -42,7 +42,8 @@ class DefaultFieldDescriptor(property):
         
         # first check if the database contains the localized data
         vo.stored_value = getattr(obj, real_field_name)
-
+        if getattr(settings, 'I18N_NOFALLBACK', False):
+            return vo.stored_value
         # the database does not have our localized data.
         # check if we have a translation, first get the msgid, as a unicode string.
         vo.msgid = get_localized_property(obj, self.name, getattr(settings, 'MSGID_LANGUAGE', settings.LANGUAGE_CODE))

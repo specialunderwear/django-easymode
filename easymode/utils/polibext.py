@@ -7,20 +7,17 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 
-if 'rosetta' in settings.INSTALLED_APPS:
-    from rosetta import polib
-else:
-    try:
-        import polib
-    except ImportError:
-        raise ImproperlyConfigured(
-            """
-            Please install either django-rosetta: 
-            http://code.google.com/p/django-rosetta/
-            or polib:
-            http://bitbucket.org/izi/polib/src/
-            otherwise easymode.utils.polibext won't work"""
-        )
+try:
+    import polib
+except ImportError:
+    raise ImproperlyConfigured(
+        """
+        Please install either django-rosetta: 
+        http://code.google.com/p/django-rosetta/
+        or polib:
+        http://bitbucket.org/izi/polib/src/
+        otherwise easymode.utils.polibext won't work"""
+    )
         
 
 def po_to_unicode(po_obj):
